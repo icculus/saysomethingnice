@@ -5,11 +5,12 @@
 
 require_once 'common.php';
 
-// This should have the following lines, minus comments:
+// dbpasswd.php should have the following lines, minus comments:
 //
 //  $dbhost = 'hostname';
 //  $dbuser = 'username';
 //  $dbpass = 'password';
+//  $dbname = 'database_name';
 //
 // Obviously, those should be a real login for the database.
 require_once 'dbpasswd.php';
@@ -31,7 +32,7 @@ function get_dblink()
             $dblink = NULL;
         } // if
 
-        if (!mysql_select_db("alextreg"))
+        if (!mysql_select_db($dbname))
         {
             $err = mysql_error();
             write_error("Failed to select database: ${err}.");
