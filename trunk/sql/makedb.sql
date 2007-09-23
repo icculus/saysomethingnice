@@ -32,6 +32,7 @@ REPLACE INTO db (host, db, user, select_priv, insert_priv, update_priv,
 
 FLUSH PRIVILEGES;
 
+DROP DATABASE IF EXISTS saysomethingnice;
 CREATE DATABASE saysomethingnice;
 
 USE saysomethingnice;
