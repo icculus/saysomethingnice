@@ -7,7 +7,21 @@ function process_possible_submission()
     if (!has_input('submitting'))
         return;  // no submission, we'll just show the submission form later.
 
-    write_debug('Got a submission!');
+    if (!get_input_string('quote', 'Quote text', $quote)) return;
+    if (!get_input_string('author', 'Email address', $author, '', true)) return;
+
+    write_debug('Got an apparently non-bogus submission!');
+
+    $sqlquote = db_escape_string($quote);
+    $sqlauthor = db_escape_string($author);
+
+    // !!! FIXME: not true for public, eventually.
+    $sql = "insert into quotes (text, public, author, entrydate, lastedit)" .
+           " values ('$sqlquote', true, '$sqlauthor', NOW(), NOW())";
+    if (do_dbinsert($sql) == 1)
+    {
+        update_papertrail("Quote added", $sql, NULL);
+    } // if
 } // process_possible_submission
 
 

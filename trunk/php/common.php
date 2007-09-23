@@ -61,7 +61,7 @@ function has_input($reqname)
 } // has_input
 
 
-function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=false)
+function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
 {
     $val = $_REQUEST[$reqname];
     if (!isset($val))
@@ -76,7 +76,7 @@ function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=false)
     } // if
 
     $reqval = trim($val);
-    if ($reqval == '')
+    if ((!$allowblank) && ($reqval == ''))
     {
         write_error("$reqtype is blank: Please fill out all fields.");
         return false;
@@ -86,16 +86,16 @@ function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=false)
 } // get_input_sanitized
 
 
-function get_input_string($reqname, $reqtype, &$reqval, $defval=false)
+function get_input_string($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
 {
-    return get_input_sanitized($reqname, $reqtype, $reqval, $defval);
+    return get_input_sanitized($reqname, $reqtype, $reqval, $defval, $allowblank);
 } // get_input_string
 
 
-function get_input_bool($reqname, $reqtype, &$reqval, $defval=false)
+function get_input_bool($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
 {
     $tmp = '';
-    if (!get_input_sanitized($reqname, $reqtype, $tmp, $defval))
+    if (!get_input_sanitized($reqname, $reqtype, $tmp, $defval, $allowblank))
         return false;
 
     $tmp = strtolower($tmp);
@@ -120,9 +120,9 @@ function get_input_bool($reqname, $reqtype, &$reqval, $defval=false)
 } // get_input_bool
 
 
-function get_input_number($reqname, $reqtype, &$reqval, $defval=false)
+function get_input_number($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
 {
-    if (!get_input_sanitized($reqname, $reqtype, $reqval, $defval))
+    if (!get_input_sanitized($reqname, $reqtype, $reqval, $defval, $allowblank))
         return false;
 
     if (sscanf($reqval, "0x%X", &$hex) == 1) // it's a 0xHEX value.
@@ -138,9 +138,9 @@ function get_input_number($reqname, $reqtype, &$reqval, $defval=false)
 } // get_input_number
 
 
-function get_input_int($reqname, $reqtype, &$reqval, $defval=false)
+function get_input_int($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
 {
-    if (!get_input_number($reqname, $reqtype, $reqval))
+    if (!get_input_number($reqname, $reqtype, $reqval, $defval, $allowblank))
         return false;
 
     $reqval = (int) $reqval;
@@ -148,9 +148,9 @@ function get_input_int($reqname, $reqtype, &$reqval, $defval=false)
 } // get_input_int
 
 
-function get_input_float($reqname, $reqtype, &$reqval, $defval=false)
+function get_input_float($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
 {
-    if (!get_input_number($reqname, $reqtype, $reqval))
+    if (!get_input_number($reqname, $reqtype, $reqval, $defval, $allowblank))
         return false;
 
     $reqval = (float) $reqval;
