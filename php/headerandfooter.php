@@ -10,6 +10,8 @@ echo <<<EOF
 <center><h1>Say Something Nice</h1></center>
 
 EOF;
+
+    write_debug('If you can read this, debugging is enabled!');
 } // render_header
 
 function render_footer()
