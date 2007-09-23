@@ -4,6 +4,6 @@ require_once 'database.php';
 require_once 'headerandfooter.php';
 
 render_header();
-echo "blah.\n";  // !!! FIXME: do some magic here.
+echo "<center>blah.</center>\n";  // !!! FIXME: do some magic here.
 render_footer();
 ?>
