@@ -8,7 +8,7 @@ function render_papertrail()
 
     // !!! FIXME: make a UI toggle for this.
     //if (!get_input_bool('showsql', 'should show sql', $showsql, 'y')) return;
-    showsql = true;
+    $showsql = true;
 
     $sql = 'select * from papertrail order by entrydate';
     $query = do_dbquery($sql);
