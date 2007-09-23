@@ -1,7 +1,8 @@
 <?php
 
-$enable_debug = true;
-//$enable_debug = (!empty($_REQUEST['debug']));
+//$enable_debug = true;
+//$enable_debug = false;
+$enable_debug = (!empty($_REQUEST['debug']));
 
 function is_authorized()
 {
