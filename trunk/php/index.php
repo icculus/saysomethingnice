@@ -1,8 +1,6 @@
 <?php
 
-require_once 'common.php';
-require_once 'database.php';
-require_once 'headerandfooter.php';
+require_once 'saysomethingnice.php';
 
 function render_random_quote()
 {
