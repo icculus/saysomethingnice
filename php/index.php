@@ -23,7 +23,7 @@ function render_quote($sql)
 
 function render_specific_quote($id)
 {
-    render_quote('select * from quotes where id=$id and public=true limit 1;');
+    render_quote("select * from quotes where id=$id and public=true limit 1;");
 } // render_random_quote
 
 
