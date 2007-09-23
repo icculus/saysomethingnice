@@ -37,7 +37,7 @@ function render_random_quote()
 // The mainline...
 render_header();
 
-if (get_input_int('id', 'Quote ID number', $id, -1))
+if ( (get_input_int('id', 'Quote ID number', $id, -1)) && (id != -1) )
     render_specific_quote($id);
 else
     render_random_quote();
