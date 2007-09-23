@@ -13,14 +13,14 @@ else
     echo "<table>\n";
     while ( ($row = db_fetch_array($query)) != false )
     {
-        echo "  <tr>\n");
-        echo "    <td>id: ${row['id']}</td>\n");
-        echo "    <td>text: ${row['text']}</td>\n");
-        echo "    <td>public: ${row['public']}</td>\n");
-        echo "    <td>author: ${row['author']}</td>\n");
-        echo "    <td>entrydate: ${row['entrydate']}</td>\n");
-        echo "    <td>lastedit: ${row['lastedit']}</td>\n");
-        echo "  </tr>\n");
+        echo "  <tr>\n";
+        echo "    <td>id: ${row['id']}</td>\n";
+        echo "    <td>text: ${row['text']}</td>\n";
+        echo "    <td>public: ${row['public']}</td>\n";
+        echo "    <td>author: ${row['author']}</td>\n";
+        echo "    <td>entrydate: ${row['entrydate']}</td>\n";
+        echo "    <td>lastedit: ${row['lastedit']}</td>\n";
+        echo "  </tr>\n";
     }
     echo "</table>\n";
     echo "<hr>\n";
