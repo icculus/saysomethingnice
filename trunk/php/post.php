@@ -11,7 +11,6 @@ function process_possible_submission()
     if (!get_input_string('author', 'Email address', $author, '', true)) return;
 
     write_debug('Got an apparently non-bogus submission!');
-    echo "\n\n\nquote: $quote\n\n\n";
 
     $sqlquote = db_escape_string($quote);
     $sqlauthor = db_escape_string($author);
