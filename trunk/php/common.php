@@ -4,6 +4,15 @@
 //$enable_debug = false;
 $enable_debug = (!empty($_REQUEST['debug']));
 
+function get_form_tag()
+{
+    global $enable_debug;
+    if ($enable_debug)
+        return("<form><input type='hidden' name='debug' value='true'>");
+    return("<form method='post' action='${_SERVER['PHP_SELF']}'>");
+} // get_form_tag
+
+
 function is_authorized()
 {
     //return(!empty($_SERVER['REMOTE_USER']));
@@ -41,6 +50,15 @@ function current_sql_datetime()
                  ($t['tm_min']) . ':' .
                  ($t['tm_sec']) );
 } // current_sql_datetime
+
+
+function has_input($reqname)
+{
+    $val = $_REQUEST[$reqname];
+    if (isset($val))
+        return (trim($val) != '');
+    return false;
+} // has_input
 
 
 function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=false)
