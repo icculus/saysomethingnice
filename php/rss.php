@@ -12,8 +12,10 @@ if ($query == false)
     return;
 } // if
 
+header('Content-type: application/rss+xml');
+
 $rowcount = db_num_rows($query);
-$newestentrytime = time();
+$newestentrytime = current_sql_datetime();
 if ($rowcount > 0)
 {
     $row = db_fetch_array($query);
@@ -22,18 +24,18 @@ if ($rowcount > 0)
     db_reset_array($query);
 } // if
 
-$pubdate = date(DATE_RSS, $newestentrytime);
+$pubdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($newestentrytime));
 
 $items = '';
 while ( ($row = db_fetch_array($query)) != false )
 {
     $text = htmlentities($row['text'], ENT_QUOTES);
-    $entrydate = htmlentities($row['entrydate'], ENT_QUOTES);
+    $entrydate = date(DATE_RSS, $row['entrydate']);
     $items .= "<item><title>\"$text\"</title><pubDate>${entrydate}</pubDate><description>\"$text\"</description></item>\n";
 } // while
 db_free_result($query);
 
-// stupid '?>' screws up PHP.
+// stupid question mark endtag screws up PHP, even in strings and comments!
 $xmltag = '<' . '?' . 'xml version="1.0" encoding="UTF-8"' . '?' . '>';
 echo <<<EOF
 $xmltag
@@ -44,7 +46,7 @@ $xmltag
     <title>Quick, say something nice!</title>
     <link>${baseurl}</link>
     <description>Pulling your relationship out of the fire since 2007.</description>
-    <pubDate>${puddate}</pubDate>
+    <pubDate>${pubdate}</pubDate>
   </channel>
 
   $items

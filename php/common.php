@@ -56,6 +56,13 @@ function current_sql_datetime()
 } // current_sql_datetime
 
 
+function sql_datetime_to_unix_timestamp($sqldatetime)
+{
+    // !!! FIXME: this is a little hacky.
+    return strtotime($sqldatetime . ' GMT');
+} // sql_datetime_to_unix_timestamp
+
+
 function has_input($reqname)
 {
     $val = $_REQUEST[$reqname];
