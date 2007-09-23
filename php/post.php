@@ -19,7 +19,8 @@ echo <<< EOF
     $form
     Whisper sweet nothings: <input type='text' name='quote'><br>
     (optional) email address: <input type='text' name='author'><br>
-    <input type='submit' name='submitting' value='Go!'>
+    <input type='hidden' name='submitting' value='true'>
+    <input type='submit' name='submit' value='Go!'>
     </form>
 
 EOF;
