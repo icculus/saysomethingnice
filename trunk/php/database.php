@@ -158,8 +158,8 @@ function update_papertrail($action, $donesql, $quoteid=NULL)
 
     // Fill in the papertrail.
     $sql = 'insert into papertrail' .
-           ' (action, sql, author, entrydate)' .
-           " values ('$sqlaction', '$sqlsql', '$sqlauthor', NOW())";
+           ' (action, sqltext, author, entrydate)' .
+           " values ('$sqlaction', '$sqlsql', '$sqlauthor', NOW());";
     do_dbinsert($sql);
 } // update_papertrail
 
