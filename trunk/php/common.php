@@ -64,7 +64,12 @@ function has_input($reqname)
 function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
 {
     $val = $_REQUEST[$reqname];
-    if (!isset($val))
+    if (isset($val))
+    {
+        if (get_magic_quotes_gpc())  // so annoying.
+            stripslashes($val);
+    } // if
+    else
     {
         if (!$defval)
         {
@@ -73,7 +78,7 @@ function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=false, $allow
         } // if
         $reqval = $defval;
         return true;
-    } // if
+    } // else
 
     $reqval = trim($val);
     if ((!$allowblank) && ($reqval == ''))
