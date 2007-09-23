@@ -67,7 +67,7 @@ function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=false, $allow
     if (isset($val))
     {
         if (get_magic_quotes_gpc())  // so annoying.
-            stripslashes($val);
+            $val = stripslashes($val);
     } // if
     else
     {
