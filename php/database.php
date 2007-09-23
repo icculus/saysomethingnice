@@ -127,9 +127,15 @@ function db_num_rows($query)
 } // db_num_rows
 
 
+function db_reset_array($query)
+{
+    return(mysql_data_seek($query, 0));
+} // db_reset_array
+
+
 function db_fetch_array($query)
 {
-    return(mysql_fetch_array($query));
+    return(mysql_fetch_assoc($query));
 } // db_fetch_array
 
 
