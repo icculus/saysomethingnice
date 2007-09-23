@@ -14,7 +14,7 @@ function render_random_quote()
             write_error('No quotes at the moment, apparently.');
         else
         {
-            $text = htmlescape($row['text']);
+            $text = htmlentities($row['text'], ENT_QUOTES);
             echo "<center>\"${text}\"</center>\n";
         } // else
         db_free_result($query);
