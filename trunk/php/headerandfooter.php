@@ -20,7 +20,7 @@ function render_footer()
 echo <<<EOF
 <hr>
 <center>
-  [ <a href="post.php">Get a quote</a> | <a href="post.php">Add a quote</a> | <a href="http://1-800-flowers.com/">Cover your ass</a> ]<br>
+  [ <a href="/">Get a quote</a> | <a href="post.php">Add a quote</a> | <a href="http://1-800-flowers.com/">Cover your ass</a> ]<br>
 </center>
 
 </body></html>
