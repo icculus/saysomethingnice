@@ -1,31 +1,31 @@
 <?php
+
 require_once 'common.php';
 require_once 'database.php';
 require_once 'headerandfooter.php';
 
-render_header();
-
-$query = do_dbquery('select * from quotes;');
-if ($query == false)
-    write_error('query failed');
-else
+function render_random_quote()
 {
-    echo "<table>\n";
-    while ( ($row = db_fetch_array($query)) != false )
+    // !!! FIXME: 'order by rand() limit 1' isn't efficient as the size of the table grows!
+    $query = do_dbquery('select * from quotes where public=true order by rand() limit 1;');
+    if ($query == false)
+        write_error('query failed');
+    else
     {
-        echo "  <tr>\n";
-        echo "    <td>id: ${row['id']}</td>\n";
-        echo "    <td>text: ${row['text']}</td>\n";
-        echo "    <td>public: ${row['public']}</td>\n";
-        echo "    <td>author: ${row['author']}</td>\n";
-        echo "    <td>entrydate: ${row['entrydate']}</td>\n";
-        echo "    <td>lastedit: ${row['lastedit']}</td>\n";
-        echo "  </tr>\n";
-    }
-    echo "</table>\n";
-    echo "<hr>\n";
-}
+        if ( ($row = db_fetch_array($query)) == false )
+            write_error('No quotes at the moment, apparently.');
+        else
+        {
+            $text = htmlescape($row['text']);
+            echo "<center>\"${text}\"</center>\n";
+        } // else
+        db_free_result($query);
+    } // else
+} // render_random_quote
 
-echo "<center>blah!</center>\n";  // !!! FIXME: do some magic here.
+// The mainline...
+render_header();
+render_random_quote();
 render_footer();
+
 ?>
