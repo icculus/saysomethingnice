@@ -3,8 +3,10 @@
 require_once 'saysomethingnice.php';
 
 // The mainline...
+
 render_header();
-render_random_quote();
+if (get_input_int('id', 'Quote ID number', $id))
+    render_specific_quote($id);
 render_footer();
 
 ?>

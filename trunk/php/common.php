@@ -4,10 +4,6 @@
 //$enable_debug = false;
 $enable_debug = (!empty($_REQUEST['debug']));
 
-// !!! FIXME: change these.
-$baseurl = 'http://centralserver/saysomethingnice/';
-$rssurl = 'http://centralserver/saysomethingnice/rss.php';
-
 function get_form_tag()
 {
     global $enable_debug;
