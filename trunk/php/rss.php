@@ -33,14 +33,14 @@ while ( ($row = db_fetch_array($query)) != false )
 } // while
 db_free_result($query);
 
-// stupid '?>' screws up my syntax highlighting...  :/
-echo '<?xml version="1.0" encoding="UTF-8"?>';
+// stupid '?>' screws up PHP.
+$xmltag = '<' . '?' . 'xml version="1.0" encoding="UTF-8"' . '?' . '>';
 echo <<<EOF
-
+$xmltag
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns="http://purl.org/rss/1.0/">
 
-  <channel rdf:about="${rssurl}">
+  <channel rdf:about="$rssurl">
     <title>Quick, say something nice!</title>
     <link>${baseurl}</link>
     <description>Pulling your relationship out of the fire since 2007.</description>
