@@ -40,7 +40,7 @@ CREATE TABLE quotes (
     id int not null auto_increment,
     text mediumtext not null,
     public bool not null,
-    author varchar(128),
+    author varchar(128) not null,
     entrydate datetime not null,
     lastedit datetime not null,
     primary key (id)
@@ -51,7 +51,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON quotes TO saysomethingnice@HOSTNAME;
 CREATE TABLE papertrail (
     id int not null auto_increment,
     action text not null,
-    sql mediumtext not null,
+    sqltext mediumtext not null,
     author varchar(128) not null,
     entrydate datetime not null,
     primary key (id)
