@@ -23,7 +23,7 @@ function get_dblink()
 
     if ($dblink == NULL)
     {
-        global $dbuser, $dbpass;
+        global $dbhost, $dbuser, $dbpass, $dbname;
         $dblink = mysql_connect($dbhost, $dbuser, $dbpass);
         if (!$dblink)
         {
