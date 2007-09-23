@@ -4,6 +4,8 @@ require_once 'common.php';
 
 function render_header($title = 'Quick, say something nice!')
 {
+    global $rssurl;
+
 // !!! FIXME: need more here, I guess.
 echo <<<EOF
 <html>
