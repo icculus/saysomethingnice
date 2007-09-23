@@ -29,9 +29,11 @@ $pubdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($newestentrytime));
 $items = '';
 while ( ($row = db_fetch_array($query)) != false )
 {
+    $id = "${baseurl}index.php?id=${row['id']}";  // !!! FIXME: abstract this.
     $text = htmlentities($row['text'], ENT_QUOTES);
     $entrydate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['entrydate']));
-    $items .= "<item><title>\"$text\"</title><pubDate>${entrydate}</pubDate><description>\"$text\"</description></item>\n";
+    $items .= "<item><title>\"$text\"</title><pubDate>${entrydate}</pubDate>" .
+              "<description>\"$text\"</description><link>$url</link></item>\n";
 } // while
 db_free_result($query);
 
