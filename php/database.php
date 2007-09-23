@@ -138,4 +138,29 @@ function db_free_result($query)
     return(mysql_free_result($query));
 } // db_free_result
 
+
+function update_papertrail($action, $donesql, $quoteid=NULL)
+{
+    // !!! FIXME: REMOTE_USER won't work here...
+    $sqlauthor = db_escape_string($_SERVER['REMOTE_USER']);
+    $sqlsql = db_escape_string($donesql);
+    $sqlaction = db_escape_string($action);
+    $htmlaction = htmlentities($action, ENT_QUOTES);
+
+    echo "<font color='#00FF00'>$htmlaction</font><br>\n";
+
+    // Update quote.lastedit field if this involves an extension.
+    if (isset($quoteid))
+    {
+        $sql = "update quotes set lastedit=NOW(), lasteditauthor='$sqlauthor' where id=$quoteid";
+        do_dbupdate($sql);
+    } // if
+
+    // Fill in the papertrail.
+    $sql = 'insert into papertrail' .
+           ' (action, sql, author, entrydate)' .
+           " values ('$sqlaction', '$sqlsql', '$sqlauthor', NOW())";
+    do_dbinsert($sql);
+} // update_papertrail
+
 ?>
