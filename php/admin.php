@@ -337,7 +337,8 @@ function process_addcategory_action()
     add_category($catname);
 } // process_addcategory_action
 
-function process_addcategory_action()
+
+function process_deletecategory_action()
 {
     if (!get_input_int('catid', 'Category ID', $catid))
         return;
@@ -345,7 +346,7 @@ function process_addcategory_action()
     // !!! FIXME: need a "REALLY SURE?!" thing here.
 
     delete_category((int) $catid);
-} // process_addcategory_action
+} // process_deletecategory_action
 
 
 function requested_action($name)
@@ -377,7 +378,7 @@ function process_possible_actions()
     else if (requested_action('addcategory'))
         process_addcategory_action();
     else if (requested_action('deletecategory'))
-        process_addcategory_action();
+        process_deletecategory_action();
 } // process_possible_actions
 
 
