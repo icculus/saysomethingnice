@@ -30,8 +30,8 @@ do_dbquery(
         " deleted bool not null default false," .
         " author varchar(128) not null," .
         " ipaddr int unsigned not null," .
-        " postdate datetime not null," .
-        " lastedit datetime not null," .
+        " postdate datetime not null default NOW()," .
+        " lastedit datetime not null default NOW()," .
         " primary key (id)" .
     " );"
 );
