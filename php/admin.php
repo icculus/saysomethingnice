@@ -73,11 +73,11 @@ function output_quote_queue_widgets()
     get_input_int('q', 'Category ID number', $q, 0);
     get_input_bool('showall', 'show all posts', $showall, 'false');
 
-    $showallflip = true;
+    $showallflip = 1;
     $showalltext = "Show all items";
     if ($showall)
     {
-        $showallflip = false;
+        $showallflip = 0;
         $showalltext = "Show only pending items";
     } // if
 
