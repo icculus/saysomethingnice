@@ -45,6 +45,22 @@ function get_dblink()
 } // get_dblink
 
 
+function close_dblink($link = NULL)
+{
+    global $dblink;
+
+    $closeme = $link;
+    if ($closeme == NULL)
+    {
+        $closeme = $dblink;
+        $dblink = NULL;
+    } // if
+
+    if ($closeme != NULL)
+        mysql_close($closeme);
+} // close_dblink
+
+
 function db_escape_string($str)
 {
     return(mysql_escape_string($str));

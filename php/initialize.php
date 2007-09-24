@@ -11,6 +11,8 @@ echo "building schema...<br>\n";
 do_dbquery("drop database if exists $dbname;");
 do_dbquery("create database $dbname;");
 
+close_dblink();  // force it to reselect the new database.
+
 do_dbquery(
     "create table categories (" .
         " id int not null auto_increment," .
