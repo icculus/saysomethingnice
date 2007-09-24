@@ -20,7 +20,7 @@ function output_quote_queue_rows($category, $showall = 0)
         $item_count++;
 
         $row['author'] = htmlentities($row['author'], ENT_QUOTES);
-        $row['title'] = htmlentities($row['title'], ENT_QUOTES);
+        $row['text'] = htmlentities($row['text'], ENT_QUOTES);
 
         $tags = $endtags = '';
         if ($row['deleted'])
@@ -51,7 +51,7 @@ function output_quote_queue_rows($category, $showall = 0)
 
         print("<td align=\"center\"> $tags");
         print(" <a href=\"{$_SERVER['PHP_SELF']}?action=post&editid={$row['id']}\">");
-        print("{$row['title']} $endtags </a> </td>\n");
+        print("{$row['text']} $endtags </a> </td>\n");
 
         print("<td align=\"center\"> $tags {$row['author']} $endtags </td>\n");
         print("<td align=\"center\"> $tags $ip $endtags </td>\n");
@@ -197,7 +197,7 @@ echo <<< EOF
           </td>
 
           <td align="center"> date </td>
-          <td align="center"> title </td>
+          <td align="center"> text </td>
           <td align="center"> author </td>
           <td align="center"> ip addr </td>
         </tr>
