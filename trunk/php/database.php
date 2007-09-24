@@ -174,7 +174,7 @@ function update_papertrail($action, $donesql, $quoteid=NULL)
     // Update quote.lastedit field if this involves an extension.
     if (isset($quoteid))
     {
-        $sql = "update quotes set lastedit=NOW(), lasteditauthor='$sqlauthor' where id=$quoteid";
+        $sql = "update quotes set lastedit=NOW() where $quoteid";
         do_dbupdate($sql);
     } // if
 
