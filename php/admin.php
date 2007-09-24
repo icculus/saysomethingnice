@@ -238,4 +238,10 @@ echo <<< EOF
 EOF;
 } // output_quote_queue_widgets
 
+
+// mainline...
+render_header();
+output_quote_queue_widgets();
+render_footer();
+
 ?>
