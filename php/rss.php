@@ -27,6 +27,7 @@ if ($rowcount > 0)
 $pubdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($newestentrytime));
 
 $items = '';
+$digestitems = '';
 while ( ($row = db_fetch_array($query)) != false )
 {
     $url = "${quoteurl}?id=${row['id']}";  // !!! FIXME: abstract this.
@@ -34,6 +35,8 @@ while ( ($row = db_fetch_array($query)) != false )
     $postdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate']));
     $items .= "<item><title>\"$text\"</title><pubDate>${postdate}</pubDate>" .
               "<description>\"$text\"</description><link>$url</link></item>\n";
+    $digestitems .= "<rdf:li rdf:resource=\"$url\" />\n";
+
 } // while
 db_free_result($query);
 
@@ -49,6 +52,11 @@ $xmltag
     <link>${baseurl}</link>
     <description>Pulling your relationship out of the fire since 2007.</description>
     <pubDate>${pubdate}</pubDate>
+    <items>
+      <rdf:Seq>
+        $digestitems
+      </rdf:Seq>
+    </items>
   </channel>
 
   $items
