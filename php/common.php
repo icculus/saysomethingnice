@@ -118,7 +118,7 @@ write_debug("$reqname '$tmp'");
         ($tmp == 't') || ($tmp == 'true') ||
         ($tmp == '1'))
     {
-        $reqval = 1;
+        $reqval = true;
         return true;
     } // if
 
@@ -126,7 +126,7 @@ write_debug("$reqname '$tmp'");
         ($tmp == 'f') || ($tmp == 'false') ||
         ($tmp == '0'))
     {
-        $reqval = 0;
+        $reqval = false;
         return true;
     } // if
 
