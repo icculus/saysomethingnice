@@ -110,6 +110,8 @@ function get_input_bool($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=
     if (!get_input_sanitized($reqname, $reqtype, $tmp, $defval, $allowblank))
         return false;
 
+write_debug("$reqname '$tmp'");
+
     $tmp = strtolower($tmp);
     if (($tmp == 'y') || ($tmp == 'yes') ||
         ($tmp == 't') || ($tmp == 'true') ||
