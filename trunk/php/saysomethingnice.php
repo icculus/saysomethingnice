@@ -76,7 +76,7 @@ function delete_category($id)
     if ($deleted)
     {
         update_papertrail("Category '$id' deleted", $sql);
-        $sql = "update quotes set id=1 where id=$sqlid;";
+        $sql = "update quotes set category=1 where category=$sqlid;";
         $moved = do_dbupdate($sql, -1);
         if ($moved)
             update_papertrail("Moved $moved quotes to unsorted category", $sql, "id=$sqlid");
