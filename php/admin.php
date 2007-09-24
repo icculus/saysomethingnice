@@ -223,6 +223,12 @@ echo <<< EOF
             <input type="submit" name="purgeall"  value="Purge All">
           </td>
         </tr>
+        <tr>
+          <td align="center" colspan="5">
+            <input type="text" name="catname" value="">
+            <input type="submit" name="addcategory" value="Add Category">
+          </td>
+        </tr>
       </table>
       </form>
     </center>
@@ -322,6 +328,14 @@ function process_purgeall_action()
 } // process_purgeall_action
 
 
+function process_addcategory_action()
+{
+    $sql = "delete from quotes where deleted=true;";
+    $affected = do_dbdelete($sql, -1);
+    update_papertrail("purged $affected quotes", $sql);
+} // process_purgeall_action
+
+
 function requested_action($name)
 {
     if ((get_input_string($name, $name, $x, '', true)) && ($x != ''))
@@ -348,6 +362,8 @@ function process_possible_actions()
         process_purge_action();
     else if (requested_action('purgeall'))
         process_purgeall_action();
+    else if (requested_action('addcategory'))
+        process_addcategory_action();
 } // process_possible_actions
 
 
