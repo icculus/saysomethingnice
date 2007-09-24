@@ -15,7 +15,7 @@ do_dbquery(
     "create table categories (" .
         " id int not null auto_increment," .
         " name varchar(128) not null," .
-        " primary key (id)"
+        " primary key (id)" .
     " );"
 );
 
