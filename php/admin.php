@@ -272,7 +272,7 @@ function process_undelete_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "update quotes set deleted=false where deleted=true $idlist;"
+    $sql = "update quotes set deleted=false where deleted=true $idlist;";
     $affected = do_dbupdate($sql);
     update_papertrail("undeleted $affected quotes", $sql, $idlist);
 } // process_undelete_action
@@ -283,7 +283,7 @@ function process_approve_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "update quotes set approved=true where approved=false and deleted=false and $idlist;"
+    $sql = "update quotes set approved=true where approved=false and deleted=false and $idlist;";
     $affected = do_dbupdate($sql);
     update_papertrail("approved $affected quotes", $sql, $idlist);
 } // process_approve_action
@@ -294,7 +294,7 @@ function process_unapprove_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "update quotes set approved=false where approved=true and $idlist;"
+    $sql = "update quotes set approved=false where approved=true and $idlist;";
     $affected = do_dbupdate($sql);
     update_papertrail("unapproved $affected quotes", $sql, $idlist);
 } // process_unapprove_action
@@ -305,7 +305,7 @@ function process_purge_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "delete from quotes where deleted=true and $idlist;"
+    $sql = "delete from quotes where deleted=true and $idlist;";
     $affected = do_dbdelete($sql);
     update_papertrail("purged $affected quotes", $sql);
 } // process_purge_action
@@ -313,7 +313,7 @@ function process_purge_action()
 
 function process_purgeall_action()
 {
-    $sql = "delete from quotes where deleted=true;"
+    $sql = "delete from quotes where deleted=true;";
     $affected = do_dbdelete($sql);
     update_papertrail("purged $affected quotes", $sql);
 } // process_purgeall_action
