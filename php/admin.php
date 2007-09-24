@@ -232,6 +232,7 @@ echo <<< EOF
           </td>
         </tr>
       </table>
+      <input type='hidden' name='q' value='$q'>
       </form>
     </center>
 EOF;
@@ -349,6 +350,14 @@ function process_deletecategory_action()
 } // process_deletecategory_action
 
 
+function process_changecategory_action()
+{
+    if (!get_input_int('catid', 'Category ID', $catid))
+        return;
+    $_REQUEST['q'] = (int) $catid;
+} // process_changecategory_action
+
+
 function requested_action($name)
 {
     if ((get_input_string($name, $name, $x, '', true)) && ($x != ''))
@@ -379,6 +388,8 @@ function process_possible_actions()
         process_addcategory_action();
     else if (requested_action('deletecategory'))
         process_deletecategory_action();
+    else if (requested_action('chcatid'))
+        process_changecategory_action();
 } // process_possible_actions
 
 
