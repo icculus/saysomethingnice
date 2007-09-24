@@ -56,8 +56,32 @@ function add_category($name)
     $sql = "insert into categories (name) values ('$sqlname');";
     $inserted = (do_dbinsert($sql) == 1);
     if ($inserted)
-        update_papertrail("Category '$name' added", $sql, NULL);
+        update_papertrail("Category '$name' added", $sql);
     return $inserted;
+} // add_category
+
+
+function delete_category($id)
+{
+    if ($id == 1)
+    {
+        write_error("You can't delete the 'unsorted' category!");
+        return false;
+    } // if
+
+    $sqlid = db_escape_string($id);
+    $sqlname = db_escape_string($name);
+    $sql = "delete from categories where id=$sqlid;";
+    $deleted = (do_dbdelete($sql) == 1);
+    if ($deleted)
+    {
+        update_papertrail("Category '$id' deleted", $sql);
+        $sql = "update quotes set id=1 where id=$sqlid;"
+        $moved = do_dbupdate($sql);
+        if ($moved)
+            update_papertrail("Moved $moved quotes to unsorted category", $sql, "id=$sqlid");
+    } // if
+    return $deleted;
 } // add_category
 
 ?>
