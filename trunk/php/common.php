@@ -71,7 +71,7 @@ function has_input($reqname)
 function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=false)
 {
     $val = $_REQUEST[$reqname];
-write_debug("$reqname '$val'");
+
     if (isset($val))
     {
         if (get_magic_quotes_gpc())  // so annoying.
@@ -110,8 +110,6 @@ function get_input_bool($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=
     $tmp = '';
     if (!get_input_sanitized($reqname, $reqtype, $tmp, $defval, $allowblank))
         return false;
-
-write_debug("$reqname '$tmp'");
 
     $tmp = strtolower($tmp);
     if (($tmp == 'y') || ($tmp == 'yes') ||
