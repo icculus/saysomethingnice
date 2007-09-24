@@ -18,10 +18,9 @@ function process_possible_submission()
     // !!! FIXME: not true for public, eventually.
     $sql = "insert into quotes (category, text, public, author, entrydate, lastedit)" .
            " values (0, '$sqlquote', true, '$sqlauthor', NOW(), NOW());";
+
     if (do_dbinsert($sql) == 1)
-    {
         update_papertrail("Quote added", $sql, NULL);
-    } // if
 } // process_possible_submission
 
 
