@@ -261,7 +261,7 @@ function process_delete_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "update quotes set deleted=true, approved=false where deleted=false and $idlist;"
+    $sql = "update quotes set deleted=true, approved=false where deleted=false and $idlist;";
     $affected = do_dbupdate($sql);
     update_papertrail("deleted $affected quotes", $sql, $idlist);
 } // process_delete_action
