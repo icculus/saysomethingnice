@@ -98,13 +98,13 @@ function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=NULL, $allowb
 } // get_input_sanitized
 
 
-function get_input_string($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
+function get_input_string($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=false)
 {
     return get_input_sanitized($reqname, $reqtype, $reqval, $defval, $allowblank);
 } // get_input_string
 
 
-function get_input_bool($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
+function get_input_bool($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=false)
 {
     $tmp = '';
     if (!get_input_sanitized($reqname, $reqtype, $tmp, $defval, $allowblank))
@@ -132,7 +132,7 @@ function get_input_bool($reqname, $reqtype, &$reqval, $defval=false, $allowblank
 } // get_input_bool
 
 
-function get_input_number($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
+function get_input_number($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=false)
 {
     if (!get_input_sanitized($reqname, $reqtype, $reqval, $defval, $allowblank))
         return false;
@@ -150,7 +150,7 @@ function get_input_number($reqname, $reqtype, &$reqval, $defval=false, $allowbla
 } // get_input_number
 
 
-function get_input_int($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
+function get_input_int($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=false)
 {
     if (!get_input_number($reqname, $reqtype, $reqval, $defval, $allowblank))
         return false;
@@ -160,7 +160,7 @@ function get_input_int($reqname, $reqtype, &$reqval, $defval=false, $allowblank=
 } // get_input_int
 
 
-function get_input_float($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
+function get_input_float($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=false)
 {
     if (!get_input_number($reqname, $reqtype, $reqval, $defval, $allowblank))
         return false;
