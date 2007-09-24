@@ -71,7 +71,7 @@ function output_quote_queue_widgets()
 
     // !!! FIXME: 'q' is a leftover from IcculusNews queues.
     get_input_int('q', 'Category ID number', $q, 0);
-    get_input_bool('showall', 'show all posts', $showall, 'false');
+    get_input_bool('showall', 'show all posts', $showall, 'false', true);
 
     $showallflip = true;
     $showalltext = "Show all items";
@@ -272,7 +272,7 @@ function process_undelete_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "update quotes set deleted=false where deleted=true $idlist;";
+    $sql = "update quotes set deleted=false where deleted=true and $idlist;";
     $affected = do_dbupdate($sql);
     update_papertrail("undeleted $affected quotes", $sql, $idlist);
 } // process_undelete_action
