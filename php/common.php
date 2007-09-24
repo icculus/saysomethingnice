@@ -115,7 +115,7 @@ function get_input_bool($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=
         ($tmp == 't') || ($tmp == 'true') ||
         ($tmp == '1'))
     {
-        $reqval = 1;
+        $reqval = true;
         return true;
     } // if
 
@@ -123,7 +123,7 @@ function get_input_bool($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=
         ($tmp == 'f') || ($tmp == 'false') ||
         ($tmp == '0'))
     {
-        $reqval = 0;
+        $reqval = false;
         return true;
     } // if
 
