@@ -29,7 +29,7 @@ do_dbquery(
         " approved bool not null default false," .
         " deleted bool not null default false," .
         " author varchar(128) not null," .
-        " ipaddr int unsigned not null," .
+        " ipaddr int not null," .
         " postdate datetime not null," .
         " lastedit datetime not null," .
         " primary key (id)" .
