@@ -71,7 +71,7 @@ function output_quote_queue_widgets()
 
     // !!! FIXME: 'q' is a leftover from IcculusNews queues.
     get_input_int('q', 'Category ID number', $q, 0);
-    get_input_bool('showall', 'show all posts', $showall, 'false');
+    get_input_int('showall', 'show all posts', $showall, '0');
 
     $showallflip = true;
     $showalltext = "Show all items";
