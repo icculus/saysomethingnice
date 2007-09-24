@@ -204,6 +204,9 @@ echo <<< EOF
 
 EOF;
 
+    if ($q == 0)
+        $q = 1;  // just put it in unsorted category for now.
+
     if ($q != 0)
         output_quote_queue_rows($q, $showall);
     else
@@ -347,6 +350,7 @@ function process_deletecategory_action()
     // !!! FIXME: need a "REALLY SURE?!" thing here.
 
     delete_category((int) $catid);
+    $_REQUEST['q'] = 1;
 } // process_deletecategory_action
 
 
