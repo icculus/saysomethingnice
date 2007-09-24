@@ -84,7 +84,7 @@ function output_quote_queue_widgets($showall = 0)
     } // if
 
     $form = get_form_tag();
-    echo "$form <input type='hidden' name='showall' value='$showall'>\n");
+    echo "$form <input type='hidden' name='showall' value='$showall'>\n";
 
     $query = do_dbquery("select id, name from categories order by id;");
     if ($query == false)
