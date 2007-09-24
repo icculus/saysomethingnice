@@ -48,4 +48,15 @@ function render_random_quote()
     select_and_render_quote($sql);
 } // render_random_quote
 
+
+function add_category($name)
+{
+    $sqlname = db_escape_string($name);
+    $sql = "insert into categories (name) values ('$sqlname');";
+    $inserted = (do_dbinsert($sql) == 1);
+    if ($inserted)
+        update_papertrail('Category added', $sql, NULL);
+    return $inserted;
+} // add_category
+
 ?>

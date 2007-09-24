@@ -46,7 +46,7 @@ do_dbquery(
 );
 
 echo "Inserting some initial rows...<br>\n";
-do_dbinsert("insert into categories (name) values ('unsorted');");
+add_category('unsorted');
 
 echo "...all done!<br>\n";
 
