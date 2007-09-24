@@ -20,7 +20,7 @@ function process_possible_submission()
            " values ('$sqlquote', '$sqlauthor', $ipaddr, NOW(), NOW());";
 
     if (do_dbinsert($sql) == 1)
-        update_papertrail("Quote added", $sql, NULL);
+        update_papertrail("Quote added", $sql);
 } // process_possible_submission
 
 

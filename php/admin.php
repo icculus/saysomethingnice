@@ -122,9 +122,11 @@ function output_quote_queue_widgets()
         } // while
 
         $catlist .= "</select>\n";
-        $catlist .= '<input type="submit" name="chcatid" value="Change">';
+        $catlist .= '<input type="submit" name="chcatid" value="Change To">';
         $catlist .= "\n";
         $catlist .= '<input type="submit" name="mvcatid" value="Move Selected To">';
+        $catlist .= "\n";
+        $catlist .= '<input type="submit" name="deletecategory" value="Delete Category">';
         $catlist .= "\n";
     } // else if
 
@@ -335,6 +337,16 @@ function process_addcategory_action()
     add_category($catname);
 } // process_addcategory_action
 
+function process_addcategory_action()
+{
+    if (!get_input_int('catid', 'Category ID', $catid))
+        return;
+
+    // !!! FIXME: need a "REALLY SURE?!" thing here.
+
+    delete_category((int) $catid);
+} // process_addcategory_action
+
 
 function requested_action($name)
 {
@@ -363,6 +375,8 @@ function process_possible_actions()
     else if (requested_action('purgeall'))
         process_purgeall_action();
     else if (requested_action('addcategory'))
+        process_addcategory_action();
+    else if (requested_action('deletecategory'))
         process_addcategory_action();
 } // process_possible_actions
 
