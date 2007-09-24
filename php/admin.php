@@ -245,11 +245,14 @@ function build_id_list($itemid, &$idlist)
             } // if
             $idnum = (int) $id;
             $idlist .= "${or}id=${idnum}";
-            $or = 'or ';
+            $or = ' or ';
         } // foreach
 
         if ($idlist != '')
+        {
+            $idlist = '(' . $idlist . ')';
             return true;
+        } // if
     } // if
 
     return false;
