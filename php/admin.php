@@ -358,6 +358,20 @@ function process_changecategory_action()
 } // process_changecategory_action
 
 
+function process_movetocategory_action()
+{
+    if (!get_input_int('catid', 'Category ID', $catid))
+        return;
+    if (!build_id_list($_REQUEST['itemid'], $idlist))
+        return;
+
+    $sqlid = db_escape_string($catid);
+    $sql = "update quotes set category=$sqlid where $idlist;";
+    $affected = do_dbupdate($sql, -1);
+    update_papertrail("moved $affected quotes to category $catid", $sql, $idlist);
+} // process_movetocategory_action
+
+
 function requested_action($name)
 {
     if ((get_input_string($name, $name, $x, '', true)) && ($x != ''))
@@ -390,6 +404,8 @@ function process_possible_actions()
         process_deletecategory_action();
     else if (requested_action('chcatid'))
         process_changecategory_action();
+    else if (requested_action('mvcatid'))
+        process_movetocategory_action();
 } // process_possible_actions
 
 
