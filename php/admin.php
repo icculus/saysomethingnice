@@ -102,6 +102,8 @@ function output_quote_queue_widgets($showall = 0)
             write_error('Failed to enumerate categories.');
         else
         {
+            if ($q == 0)
+                $q = $row['id'];
             $catname = htmlentities($row['name'], ENT_QUOTES);
             $catlist = "Category: <i>$catname</i>";
         } // if
