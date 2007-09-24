@@ -24,9 +24,10 @@ do_dbquery(
 do_dbquery(
     "create table quotes (" .
         " id int not null auto_increment," .
-        " category int not null," .
+        " category int not null default 1," .
         " text mediumtext not null," .
-        " public bool not null," .
+        " approved bool not null default false," .
+        " deleted bool not null default false," .
         " author varchar(128) not null," .
         " ipaddr int unsigned not null," .
         " entrydate datetime not null," .
