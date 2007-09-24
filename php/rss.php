@@ -2,7 +2,7 @@
 
 require_once 'saysomethingnice.php';
 
-$query = do_dbquery('select * from quotes where public=true order by entrydate desc limit 5;');
+$query = do_dbquery('select * from quotes where approved=true and deleted=false order by entrydate desc limit 5;');
 if ($query == false)
 {
     header('HTTP/1.0 500 Internal Server Error');

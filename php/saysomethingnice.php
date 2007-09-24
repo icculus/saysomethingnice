@@ -37,7 +37,7 @@ function select_and_render_quote($sql)
 
 function render_specific_quote($id)
 {
-    $sql = "select * from quotes where id=$id and public=true limit 1;";
+    $sql = "select * from quotes where id=$id and approved=true and deleted=false limit 1;";
     select_and_render_quote($sql);
 } // render_random_quote
 
@@ -45,7 +45,7 @@ function render_specific_quote($id)
 function render_random_quote()
 {
     // !!! FIXME: 'order by rand() limit 1' isn't efficient as the size of the table grows!
-    $sql = 'select * from quotes where public=true order by rand() limit 1;';
+    $sql = 'select * from quotes where approved=true and deleted=false order by rand() limit 1;';
     select_and_render_quote($sql);
 } // render_random_quote
 
