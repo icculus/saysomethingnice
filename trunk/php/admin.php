@@ -330,10 +330,10 @@ function process_purgeall_action()
 
 function process_addcategory_action()
 {
-    $sql = "delete from quotes where deleted=true;";
-    $affected = do_dbdelete($sql, -1);
-    update_papertrail("purged $affected quotes", $sql);
-} // process_purgeall_action
+    if (!get_input_string('catname', 'Category name', $catname))
+        return;
+    add_category($catname);
+} // process_addcategory_action
 
 
 function requested_action($name)
