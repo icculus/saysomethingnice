@@ -50,7 +50,7 @@ function output_quote_queue_rows($category, $showall = 0)
         print("<td align=\"center\"> $tags {$row['postdate']} $endtags </td>\n");
 
         print("<td align=\"center\"> $tags");
-        print(" <a href=\"{$_SERVER['PHP_SELF']}?action=post&editid={$row['id']}\">");
+        print(" <a href=\"{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}\">");
         print("{$row['text']} $endtags </a> </td>\n");
 
         print("<td align=\"center\"> $tags {$row['author']} $endtags </td>\n");
@@ -63,7 +63,7 @@ function output_quote_queue_rows($category, $showall = 0)
 } // output_quote_queue_rows
 
 
-function output_quote_queue_widgets($showall = 0)
+function output_quote_queue_widgets()
 {
     global $baseurl, $posturl;
 
@@ -71,15 +71,13 @@ function output_quote_queue_widgets($showall = 0)
 
     // !!! FIXME: 'q' is a leftover from IcculusNews queues.
     get_input_int('q', 'Category ID number', $q, 0);
+    get_input_bool('showall', 'show all posts', $showall, false);
 
-    if (isset($showall) == false)
-        $showall = 0;
-
-    $showallflip = 1;
+    $showallflip = true;
     $showalltext = "Show all items";
     if ($showall)
     {
-        $showallflip = 0;
+        $showallflip = false;
         $showalltext = "Show only pending items";
     } // if
 
@@ -142,7 +140,7 @@ echo <<< EOF
           </td>
           <td align="right">
             [
-            <a href="${_SERVER['PHP_SELF']}?action=view&showall=$showallflip">$showalltext</a>
+            <a href="${_SERVER['PHP_SELF']}?showall=$showallflip">$showalltext</a>
             |
             <a href="${_SERVER['PHP_SELF']}?action=changepw">Change password</a>
             |
@@ -227,22 +225,132 @@ echo <<< EOF
         </tr>
       </table>
       </form>
-
-      <br>
-
-      <table width="75%">
-        <tr>
-          <td align="center"><a href="${posturl}">Add new items.</a></td>
-          <td align="center"><a href="${baseurl}">View front page.</a></td>
-        </tr>
-      </table>
     </center>
 EOF;
 } // output_quote_queue_widgets
 
 
+function build_id_list($itemid, &$idlist)
+{
+    $idlist = '';
+    if (isset($itemid))
+    {
+        $or = '';
+        foreach ($itemid as $id)
+        {
+            if (!is_numeric($id))
+            {
+                write_error('bogus id specified');
+                return;
+            } // if
+            $idnum = (int) $id;
+            $idlist .= "${or}id=${idnum}";
+            $or = 'or ';
+        } // foreach
+
+        if ($idlist != '')
+            return true;
+    } // if
+
+    return false;
+} // build_id_list
+
+
+function process_delete_action()
+{
+    if (!build_id_list($_REQUEST['itemid'], $idlist))
+        return;
+
+    $sql = "update quotes set deleted=true, approved=false where deleted=false and $idlist;"
+    $affected = do_dbupdate($sql);
+    update_papertrail("deleted $affected quotes", $sql, $idlist);
+} // process_delete_action
+
+
+function process_undelete_action()
+{
+    if (!build_id_list($_REQUEST['itemid'], $idlist))
+        return;
+
+    $sql = "update quotes set deleted=false where deleted=true $idlist;"
+    $affected = do_dbupdate($sql);
+    update_papertrail("undeleted $affected quotes", $sql, $idlist);
+} // process_undelete_action
+
+
+function process_approve_action()
+{
+    if (!build_id_list($_REQUEST['itemid'], $idlist))
+        return;
+
+    $sql = "update quotes set approved=true where approved=false and deleted=false and $idlist;"
+    $affected = do_dbupdate($sql);
+    update_papertrail("approved $affected quotes", $sql, $idlist);
+} // process_approve_action
+
+
+function process_unapprove_action()
+{
+    if (!build_id_list($_REQUEST['itemid'], $idlist))
+        return;
+
+    $sql = "update quotes set approved=false where approved=true and $idlist;"
+    $affected = do_dbupdate($sql);
+    update_papertrail("unapproved $affected quotes", $sql, $idlist);
+} // process_unapprove_action
+
+
+function process_purge_action()
+{
+    if (!build_id_list($_REQUEST['itemid'], $idlist))
+        return;
+
+    $sql = "delete from quotes where deleted=true and $idlist;"
+    $affected = do_dbdelete($sql);
+    update_papertrail("purged $affected quotes", $sql);
+} // process_purge_action
+
+
+function process_purgeall_action()
+{
+    $sql = "delete from quotes where deleted=true;"
+    $affected = do_dbdelete($sql);
+    update_papertrail("purged $affected quotes", $sql);
+} // process_purgeall_action
+
+
+function requested_action($name)
+{
+    if ((get_input_string($name, $name, $x, '', true)) && ($x != ''))
+    {
+        write_debug("requested action '$name'");
+        return true;
+    } // if
+
+    return false;
+} // requested_action
+
+
+function process_possible_actions()
+{
+    if (requested_action('delete'))
+        process_delete_action();
+    else if (requested_action('undelete'))
+        process_undelete_action();
+    else if (requested_action('approve'))
+        process_approve_action();
+    else if (requested_action('unapprove'))
+        process_unapprove_action();
+    else if (requested_action('purge'))
+        process_purge_action();
+    else if (requested_action('purgeall'))
+        process_purgeall_action();
+} // process_possible_actions
+
+
 // mainline...
 render_header();
+process_possible_actions();
 output_quote_queue_widgets();
 render_footer();
 
