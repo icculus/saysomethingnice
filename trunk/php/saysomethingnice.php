@@ -6,6 +6,7 @@
 $baseurl = 'http://centralserver/saysomethingnice/';
 $rssurl = 'http://centralserver/saysomethingnice/rss.php';
 $quoteurl = 'http://centralserver/saysomethingnice/quote.php';
+$posturl = 'http://centralserver/saysomethingnice/post.php';
 
 require_once 'common.php';
 require_once 'database.php';

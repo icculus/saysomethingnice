@@ -28,6 +28,7 @@ do_dbquery(
         " text mediumtext not null," .
         " public bool not null," .
         " author varchar(128) not null," .
+        " ipaddr int unsigned not null," .
         " entrydate datetime not null," .
         " lastedit datetime not null," .
         " primary key (id)" .
