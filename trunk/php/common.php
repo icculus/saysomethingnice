@@ -68,7 +68,7 @@ function has_input($reqname)
 } // has_input
 
 
-function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=false, $allowblank=false)
+function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=false)
 {
     $val = $_REQUEST[$reqname];
     if (isset($val))
@@ -78,7 +78,7 @@ function get_input_sanitized($reqname, $reqtype, &$reqval, $defval=false, $allow
     } // if
     else
     {
-        if (!$defval)
+        if (!isset($defval))
         {
             write_error("No $reqtype specified.");
             return false;
