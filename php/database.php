@@ -107,7 +107,7 @@ function do_dbwrite($sql, $verb, $expected_rows = 1, $link = NULL)
         write_error("Problem in $upperverb statement: {$err}");
         return(false);
     } // if
-
+write_debug("expected rows: $expected_rows");
     $retval = mysql_affected_rows($link);
     if (($expected_rows >= 0) and ($retval != $expected_rows))
     {
