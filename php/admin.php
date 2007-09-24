@@ -41,7 +41,7 @@ function output_quote_queue_rows($category, $showall = 0)
             $pending++;
         } // else
 
-        $ip = $row['ipaddr'];
+        $ip = long2ip($row['ipaddr']);
 
         print("<tr>\n");
         print('<td align="center"> <input type="checkbox" name="itemid[]"');
