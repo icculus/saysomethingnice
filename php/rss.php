@@ -2,7 +2,7 @@
 
 require_once 'saysomethingnice.php';
 
-$query = do_dbquery('select * from quotes where approved=true and deleted=false order by entrydate desc limit 5;');
+$query = do_dbquery('select * from quotes where approved=true and deleted=false order by postdate desc limit 5;');
 if ($query == false)
 {
     header('HTTP/1.0 500 Internal Server Error');
@@ -20,7 +20,7 @@ if ($rowcount > 0)
 {
     $row = db_fetch_array($query);
     if ($row != false)
-        $newestentrytime = $row['entrydate'];
+        $newestentrytime = $row['postdate'];
     db_reset_array($query);
 } // if
 
@@ -31,8 +31,8 @@ while ( ($row = db_fetch_array($query)) != false )
 {
     $url = "${quoteurl}?id=${row['id']}";  // !!! FIXME: abstract this.
     $text = htmlentities($row['text'], ENT_QUOTES);
-    $entrydate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['entrydate']));
-    $items .= "<item><title>\"$text\"</title><pubDate>${entrydate}</pubDate>" .
+    $postdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate']));
+    $items .= "<item><title>\"$text\"</title><pubDate>${postdate}</pubDate>" .
               "<description>\"$text\"</description><link>$url</link></item>\n";
 } // while
 db_free_result($query);
