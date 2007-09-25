@@ -33,6 +33,7 @@ function get_email_url($id)
 function render_quote($text, $id = NULL)
 {
     $htmltext = htmlentities($text, ENT_QUOTES);
+    echo "<center>\n";
     echo "\"${htmltext}\"\n";
 
     if (isset($id))
