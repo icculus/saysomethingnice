@@ -38,6 +38,18 @@ do_dbquery(
 );
 
 do_dbquery(
+    "create table votes (" .
+        " id int not null auto_increment," .
+        " ipaddr int not null," .
+        " quoteid int not null," .
+        " rating tinyint not null," .
+        " ratedate datetime not null," .
+        " lastedit datetime not null," .
+        " primary key (id)" .
+    " );"
+);
+
+do_dbquery(
     "create table papertrail (" .
         " id int not null auto_increment," .
         " action text not null," .
