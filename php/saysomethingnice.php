@@ -7,6 +7,8 @@ $baseurl = 'http://centralserver/saysomethingnice/';
 $rssurl = 'http://centralserver/saysomethingnice/rss.php';
 $quoteurl = 'http://centralserver/saysomethingnice/quote.php';
 $emailurl = 'http://centralserver/saysomethingnice/email.php';
+$inappropriateurl = 'http://centralserver/saysomethingnice/inappropriate.php';
+$rateurl = 'http://centralserver/saysomethingnice/rate.php';
 $posturl = 'http://centralserver/saysomethingnice/post.php';
 
 require_once 'common.php';
@@ -27,7 +29,23 @@ function get_email_url($id)
     global $emailurl;
     $id = (int) $id;   // just in case it came from a URL or something.
     return "${emailurl}?id=${id}";
-} // get_quote_url
+} // get_email_url
+
+
+function get_inappropriate_url($id)
+{
+    global $inappropriateurl;
+    $id = (int) $id;   // just in case it came from a URL or something.
+    return "${inappropriateurl}?id=${id}";
+} // get_inappropriate_url
+
+
+function get_rate_url($id)
+{
+    global $rateurl;
+    $id = (int) $id;   // just in case it came from a URL or something.
+    return "${rateurl}?id=${id}";
+} // get_rate_url
 
 
 function render_quote($text, $id = NULL)
@@ -40,7 +58,14 @@ function render_quote($text, $id = NULL)
     {
         $quote_url = get_quote_url($id);
         $email_url = get_email_url($id);
-        echo "<p><font size='-3'>[ <a href='$quote_url'>link</a> | <a href='$email_url'>email</a> ]</font></p>\n";
+        $inappropriate_url = get_inappropriate_url($id);
+        $rate_url = get_rate_url($id);
+        echo "<p><font size='-3'>[" .
+             " <a href='$quote_url'>link</a> |" .
+             " <a href='$email_url'>email</a> |" .
+             " <a href='$inappropriate_url'>inappropriate</a> ]" .
+             " <a href='$rate_url'>rate</a> ]" .
+             " </font></p>\n";
     } // if
 
     echo "</center>\n";
