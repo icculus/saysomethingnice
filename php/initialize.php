@@ -28,6 +28,7 @@ do_dbquery(
         " text mediumtext not null," .
         " approved bool not null default false," .
         " deleted bool not null default false," .
+        " imageid int not null default 0," .
         " author varchar(128) not null," .
         " ipaddr int not null," .
         " postdate datetime not null," .
