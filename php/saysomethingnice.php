@@ -6,16 +6,43 @@
 $baseurl = 'http://centralserver/saysomethingnice/';
 $rssurl = 'http://centralserver/saysomethingnice/rss.php';
 $quoteurl = 'http://centralserver/saysomethingnice/quote.php';
+$emailurl = 'http://centralserver/saysomethingnice/email.php';
 $posturl = 'http://centralserver/saysomethingnice/post.php';
 
 require_once 'common.php';
 require_once 'database.php';
 require_once 'headerandfooter.php';
 
-function render_quote($text)
+
+function get_quote_url($id)
+{
+    global $quoteurl;
+    $id = (int) $id;   // just in case it came from a URL or something.
+    return "${quoteurl}?id=${id}";
+} // get_quote_url
+
+
+function get_email_url($id)
+{
+    global $emailurl;
+    $id = (int) $id;   // just in case it came from a URL or something.
+    return "${emailurl}?id=${id}";
+} // get_quote_url
+
+
+function render_quote($text, $id = NULL)
 {
     $htmltext = htmlentities($text, ENT_QUOTES);
-    echo "<center>\"${htmltext}\"</center>\n";
+    echo "\"${htmltext}\"\n";
+
+    if (isset($id))
+    {
+        $quote_url = get_quote_url($id);
+        $email_url = get_email_url($id);
+        echo "<p><font size='-3'>[ <a href='$quote_url'>link</a> | <a href='$email_url'>email</a> ]</font></p>\n";
+    } // if
+
+    echo "</center>\n";
 } // render_quote
 
 
@@ -29,7 +56,7 @@ function select_and_render_quote($sql)
         if ( ($row = db_fetch_array($query)) == false )
             write_error('No quote at the moment, apparently.');
         else
-            render_quote($row['text']);
+            render_quote($row['text'], $row['id']);
         db_free_result($query);
     } // else
 } // select_and_render_quote

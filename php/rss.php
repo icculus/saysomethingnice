@@ -30,7 +30,7 @@ $items = '';
 $digestitems = '';
 while ( ($row = db_fetch_array($query)) != false )
 {
-    $url = "${quoteurl}?id=${row['id']}";  // !!! FIXME: abstract this.
+    $url = get_quote_url($row['id']);
     $text = htmlentities($row['text'], ENT_QUOTES);
     $postdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate']));
     $items .= "<item><title>\"$text\"</title><pubDate>${postdate}</pubDate>" .
