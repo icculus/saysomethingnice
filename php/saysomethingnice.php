@@ -105,6 +105,20 @@ function add_admin($username, $password)
 } // add_admin
 
 
+function change_admin_password($user, $oldpass, $newpass)
+{
+    $user = db_escape_string($user);
+    $oldpass = SHA1($oldpass);
+    $pass = SHA1($newpass);
+
+    $sql = "update admins set password='$pass' where username=$user and password='$oldpass'";
+    $updated = (do_dbupdate($sql, 1) == 1);  // someone changed it from under you?
+    if ($updated)
+        update_papertrail("Admin '$username' password changed", $sql);
+    return $updated;
+} // change_admin_password
+
+
 function add_category($name)
 {
     $sqlname = db_escape_string($name);

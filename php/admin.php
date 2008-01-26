@@ -462,12 +462,7 @@ function process_changepw_action()
         return true;  // don't go on.
     } // if
 
-    $user = db_escape_string($user);
-    $oldpass = "'" . SHA1($_REQUEST['oldpass']) . "'";
-    $pass = "'" . SHA1($_REQUEST['newpass1']) . "'";
-
-    $sql = "update admins set password=$pass where username=$user and password=$oldpass";
-    if (do_dbupdate($sql, 1) < 1)  // someone changed it from under you?
+    if (!change_admin_password($user, $_REQUEST['oldpass'], $_REQUEST['newpass1']))
     {
         output_changepw_widgets();
         return true;  // don't go on.
