@@ -398,6 +398,7 @@ function process_movetocategory_action()
 
 function process_changepw_action()
 {
+write_error("change password!");
     if (!valid_admin_login())  // shouldn't happen, but just in case.
     {
         write_error("You don't seem to be logged in. Can't change password.");
