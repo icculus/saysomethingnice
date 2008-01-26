@@ -186,7 +186,7 @@ function admin_login_prompt()
     header("WWW-Authenticate: Basic realm=\"$realm\"");
     header('HTTP/1.0 401 Unauthorized');
     render_header();
-    echo '<center>This page requires a valid admin login.</center>';
+    write_error('This page requires a valid admin login.');
     render_footer();
     exit(0);
 } // admin_login_prompt
