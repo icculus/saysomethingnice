@@ -6,8 +6,6 @@ function render_header($title = 'Quick, say something nice!')
 {
     global $rssurl;
 
-    header('Content-type: text/html');
-
 // !!! FIXME: need more here, I guess.
 echo <<<EOF
 <html>
