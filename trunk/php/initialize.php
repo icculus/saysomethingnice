@@ -78,6 +78,10 @@ do_dbquery(
 echo "Inserting some initial rows...<br>\n";
 add_category('unsorted');
 
+// This is not a permanent password.  :)
+do_dbinsert("insert into admins (username, password) values ('icculus', SHA1('aaa'))");
+do_dbinsert("insert into admins (username, password) values ('carrie', SHA1('bbb'))");
+
 echo "...all done!<br>\n";
 
 render_footer();
