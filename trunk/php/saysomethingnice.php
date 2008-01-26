@@ -153,7 +153,7 @@ function valid_admin_login_internal()
     $pass = "'" . SHA1($pass) . "'";
 
     $sql = "select id from admins where username=$user and password=$pass";
-    $query = db_doquery($sql);
+    $query = do_dbquery($sql);
     if ($query == false)
         return false;
 

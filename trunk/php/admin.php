@@ -445,7 +445,7 @@ function process_changepw_action()
     $pass = "'" . SHA1($_REQUEST['newpass1']) . "'";
 
     $sql = "update admins set password=$pass where username=$user and password=$oldpass";
-    if (db_doupdate($sql, 1) < 1)  // someone changed it from under you?
+    if (do_dbupdate($sql, 1) < 1)  // someone changed it from under you?
     {
         output_changepw_widgets();
         return true;  // don't go on.
