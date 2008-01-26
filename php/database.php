@@ -63,7 +63,7 @@ function close_dblink($link = NULL)
 
 function db_escape_string($str)
 {
-    return(mysql_escape_string($str));
+    return("'" . mysql_escape_string($str) . "'");
 } // db_escape_string
 
 
@@ -181,7 +181,7 @@ function update_papertrail($action, $donesql, $quoteid=NULL)
     // Fill in the papertrail.
     $sql = 'insert into papertrail' .
            ' (action, sqltext, author, entrydate)' .
-           " values ('$sqlaction', '$sqlsql', '$sqlauthor', NOW());";
+           " values ($sqlaction, $sqlsql, $sqlauthor, NOW());";
     do_dbinsert($sql);
 } // update_papertrail
 
