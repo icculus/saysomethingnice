@@ -119,17 +119,23 @@ function output_quote_queue_widgets()
             var val = catname.options[catname.selectedIndex].value;
             if (val == 1)
             {
-                window.alert("you can't delete the '" + text + "' category. It's the default one.");
+                window.alert("You can't delete the '" + text + "' category. It's the default one.");
                 return false;
             } // if
             return window.confirm('Are you sure you want to delete "' + text + '"?');
         } // confirmdelete
+
+        function allowdelete(val)
+        {
+            var widget = document.getElementById('deletecategory');
+            widget.disabled = (val == 1);  // don't delete default queue.
+        } // enabledelete
     // -->
     </script>
 
 EOF;
 
-        $catlist .= 'Category: <select name="catid" id="catid" size="1">';
+        $catlist .= 'Category: <select onchange="allowdelete(this.options[this.selectedIndex].value);" name="catid" id="catid" size="1">';
         $catlist .= "\n";
 
         while (($row = db_fetch_array($query)) != false)
@@ -146,7 +152,7 @@ EOF;
         $catlist .= "\n";
         $catlist .= '<input type="submit" name="mvcatid" value="Move Selected To">';
         $catlist .= "\n";
-        $catlist .= '<input type="submit" name="deletecategory" value="Delete Category" onclick="return confirmdelete();" >';
+        $catlist .= '<input type="submit" id="deletecategory" name="deletecategory" value="Delete Category" onclick="return confirmdelete();" >';
         $catlist .= "\n";
     } // else if
 
