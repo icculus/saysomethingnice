@@ -108,6 +108,20 @@ function output_quote_queue_widgets()
 
     else if ($category_count > 1)
     {
+        echo <<< EOF
+
+    <script language="javascript">
+    <!--
+        function confirmdelete()
+        {
+            var catname = getElementById('catid');
+            return window.confirm('Are you sure you want to delete "' + catname.value + '"?');
+        } // confirmdelete
+    // -->
+    </script>
+
+EOF;
+
         $catlist .= 'Category: <select name="catid" size="1">';
         $catlist .= "\n";
 
@@ -125,7 +139,7 @@ function output_quote_queue_widgets()
         $catlist .= "\n";
         $catlist .= '<input type="submit" name="mvcatid" value="Move Selected To">';
         $catlist .= "\n";
-        $catlist .= '<input type="submit" name="deletecategory" value="Delete Category">';
+        $catlist .= '<input type="submit" name="deletecategory" value="Delete Category" onclick="return confirmdelete();" >';
         $catlist .= "\n";
     } // else if
 
