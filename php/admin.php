@@ -147,14 +147,14 @@ EOF;
             $catlist .= "<option $sel value=\"$catid\">$catname</option>\n";
         } // while
 
-        $disabled = ($q == 1) ? 'disabled="true"' : '';
+        $disabled = ($q == 1) ? ' disabled="true" ' : '';
 
         $catlist .= "</select>\n";
         $catlist .= '<input type="submit" name="chcatid" value="Change To">';
         $catlist .= "\n";
         $catlist .= '<input type="submit" name="mvcatid" value="Move Selected To">';
         $catlist .= "\n";
-        $catlist .= '<input type="submit" $disabled id="deletecategory" name="deletecategory" value="Delete Category" onclick="return confirmdelete();" >';
+        $catlist .= '<input type="submit"' . $disabled . 'id="deletecategory" name="deletecategory" value="Delete Category" onclick="return confirmdelete();" >';
         $catlist .= "\n";
     } // else if
 
