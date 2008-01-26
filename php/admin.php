@@ -116,14 +116,14 @@ function output_quote_queue_widgets()
         {
             var catname = document.getElementById('catid');
             var val = catname.options[catname.selectedIndex].text;
-            return confirm('Are you sure you want to delete "' + val + '"?');
+            return window.confirm('Are you sure you want to delete "' + val + '"?');
         } // confirmdelete
     // -->
     </script>
 
 EOF;
 
-        $catlist .= 'Category: <select name="catid" size="1">';
+        $catlist .= 'Category: <select name="catid" id="catid" size="1">';
         $catlist .= "\n";
 
         while (($row = db_fetch_array($query)) != false)
