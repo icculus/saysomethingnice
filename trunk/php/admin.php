@@ -114,7 +114,7 @@ function output_quote_queue_widgets()
     <!--
         function confirmdelete()
         {
-            var catname = getElementById('catid');
+            var catname = document.getElementById('catid');
             return window.confirm('Are you sure you want to delete "' + catname.value + '"?');
         } // confirmdelete
     // -->
@@ -380,8 +380,6 @@ function process_deletecategory_action()
 {
     if (!get_input_int('catid', 'Category ID', $catid))
         return;
-
-    // !!! FIXME: need a "REALLY SURE?!" thing here.
 
     delete_category((int) $catid);
     $_REQUEST['q'] = 1;
