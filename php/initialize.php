@@ -14,8 +14,8 @@ render_header();
 
 echo "building schema...<br>\n";
 
-do_dbquery("drop database if exists $dbname;");
-do_dbquery("create database $dbname;");
+do_dbquery("drop database if exists $dbname");
+do_dbquery("create database $dbname");
 
 close_dblink();  // force it to reselect the new database.
 
@@ -25,7 +25,7 @@ do_dbquery(
         " username varchar (64) not null," .
         " password char (40) not null," .  // SHA1 hash as ASCII string
         " primary key (id)" .
-    " ) character set utf8;"
+    " ) character set utf8"
 );
 
 do_dbquery(
@@ -33,7 +33,7 @@ do_dbquery(
         " id int not null auto_increment," .
         " name varchar(128) not null," .
         " primary key (id)" .
-    " );"
+    " ) character set utf8"
 );
 
 do_dbquery(
@@ -49,7 +49,7 @@ do_dbquery(
         " postdate datetime not null," .
         " lastedit datetime not null," .
         " primary key (id)" .
-    " );"
+    " ) character set utf8"
 );
 
 do_dbquery(
@@ -61,7 +61,7 @@ do_dbquery(
         " ratedate datetime not null," .
         " lastedit datetime not null," .
         " primary key (id)" .
-    " );"
+    " ) character set utf8"
 );
 
 do_dbquery(
@@ -72,7 +72,7 @@ do_dbquery(
         " author varchar(128) not null," .
         " entrydate datetime not null," .
         " primary key (id)" .
-    " );"
+    " ) character set utf8"
 );
 
 echo "Inserting some initial rows...<br>\n";

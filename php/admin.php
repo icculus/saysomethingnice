@@ -7,7 +7,6 @@ function output_quote_queue_rows($category, $showall = 0)
     $sql = "select * from quotes where category=$category";
     if (!$showall)  // show only pending?
         $sql .= ' and (approved=false or deleted=true)';
-    $sql .= ';';
 
     $query = do_dbquery($sql);
     if ($query == false)
@@ -84,7 +83,7 @@ function output_quote_queue_widgets()
     $form = get_form_tag();
     echo "$form <input type='hidden' name='showall' value='$showall'>\n";
 
-    $query = do_dbquery("select id, name from categories order by id;");
+    $query = do_dbquery("select id, name from categories order by id");
     if ($query == false)
         return;  // error output is handled in database.php ...
 
@@ -276,7 +275,7 @@ function process_delete_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "update quotes set deleted=true, approved=false where deleted=false and $idlist;";
+    $sql = "update quotes set deleted=true, approved=false where deleted=false and $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("deleted $affected quotes", $sql, $idlist);
 
@@ -289,7 +288,7 @@ function process_undelete_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "update quotes set deleted=false where deleted=true and $idlist;";
+    $sql = "update quotes set deleted=false where deleted=true and $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("undeleted $affected quotes", $sql, $idlist);
 
@@ -302,7 +301,7 @@ function process_approve_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "update quotes set approved=true where approved=false and deleted=false and $idlist;";
+    $sql = "update quotes set approved=true where approved=false and deleted=false and $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("approved $affected quotes", $sql, $idlist);
 
@@ -315,7 +314,7 @@ function process_unapprove_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "update quotes set approved=false where approved=true and $idlist;";
+    $sql = "update quotes set approved=false where approved=true and $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("unapproved $affected quotes", $sql, $idlist);
 
@@ -328,7 +327,7 @@ function process_purge_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return;
 
-    $sql = "delete from quotes where deleted=true and $idlist;";
+    $sql = "delete from quotes where deleted=true and $idlist";
     $affected = do_dbdelete($sql, -1);
     update_papertrail("purged $affected quotes", $sql);
 
@@ -338,7 +337,7 @@ function process_purge_action()
 
 function process_purgeall_action()
 {
-    $sql = "delete from quotes where deleted=true;";
+    $sql = "delete from quotes where deleted=true";
     $affected = do_dbdelete($sql, -1);
     update_papertrail("purged $affected quotes", $sql);
 
@@ -388,7 +387,7 @@ function process_movetocategory_action()
         return;
 
     $sqlid = db_escape_string($catid);
-    $sql = "update quotes set category=$sqlid where $idlist;";
+    $sql = "update quotes set category=$sqlid where $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("moved $affected quotes to category $catid", $sql, $idlist);
 

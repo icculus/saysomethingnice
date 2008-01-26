@@ -75,7 +75,7 @@ function do_dbquery($sql, $link = NULL)
     if ($link == NULL)
         return(false);
 
-    write_debug("SQL query: [$sql]");
+    write_debug("SQL query: [$sql;]");
 
     $rc = mysql_query($sql, $link);
     if ($rc == false)
@@ -97,7 +97,7 @@ function do_dbwrite($sql, $verb, $expected_rows = 1, $link = NULL)
     if ($link == NULL)
         return(false);
 
-    write_debug("SQL $verb: [$sql]");
+    write_debug("SQL $verb: [$sql;]");
 
     $rc = mysql_query($sql, $link);
     if ($rc == false)
@@ -181,7 +181,7 @@ function update_papertrail($action, $donesql, $quoteid=NULL)
     // Fill in the papertrail.
     $sql = 'insert into papertrail' .
            ' (action, sqltext, author, entrydate)' .
-           " values ($sqlaction, $sqlsql, $sqlauthor, NOW());";
+           " values ($sqlaction, $sqlsql, $sqlauthor, NOW())";
     do_dbinsert($sql);
 } // update_papertrail
 
