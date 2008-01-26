@@ -473,7 +473,7 @@ function process_logout_action()
 
 function requested_action($name)
 {
-    if ((get_input_string($name, $name, $x, '', true)) && ($x != ''))
+    if ((get_input_string('action', 'action', $x, '', true)) && ($x == $name))
     {
         write_debug("requested action '$name'");
         return true;
