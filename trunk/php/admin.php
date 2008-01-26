@@ -396,9 +396,30 @@ function process_movetocategory_action()
 } // process_movetocategory_action
 
 
+function output_changepw_widgets()
+{
+    $me_url = $_SERVER['PHP_SELF'];
+    $form = get_form_tag();
+    echo "$form\n";
+    echo "<input type='hidden' name='action' value='changepw' />\n";
+    echo "<table>\n";
+    echo "<tr><td>Current password:\n";
+    echo "<input type='password' name='oldpass' value='' /></td></tr>\n";
+    echo "<tr><td>New password:\n";
+    echo "<input type='password' name='newpass1' value='' /></td></tr>\n";
+    echo "<tr><td>Retype new password:\n";
+    echo "<input type='password' name='newpass2' value='' /></td></tr>\n";
+    echo "<tr>\n";
+    echo "<td><input type='submit' name='changepwsubmit' value='Change!' /></td>\n";
+    echo "<td><input type='reset' name='changepwreset' value='Reset!' /></td>\n";
+    echo "</tr>\n";
+    echo "<tr><td><a href='$me_url'>Nevermind.</a></td></tr>\n";
+    echo "</table></form>\n\n";
+} // output_changepw_widgets
+
+
 function process_changepw_action()
 {
-write_error("change password!");
     if (!valid_admin_login())  // shouldn't happen, but just in case.
     {
         write_error("You don't seem to be logged in. Can't change password.");
