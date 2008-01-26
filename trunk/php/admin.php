@@ -495,6 +495,12 @@ function requested_action($name)
         return true;
     } // if
 
+    else if ((get_input_string($name, $name, $x, '', true)) && ($x == $name))
+    {
+        write_debug("requested action '$name'");
+        return true;
+    } // if
+
     return false;
 } // requested_action
 
