@@ -506,6 +506,8 @@ function process_possible_actions()
         return process_movetocategory_action();
     else if (requested_action('changepw'))
         return process_changepw_action();
+
+    return false;
 } // process_possible_actions
 
 
