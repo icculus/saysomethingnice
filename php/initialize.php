@@ -77,10 +77,8 @@ do_dbquery(
 
 echo "Inserting some initial rows...<br>\n";
 add_category('unsorted');
-
-// This is not a permanent password.  :)
-do_dbinsert("insert into admins (username, password) values ('icculus', SHA1('aaa'))");
-do_dbinsert("insert into admins (username, password) values ('carrie', SHA1('bbb'))");
+add_admin('icculus', 'aaa');  // This is not a permanent password.  :)
+add_admin('carrie', 'bbb');  // This is not a permanent password.  :)
 
 echo "...all done!<br>\n";
 

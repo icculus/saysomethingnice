@@ -92,6 +92,19 @@ function render_random_quote()
 } // render_random_quote
 
 
+function add_admin($username, $password)
+{
+    $sqlname = db_escape_string($username);
+    $sqlpass = SHA1($password);
+
+    $sql = "insert into admins (usename, password) values ('$sqlname', '$sqlpass');";
+    $inserted = (do_dbinsert($sql) == 1);
+    if ($inserted)
+        update_papertrail("Admin '$username' added", $sql);
+    return $inserted;
+} // add_admin
+
+
 function add_category($name)
 {
     $sqlname = db_escape_string($name);
