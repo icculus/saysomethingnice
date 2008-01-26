@@ -115,8 +115,14 @@ function output_quote_queue_widgets()
         function confirmdelete()
         {
             var catname = document.getElementById('catid');
-            var val = catname.options[catname.selectedIndex].text;
-            return window.confirm('Are you sure you want to delete "' + val + '"?');
+            var text = catname.options[catname.selectedIndex].text;
+            var val = catname.options[catname.selectedIndex].value;
+            if (val == 1)
+            {
+                window.alert("you can't delete the '" + text + "' category. It's the default one.");
+                return false;
+            } // if
+            return window.confirm('Are you sure you want to delete "' + text + '"?');
         } // confirmdelete
     // -->
     </script>
