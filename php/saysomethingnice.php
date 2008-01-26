@@ -114,7 +114,7 @@ function change_admin_password($user, $oldpass, $newpass)
     $sql = "update admins set password='$pass' where username=$user and password='$oldpass'";
     $updated = (do_dbupdate($sql, 1) == 1);  // someone changed it from under you?
     if ($updated)
-        update_papertrail("Admin '$username' password changed", $sql);
+        update_papertrail("Admin '$user' password changed", $sql);
     return $updated;
 } // change_admin_password
 
