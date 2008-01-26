@@ -97,7 +97,7 @@ function add_admin($username, $password)
     $sqlname = db_escape_string($username);
     $sqlpass = SHA1($password);
 
-    $sql = "insert into admins (username, password) values ($sqlname, $sqlpass);";
+    $sql = "insert into admins (username, password) values ($sqlname, $sqlpass)";
     $inserted = (do_dbinsert($sql) == 1);
     if ($inserted)
         update_papertrail("Admin '$username' added", $sql);
@@ -122,7 +122,7 @@ function change_admin_password($user, $oldpass, $newpass)
 function add_category($name)
 {
     $sqlname = db_escape_string($name);
-    $sql = "insert into categories (name) values ($sqlname);";
+    $sql = "insert into categories (name) values ($sqlname)";
     $inserted = (do_dbinsert($sql) == 1);
     if ($inserted)
         update_papertrail("Category '$name' added", $sql);
@@ -139,12 +139,12 @@ function delete_category($id)
     } // if
 
     $sqlid = (int) $id;
-    $sql = "delete from categories where id=$sqlid;";
+    $sql = "delete from categories where id=$sqlid";
     $deleted = (do_dbdelete($sql) == 1);
     if ($deleted)
     {
         update_papertrail("Category '$id' deleted", $sql);
-        $sql = "update quotes set category=1 where category=$sqlid;";
+        $sql = "update quotes set category=1 where category=$sqlid";
         $moved = do_dbupdate($sql, -1);
         if ($moved)
             update_papertrail("Moved $moved quotes to unsorted category", $sql, "id=$sqlid");

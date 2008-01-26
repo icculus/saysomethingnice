@@ -17,7 +17,7 @@ function process_possible_submission()
     $ipaddr = ip2long($_SERVER['REMOTE_ADDR']);
 
     $sql = "insert into quotes (text, author, ipaddr, postdate, lastedit)" .
-           " values ($sqlquote, $sqlauthor, $ipaddr, NOW(), NOW());";
+           " values ($sqlquote, $sqlauthor, $ipaddr, NOW(), NOW())";
 
     if (do_dbinsert($sql) == 1)
         update_papertrail("Quote added", $sql);
