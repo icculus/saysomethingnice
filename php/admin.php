@@ -279,6 +279,8 @@ function process_delete_action()
     $sql = "update quotes set deleted=true, approved=false where deleted=false and $idlist;";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("deleted $affected quotes", $sql, $idlist);
+
+    return false;  // carry on.
 } // process_delete_action
 
 
@@ -290,6 +292,8 @@ function process_undelete_action()
     $sql = "update quotes set deleted=false where deleted=true and $idlist;";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("undeleted $affected quotes", $sql, $idlist);
+
+    return false;  // carry on.
 } // process_undelete_action
 
 
@@ -301,6 +305,8 @@ function process_approve_action()
     $sql = "update quotes set approved=true where approved=false and deleted=false and $idlist;";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("approved $affected quotes", $sql, $idlist);
+
+    return false;  // carry on.
 } // process_approve_action
 
 
@@ -312,6 +318,8 @@ function process_unapprove_action()
     $sql = "update quotes set approved=false where approved=true and $idlist;";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("unapproved $affected quotes", $sql, $idlist);
+
+    return false;  // carry on.
 } // process_unapprove_action
 
 
@@ -323,6 +331,8 @@ function process_purge_action()
     $sql = "delete from quotes where deleted=true and $idlist;";
     $affected = do_dbdelete($sql, -1);
     update_papertrail("purged $affected quotes", $sql);
+
+    return false;  // carry on.
 } // process_purge_action
 
 
@@ -331,6 +341,8 @@ function process_purgeall_action()
     $sql = "delete from quotes where deleted=true;";
     $affected = do_dbdelete($sql, -1);
     update_papertrail("purged $affected quotes", $sql);
+
+    return false;  // carry on.
 } // process_purgeall_action
 
 
@@ -339,6 +351,8 @@ function process_addcategory_action()
     if (!get_input_string('catname', 'Category name', $catname))
         return;
     add_category($catname);
+
+    return false;  // carry on.
 } // process_addcategory_action
 
 
@@ -351,6 +365,8 @@ function process_deletecategory_action()
 
     delete_category((int) $catid);
     $_REQUEST['q'] = 1;
+
+    return false;  // carry on.
 } // process_deletecategory_action
 
 
@@ -359,6 +375,8 @@ function process_changecategory_action()
     if (!get_input_int('catid', 'Category ID', $catid))
         return;
     $_REQUEST['q'] = (int) $catid;
+
+    return false;  // carry on.
 } // process_changecategory_action
 
 
@@ -373,7 +391,83 @@ function process_movetocategory_action()
     $sql = "update quotes set category=$sqlid where $idlist;";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("moved $affected quotes to category $catid", $sql, $idlist);
+
+    return false;  // carry on.
 } // process_movetocategory_action
+
+
+function process_changepw_action()
+{
+    if (!valid_admin_login())  // shouldn't happen, but just in case.
+    {
+        write_error("You don't seem to be logged in. Can't change password.");
+        return true;  // don't go on.
+    } // if
+
+    $user = $_SERVER['PHP_AUTH_USER'];
+    $htmluser = htmlentities($user, ENT_QUOTES);
+    echo "Changing password for $htmluser...<br>\n";
+
+    if ( (empty($_REQUEST['oldpass'])) || 
+         (empty($_REQUEST['newpass1'])) ||
+         (empty($_REQUEST['newpass2'])) )
+    {
+        if (!empty($_REQUEST['changepwsubmit']))
+            write_error("Please complete all fields.");
+        output_changepw_widgets();
+        return true;  // don't go on.
+    } // if
+
+    if ($_REQUEST['oldpass'] != $_SERVER['PHP_AUTH_PW'])
+    {
+        sleep(3);  // prevent brute force.
+        write_error("Old password is incorrect.");
+        output_changepw_widgets();
+        return true;  // don't go on.
+    } // if
+
+    if ($_REQUEST['newpass1'] != $_REQUEST['newpass2'])
+    {
+        write_error("Passwords don't match.");
+        output_changepw_widgets();
+        return true;  // don't go on.
+    } // if
+
+    if ($_REQUEST['newpass1'] == '')
+    {
+        write_error("Can't have a blank password!");
+        output_changepw_widgets();
+        return true;  // don't go on.
+    } // if
+
+    $user = db_escape_string($user);
+    $oldpass = "'" . SHA1($_REQUEST['oldpass']) . "'";
+    $pass = "'" . SHA1($_REQUEST['newpass1']) . "'";
+
+    $sql = "update admins set password=$pass where username=$user and password=$oldpass";
+    if (db_doupdate($sql, 1) < 1)  // someone changed it from under you?
+    {
+        output_changepw_widgets();
+        return true;  // don't go on.
+    } // if
+
+    $me_url = $_SERVER['PHP_SELF'];
+    echo "<center>\n";
+    echo "Okay, password changed!<br>\n";
+    echo "You'll need to <a href=\"$me_url\">log in again</a>.<br>\n";
+    echo "</center>\n";
+
+    return true;  // don't go on.
+} // process_changepw_action
+
+
+function process_logout_action()
+{
+    // apparently sending an HTTP 401 will cause most browsers to
+    //  flush their auth cache for the realm.
+    admin_login_prompt();
+    return true;  // don't go on.
+} // process_logout_action
 
 
 function requested_action($name)
@@ -391,32 +485,41 @@ function requested_action($name)
 function process_possible_actions()
 {
     if (requested_action('delete'))
-        process_delete_action();
+        return process_delete_action();
     else if (requested_action('undelete'))
-        process_undelete_action();
+        return process_undelete_action();
     else if (requested_action('approve'))
-        process_approve_action();
+        return process_approve_action();
     else if (requested_action('unapprove'))
-        process_unapprove_action();
+        return process_unapprove_action();
     else if (requested_action('purge'))
-        process_purge_action();
+        return process_purge_action();
     else if (requested_action('purgeall'))
-        process_purgeall_action();
+        return process_purgeall_action();
     else if (requested_action('addcategory'))
-        process_addcategory_action();
+        return process_addcategory_action();
     else if (requested_action('deletecategory'))
-        process_deletecategory_action();
+        return process_deletecategory_action();
     else if (requested_action('chcatid'))
-        process_changecategory_action();
+        return process_changecategory_action();
     else if (requested_action('mvcatid'))
-        process_movetocategory_action();
+        return process_movetocategory_action();
+    else if (requested_action('changepw'))
+        return process_changepw_action();
 } // process_possible_actions
 
 
 // mainline...
-render_header();
-process_possible_actions();
-output_quote_queue_widgets();
-render_footer();
+if (!valid_admin_login())
+    admin_login_prompt();
+else if (requested_action('logout'))
+    process_logout_action();  // have to do this before any output.
+else
+{
+    render_header();
+    if (!process_possible_actions())
+        output_quote_queue_widgets();
+    render_footer();
+} // else
 
 ?>

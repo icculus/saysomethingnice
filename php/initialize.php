@@ -2,6 +2,12 @@
 
 require_once 'saysomethingnice.php';
 
+//if (!valid_admin_login())
+//{
+//    admin_login_prompt();
+//    exit(0);
+//} // if
+
 // !!! FIXME: absolutely don't let this script run on a production site!
 
 render_header();
@@ -12,6 +18,15 @@ do_dbquery("drop database if exists $dbname;");
 do_dbquery("create database $dbname;");
 
 close_dblink();  // force it to reselect the new database.
+
+do_dbquery(
+    "create table admins (" .
+        " id int unsigned not null auto_increment," .
+        " username varchar (64) not null," .
+        " password char (40) not null," .  // SHA1 hash as ASCII string
+        " primary key (id)" .
+    " ) character set utf8;"
+);
 
 do_dbquery(
     "create table categories (" .

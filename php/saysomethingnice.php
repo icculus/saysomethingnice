@@ -126,4 +126,57 @@ function delete_category($id)
     return $deleted;
 } // add_category
 
+
+function valid_admin_login_internal()
+{
+    if (!isset($_SERVER['PHP_AUTH_USER']))
+        return false;
+    $user = $_SERVER['PHP_AUTH_USER'];
+    if (!isset($_SERVER['PHP_AUTH_PW']))
+        return false;
+    $pass = $_SERVER['PHP_AUTH_PW'];
+
+    $user = db_escape_string($user);
+    $pass = "'" . SHA1($pass) . "'";
+
+    $sql = "select id from admins where username=$user and password=$pass";
+    $query = db_doquery($sql);
+    if ($query == false)
+        return false;
+
+    $row = db_fetch_array($query);
+    if ($row == false)  // no matching login?
+    {
+        sleep(3);  // discourage brute-force attacks.
+        return false;
+    } // if
+
+    return true;  // we've got a match.
+} // valid_admin_login_internal
+
+
+function valid_admin_login()
+{
+    static $already_checked = false;  // don't hit database multiple times.
+    static $retval = false;
+    if (!$already_checked)
+    {
+        $already_checked = true;
+        $retval = valid_admin_login_internal();
+    } // if
+    return $retval;
+} // valid_admin_login
+
+
+function admin_login_prompt()
+{
+    $realm = "saysomethingnice admin";
+    header("WWW-Authenticate: Basic realm=\"$realm\"");
+    header('HTTP/1.0 401 Unauthorized');
+    render_header();
+    echo '<center>This page requires a valid admin login.</center>';
+    render_footer();
+    exit(0);
+} // admin_login_prompt
+
 ?>
