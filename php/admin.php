@@ -115,7 +115,8 @@ function output_quote_queue_widgets()
         function confirmdelete()
         {
             var catname = document.getElementById('catid');
-            return window.confirm('Are you sure you want to delete "' + catname.value + '"?');
+            var val = catname.options[catname.selectedIndex].text;
+            return window.confirm('Are you sure you want to delete "' + val + '"?');
         } // confirmdelete
     // -->
     </script>
