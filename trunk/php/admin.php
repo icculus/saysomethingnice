@@ -227,14 +227,21 @@ echo <<< EOF
             <input type="submit" name="purgeall"  value="Purge All">
           </td>
         </tr>
+      </table>
+      <input type='hidden' name='q' value='$q'>
+      </form>
+
+      $form
+      <input type='hidden' name='showall' value='$showall'>
+      <input type='hidden' name='q' value='$q'>
+      <table border="0" width="100%">
         <tr>
-          <td align="center" colspan="5">
+          <td align="center" colspan="1">
             <input type="text" name="catname" value="">
             <input type="submit" name="addcategory" value="Add Category">
           </td>
         </tr>
       </table>
-      <input type='hidden' name='q' value='$q'>
       </form>
     </center>
 EOF;
