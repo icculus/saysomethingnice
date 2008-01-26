@@ -122,10 +122,25 @@ function change_admin_password($user, $oldpass, $newpass)
 function add_category($name)
 {
     $sqlname = db_escape_string($name);
-    $sql = "insert into categories (name) values ($sqlname)";
-    $inserted = (do_dbinsert($sql) == 1);
-    if ($inserted)
-        update_papertrail("Category '$name' added", $sql);
+    $sql = "select id from categories where name=$sqlname limit 1";
+    $query = do_dbquery($sql);
+    if ($query == false)
+        return false;
+
+    $inserted = false;
+    $row = db_fetch_array($query);
+    if ($row != false)  // no matching login?
+    {
+        $id = $row['id'];
+        write_error("Category '$name' already exists (id #$id)");
+    } // if
+    else
+    {
+        $sql = "insert into categories (name) values ($sqlname)";
+        $inserted = (do_dbinsert($sql) == 1);
+        if ($inserted)
+            update_papertrail("Category '$name' added", $sql);
+    } // if
     return $inserted;
 } // add_category
 
