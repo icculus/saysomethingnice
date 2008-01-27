@@ -132,8 +132,9 @@ function add_rating($quoteid, $ipaddr, $rating)
     $inserted = (do_dbinsert($sql) == 1);
     if ($inserted)
     {
-        $ratestr = ($rating > 0) ? '++' : '--';
-        update_papertrail("Vote ${quoteid}${ratestr} from $ipaddr", $sql);
+        $ratestr = ($rating > 0) ? 'up' : 'down';
+        $ipstr = long2ip($ipaddr);
+        update_papertrail("Vote quote #${quoteid} ${ratestr} from $ipstr", $sql);
     } // if
     return $inserted;
 } // add_rating
