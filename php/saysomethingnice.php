@@ -95,6 +95,45 @@ function render_random_quote()
 } // render_random_quote
 
 
+function add_rating($quoteid, $ipaddr, $rating)
+{
+    $quoteid = (int) $quoteid;
+    $ipaddr = (int) ipaddr;
+    $rating = (int) $rating;
+
+    if ($rating == 0)
+        return true;  // don't do anything here.
+
+    $sql = "insert into votes (ipaddr, quoteid, rating, ratedate, lastedit)" .
+           " values ($ipaddr, $quoteid, $rating, NOW(), NOW())"
+    $inserted = (do_dbinsert($sql) == 1);
+    if ($inserted)
+    {
+        $ratestr = ($rating > 0) ? '++' : '--';
+        update_papertrail("Vote ${quoteid}${ratestr} from $ipaddr", $sql);
+    } // if
+    return $inserted;
+} // add_rating
+
+
+function update_rating($voteid, $ipaddr, $quoteid, $rating)
+{
+    $voteid = (int) $voteid;
+    $ipaddr = (int) $ipaddr;
+    $quoteid = (int) $quoteid;
+    $rating = (int) $rating;
+
+    $sql = "update votes set rating=$rating, lastedit=NOW()" .
+           " where voteid=$voteid and quoteid=$quoteid and ipaddr=$ipaddr" .
+           " and rating<>$rating";
+
+    $updated = (do_dbupdate($sql, 1) == 1);
+    if ($updated)
+        update_papertrail("Vote $voteid changed to $rating", $sql);
+    return $updated;
+} // update_rating
+
+
 function add_admin($username, $password)
 {
     $sqlname = db_escape_string($username);
