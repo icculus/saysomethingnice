@@ -8,8 +8,7 @@ if (!valid_admin_login())
     exit(0);
 } // if
 
-$enable_debug = true;  // always for this page.
-
+$always_show_papertrail = true;  // always for this page.
 
 // !!! FIXME: absolutely don't let this script run on a production site!
 
