@@ -31,8 +31,8 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
     exit(0);
 }
 
-error_reporting(E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
-set_error_handler('myErrorHandler');
+//error_reporting(E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
+//set_error_handler('myErrorHandler');
 
 if (!isset($_REQUEST['id']))
     return do404("id not specified");
