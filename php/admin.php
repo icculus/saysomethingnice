@@ -338,6 +338,7 @@ function output_edit_widgets($id)
     echo "</form>\n";
 
     echo "<a href='$me_url'>Nevermind.</a>\n";
+    return false;  // don't show queue.
 } // output_edit_widgets
 
 
