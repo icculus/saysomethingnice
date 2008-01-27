@@ -60,7 +60,7 @@ function output_quote_queue_rows($category, $showall = 0)
         print("</tr>\n");
     } // while
 
-    print('<tr><td align="center" colspan="5"><font color="#0000FF">');
+    print('<tr><td align="center" colspan="6"><font color="#0000FF">');
     print("$item_count items listed, $deleted deleted, $approved approved, $pending pending.</font></td></tr>\n");
 } // output_quote_queue_rows
 
@@ -243,14 +243,14 @@ EOF;
         output_quote_queue_rows($q, $showall);
     else
     {
-        print('<tr><td colspan="5" align="center"><font color="#0000FF">');
+        print('<tr><td colspan="6" align="center"><font color="#0000FF">');
         print("Please select a category from the above list.</font></td></tr>\n");
     } // else
 
 echo <<< EOF
 
         <tr>
-          <td align="center" colspan="5">
+          <td align="center" colspan="6">
             <input type="submit" name="refresh"   value="Refresh">
             <input type="submit" name="delete"    value="Delete">
             <input type="submit" name="undelete"  value="Undelete">
@@ -269,8 +269,8 @@ echo <<< EOF
       <input type='hidden' name='q' value='$q'>
       <table border="0" width="100%">
         <tr>
-          <td align="center" colspan="1">
-            <input type="text" name="catname" value="">
+          <td width="100%" align="center" colspan="1">
+            <input type="text" width="80%" name="catname" value="">
             <input type="submit" name="addcategory" value="Add Category">
           </td>
         </tr>
