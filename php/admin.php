@@ -349,7 +349,7 @@ function process_uploadpic_action()
     else if (empty($_REQUEST['uploadpicsubmit']))
         return output_edit_widgets($id);
 
-    else if (!isset($_FILES['imgfile'])
+    else if (!isset($_FILES['imgfile']))
         return output_edit_widgets($id);
     
     else if ($_FILES['imgfile']['error'] != UPLOAD_ERR_OK)
