@@ -281,10 +281,8 @@ EOF;
 } // output_quote_queue_widgets
 
 
-function process_edit_action()
+function output_edit_widgets($id)
 {
-    if (!get_input_int('id', 'Quote ID', $id))
-        return false;
     $sql = "select text,imageid,author,ipaddr from quotes where id=$id limit 1";
     $query = do_dbquery($sql);
     if ($query == false)
@@ -292,9 +290,112 @@ function process_edit_action()
 
     $row = db_fetch_array($query);
     if ($row == false)
+    {
+        write_error("No such quote...maybe it was deleted?");
+        return false;
+    } // if
+
+    $text = $row['text'];
+    $imgid = $row['imageid'];
+    $author = $row['author'];
+    $ipaddr = long2ip($row['ipaddr']);
+
+    $imgtag = '<i>(no image uploaded.)</i>';
+    if (isset($imgid))
+    {
+        $imgurl = get_img_url($imgid);
+        $imgtag = "<img src='$imgurl' alt='image #$imgid' title='image #$imgid'/>";
+    } // if
+
+    $me_url = $_SERVER['PHP_SELF'];
+    $form = get_form_tag();
+    echo "$form\n";
+    echo "<input type='hidden' name='action' value='edit' />\n";
+    echo "<input type='hidden' name='id' value='$id' />\n";
+    echo "<table>\n";
+    echo "<tr><td>Quote #$id</td></tr>\n";
+    echo "<tr><td>Text:\n";
+    echo "<input type='text' size='60' name='text' value='$text' /></td></tr>\n";
+    echo "<tr><td>Email:\n";
+    echo "<input type='text' size='60' name='author' value='$author' /></td></tr>\n";
+    echo "<tr><td>IP address:\n";
+    echo "<input type='text' size='60' name='ipaddr' value='$ipaddr' /></td></tr>\n";
+    echo "<tr>\n";
+    echo "<td><input type='submit' name='editsubmit' value='Change!' /></td>\n";
+    echo "<td><input type='reset' name='editreset' value='Reset!' /></td>\n";
+    echo "</tr>\n";
+    echo "</table></form>\n\n";
+
+    echo "<form enctype='multipart/form-data' method='post' action='$me_url'>";
+    echo "<table>\n";
+    echo "<input type='hidden' name='action' value='uploadpic' />\n";
+    echo "<input type='hidden' name='id' value='$id' />\n";
+    echo "<input type='hidden' name='MAX_FILE_SIZE' value='1024000' />\n";
+    echo "<tr><td>Image: $imgtag</td></tr>\n";
+    echo "<tr><td><input type='file' name='imgfile' />\n";
+    echo "<input type='submit' name='uploadpicsubmit' value='Upload Image' /></td></tr>\n";
+    echo "</table>\n";
+    echo "</form>\n";
+
+    echo "<a href='$me_url'>Nevermind.</a>\n";
+} // output_edit_widgets
+
+
+function process_uploadpic_action()
+{
+    if (!get_input_int('id', 'Quote ID', $id))
         return false;
 
+    else if (empty($_REQUEST['uploadpicsubmit']))
+        return output_edit_widgets($id);
+
+    else if (!isset($_FILES['imgfile'])
+        return output_edit_widgets($id);
     
+    else if ($_FILES['imgfile']['error'] != UPLOAD_ERR_OK)
+        return output_edit_widgets($id);
+
+    else if ($_FILES['imgfile']['size'] == 0)
+        return output_edit_widgets($id);
+
+    $filename = $_FILES['imgfile']['tmp_name'];
+    $finfo = finfo_open(FILEINFO_MIME);
+    $mime = finfo_file($finfo, $filename);
+    finfo_close($finfo);
+
+    $bin = file_get_contents($filename);
+    if ($bin === false)
+        return output_edit_widgets($id);
+
+    $ipaddr = ip2long($_SERVER['REMOTE_ADDR']);
+    add_image($bin, $mimetype, $ipaddr, $id);
+
+    return output_edit_widgets($id);
+} // process_uploadpic_action
+
+
+function process_edit_action()
+{
+    if (!get_input_int('id', 'Quote ID', $id))
+        return false;
+
+    else if (empty($_REQUEST['editsubmit']))
+        return output_edit_widgets($id);
+
+    else if (!get_input_string('text', 'Quote text', $text))
+        return output_edit_widgets($id);
+    
+    else if (!get_input_string('author', 'Quote author', $author))
+        return output_edit_widgets($id);
+    
+    else if (!get_input_string('ipaddr', 'IP address', $ipaddr))
+        return output_edit_widgets($id);
+
+    else if (ip2long($ipaddr) == 0)
+        return output_edit_widgets($id);
+
+    if (!update_quote($id, $text, $author, ip2long($ipaddr)))
+        return output_edit_widgets($id);
 
     return false;  // carry on.
 } // process_edit_action
@@ -585,6 +686,8 @@ function process_possible_actions()
         return process_movetocategory_action();
     else if (requested_action('changepw'))
         return process_changepw_action();
+    else if (requested_action('uploadpic'))
+        return process_uploadpic_action();
     else if (requested_action('edit'))
         return process_edit_action();
 
