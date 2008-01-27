@@ -49,11 +49,18 @@ function get_img_url($id)
 } // get_img_url
 
 
-function render_quote($text, $id = NULL)
+function render_quote_to_string($text, $id = NULL, $imageid = NULL)
 {
+    $retval = '';
     $htmltext = escapehtml($text);
-    echo "<center>\n";
-    echo "\"${htmltext}\"\n";
+    retval .= "<center>\n";
+    retval .= "\"${htmltext}\"\n";
+
+    if ( (isset($imageid)) && (((int) $imageid) > 0) )
+    {
+        $img_url = get_img_url($imageid);
+        retval .= "<br><img src='$img_url' />\n";
+    } // if
 
     if (isset($id))
     {
@@ -61,15 +68,23 @@ function render_quote($text, $id = NULL)
         $email_url = get_email_url($id);
         $good_url = get_rate_url($id, true);
         $bad_url = get_rate_url($id, false);
-        echo "<p><font size='-3'>[" .
-             " <a href='$quote_url'>link</a> |" .
-             " <a href='$email_url'>email</a> |" .
-             " <a href='$good_url'>thumbs up</a> |" .
-             " <a href='$bad_url'>thumbs down</a> ]" .
-             " </font></p>\n";
+        retval .= "<p><font size='-3'>[" .
+                  " <a href='$quote_url'>link</a> |" .
+                  " <a href='$email_url'>email</a> |" .
+                  " <a href='$good_url'>thumbs up</a> |" .
+                  " <a href='$bad_url'>thumbs down</a> ]" .
+                  " </font></p>\n";
     } // if
 
-    echo "</center>\n";
+    retval .= "</center>\n";
+
+    return retval;
+} // render_quote_to_string
+
+
+function render_quote($text, $id = NULL, $imageid = NULL)
+{
+    echo render_quote_to_string($text, $id, $imageid);
 } // render_quote
 
 
@@ -83,7 +98,7 @@ function select_and_render_quote($sql)
         if ( ($row = db_fetch_array($query)) == false )
             write_error('No quote at the moment, apparently.');
         else
-            render_quote($row['text'], $row['id']);
+            render_quote($row['text'], $row['id'], $row['imageid']);
         db_free_result($query);
     } // else
 } // select_and_render_quote
