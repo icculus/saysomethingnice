@@ -2,10 +2,10 @@
 
 require_once 'saysomethingnice.php';
 
-$already_404 = false;
 function do404($errstr = NULL)
 {
-    global $already_404, $enable_debug;
+    global $enable_debug;
+    static $already_404 = false;
     if ($already_404)
         return;
 
