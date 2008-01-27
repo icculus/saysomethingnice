@@ -32,7 +32,7 @@ while ( ($row = db_fetch_array($query)) != false )
 {
     $url = get_quote_url($row['id']);
     $text = escapehtml($row['text']);
-    $desc = render_quote_to_string($row['text'], $row['id'], $row['imageid']);
+    $desc = htmlescape(render_quote_to_string($row['text'], $row['id'], $row['imageid']));
 
     $postdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate']));
     $items .= "<item><title>\"${text}\"</title><pubDate>${postdate}</pubDate>" .

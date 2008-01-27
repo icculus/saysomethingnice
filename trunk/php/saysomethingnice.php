@@ -59,7 +59,7 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL)
     if ( (isset($imageid)) && (((int) $imageid) > 0) )
     {
         $img_url = get_img_url($imageid);
-        $retval .= "<br><img src='$img_url' />\n";
+        $retval .= "<br/><img src='$img_url' />\n";
     } // if
 
     if (isset($id))
