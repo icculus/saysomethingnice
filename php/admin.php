@@ -320,10 +320,10 @@ function output_edit_widgets($id)
     echo "<input type='text' size='60' name='author' value='$author' /></td></tr>\n";
     echo "<tr><td>IP address:\n";
     echo "<input type='text' size='60' name='ipaddr' value='$ipaddr' /></td></tr>\n";
-    echo "<tr>\n";
-    echo "<td><input type='submit' name='editsubmit' value='Change!' /></td>\n";
-    echo "<td><input type='reset' name='editreset' value='Reset!' /></td>\n";
-    echo "</tr>\n";
+    echo "<tr><td>\n";
+    echo "<input type='reset' name='editreset' value='Reset!' />\n";
+    echo "<input type='submit' name='editsubmit' value='Change!' />\n";
+    echo "</td></tr>\n";
     echo "</table></form>\n\n";
 
     echo "<form enctype='multipart/form-data' method='post' action='$me_url'>";
@@ -567,10 +567,10 @@ function output_changepw_widgets()
     echo "<input type='password' name='newpass1' value='' /></td></tr>\n";
     echo "<tr><td>Retype new password:\n";
     echo "<input type='password' name='newpass2' value='' /></td></tr>\n";
-    echo "<tr>\n";
-    echo "<td><input type='submit' name='changepwsubmit' value='Change!' /></td>\n";
-    echo "<td><input type='reset' name='changepwreset' value='Reset!' /></td>\n";
-    echo "</tr>\n";
+    echo "<tr><td>\n";
+    echo "<input type='reset' name='changepwreset' value='Reset!' />";
+    echo "<input type='submit' name='changepwsubmit' value='Change!' />\n";
+    echo "</td></tr>\n";
     echo "<tr><td><a href='$me_url'>Nevermind.</a></td></tr>\n";
     echo "</table></form>\n\n";
 } // output_changepw_widgets
