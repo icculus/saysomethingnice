@@ -20,8 +20,8 @@ function output_quote_queue_rows($category, $showall = 0)
 
         calculate_quote_rating($row['id'], $rating, $votes);
 
-        $row['author'] = htmlentities($row['author'], ENT_QUOTES);
-        $row['text'] = htmlentities($row['text'], ENT_QUOTES);
+        $row['author'] = escapehtml($row['author']);
+        $row['text'] = escapehtml($row['text']);
 
         $tags = $endtags = '';
         if ($row['deleted'])
@@ -104,7 +104,7 @@ function output_quote_queue_widgets()
         {
             if ($q == 0)
                 $q = $row['id'];
-            $catname = htmlentities($row['name'], ENT_QUOTES);
+            $catname = escapehtml($row['name']);
             $catlist = "Category: <i>$catname</i>";
         } // if
     } // else
@@ -146,7 +146,7 @@ EOF;
             $catid = $row['id'];
             $catname = $row['name'];
             $sel = (($catid == $q) ? 'selected' : '');
-            $catname = htmlentities($catname, ENT_QUOTES);
+            $catname = escapehtml($catname);
             $catlist .= "<option $sel value=\"$catid\">$catname</option>\n";
         } // while
 
@@ -295,9 +295,9 @@ function output_edit_widgets($id)
         return false;
     } // if
 
-    $text = htmlentities($row['text'], ENT_QUOTES);
+    $text = escapehtml($row['text']);
     $imgid = $row['imageid'];
-    $author = htmlentities($row['author'], ENT_QUOTES);
+    $author = escapehtml($row['author']);
     $ipaddr = long2ip($row['ipaddr']);
 
     $imgtag = '<i>(no image uploaded.)</i>';
@@ -399,8 +399,6 @@ function process_edit_action()
 
     if (!update_quote($id, $text, $author, ip2long($ipaddr)))
         return output_edit_widgets($id);
-
-echo "<br>$text<br>";
 
     return false;  // carry on.
 } // process_edit_action
@@ -589,7 +587,7 @@ function process_changepw_action()
     } // if
 
     $user = $_SERVER['PHP_AUTH_USER'];
-    $htmluser = htmlentities($user, ENT_QUOTES);
+    $htmluser = escapehtml($user);
     echo "Changing password for $htmluser...<br>\n";
 
     if ( (empty($_REQUEST['oldpass'])) || 

@@ -5,6 +5,12 @@
 $enable_debug = (!empty($_REQUEST['debug']));
 $always_show_papertrail = false;
 
+function escapehtml($str)
+{
+    return htmlentities($str, ENT_QUOTES, 'UTF-8');
+} // escapehtml
+
+
 function get_form_tag()
 {
     global $enable_debug;

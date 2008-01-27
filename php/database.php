@@ -169,7 +169,7 @@ function update_papertrail($action, $donesql, $quoteid=NULL, $doecho=false)
     $sqlauthor = db_escape_string($_SERVER['REMOTE_ADDR']);
     $sqlsql = db_escape_string($donesql);
     $sqlaction = db_escape_string($action);
-    $htmlaction = htmlentities($action, ENT_QUOTES);
+    $htmlaction = escapehtml($action);
 
     if ( ($enable_debug) || ($always_show_papertrail) || ($doecho) )
         echo "<font color='#00FF00'>$htmlaction</font><br>\n";

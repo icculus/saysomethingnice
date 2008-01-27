@@ -18,12 +18,12 @@ function render_papertrail()
     
     while ( ($row = db_fetch_array($query)) != false )
     {
-        $htmlaction = htmlentities($row['action'], ENT_QUOTES);
-        $htmlauthor = htmlentities($row['author'], ENT_QUOTES);
-        $htmlentrydate = htmlentities($row['entrydate'], ENT_QUOTES);
+        $htmlaction = escapehtml($row['action']);
+        $htmlauthor = escapehtml($row['author']);
+        $htmlentrydate = escapehtml($row['entrydate']);
         $htmlsql = '';
         if ($showsql)
-            $htmlsql = "<br>\n<code>" . htmlentities($row['sqltext'], ENT_QUOTES) . ";</code>";
+            $htmlsql = "<br>\n<code>" . escapehtml($row['sqltext']) . ";</code>";
         echo "  <li><b>$htmlaction</b>: <i>by $htmlauthor, on ${htmlentrydate}</i>${htmlsql}\n";
     } // while
     db_free_result($query);
