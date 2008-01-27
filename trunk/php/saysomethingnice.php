@@ -9,6 +9,7 @@ $quoteurl = 'http://centralserver/saysomethingnice/quote.php';
 $emailurl = 'http://centralserver/saysomethingnice/email.php';
 $rateurl = 'http://centralserver/saysomethingnice/rate.php';
 $posturl = 'http://centralserver/saysomethingnice/post.php';
+$imgurl = 'http://centralserver/saysomethingnice/image.php';
 
 require_once 'common.php';
 require_once 'database.php';
@@ -38,6 +39,14 @@ function get_rate_url($id, $good)
     $thumbs = $good ? "true" : "false";
     return "${rateurl}?id=${id}&thumbs=${thumbs}";
 } // get_rate_url
+
+
+function get_img_url($id)
+{
+    global $rateurl;
+    $id = (int) $id;   // just in case it came from a URL or something.
+    return "${imgurl}?id=${id}";
+} // get_img_url
 
 
 function render_quote($text, $id = NULL)
@@ -108,6 +117,29 @@ function add_quote($quote, $author, $ipaddr)
     if ($inserted)
         update_papertrail("Quote added", $sql);
     return $inserted;
+} // add_quote
+
+
+function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL)
+{
+    $id = (int) $id;
+
+    $updstr = '';
+    if (isset($quote))
+        $updstr .= ", text=" . db_escape_string($quote);
+    if (isset($author))
+        $updstr .= ", author=" . db_escape_string($author);
+    if (isset($ipaddr))
+        $updstr .= ", ipaddr=" . ((int) $ipaddr);
+
+    if ($updstr == '')
+        return true;
+
+    $sql = "update quotes set lastedit=NOW()$updstr where id=$id";
+    $updated = (do_dbupdate($sql, 1) == 1);
+    if ($updated)
+        update_papertrail("Updated quote", $sql);
+    return $updated;
 } // add_quote
 
 
@@ -252,6 +284,39 @@ function delete_category($id)
     } // if
     return $deleted;
 } // add_category
+
+
+function add_image($bin, $mimetype, $ipaddr, $id=-1)
+{
+    $sqlbin = db_escape_string($bin);
+    $sqlmime = db_escape_string($mimetype);
+    $ipaddr = (int) $ipaddr;
+    $id = (int) $id;
+
+    $sql = "insert into images (data, mimetype, ipaddr, postdate) values" .
+           " ($sqlbin, $sqlmime, $ipaddr, NOW())";
+    $inserted = (do_dbinsert($sql) == 1);
+    if ($inserted)
+        update_papertrail("Image added", $sql);
+
+    $updated = true;
+    if ($id > 0)
+    {
+        $sql = "update quotes set imageid=LAST_INSERT_ID(), lastedit=NOW() where id=$id";
+        $updated = do_dbupdate($sql);
+        if ($updated)
+            update_papertrail("Updated quote with new image", $sql);
+
+        // We don't delete the old image (if any) from the the database
+        //  when this replaces it...in theory, we could have multiple quotes
+        //  with the same image, or maybe we'll build a UI to list out
+        //  available images so you can (re)assign them between quotes. For
+        //  now, though, they're just orphaned data in the table, but at least
+        //  we can pull it out manually if we need it later.
+    } // if
+
+    return $inserted && $updated;
+} // add_image
 
 
 function valid_admin_login_internal()

@@ -165,8 +165,8 @@ function update_papertrail($action, $donesql, $quoteid=NULL, $doecho=false)
 {
     global $enable_debug;
 
-    // !!! FIXME: REMOTE_USER won't work here...
-    $sqlauthor = db_escape_string($_SERVER['REMOTE_USER']);
+    //$sqlauthor = db_escape_string($_SERVER['REMOTE_USER']);
+    $sqlauthor = $_SERVER['REMOTE_ADDR'];
     $sqlsql = db_escape_string($donesql);
     $sqlaction = db_escape_string($action);
     $htmlaction = htmlentities($action, ENT_QUOTES);

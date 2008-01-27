@@ -46,11 +46,22 @@ do_dbquery(
         " text mediumtext not null," .
         " approved bool not null default false," .
         " deleted bool not null default false," .
-        " imageid int not null default 0," .
+        " imageid int," .
         " author varchar(128) not null," .
         " ipaddr int not null," .
         " postdate datetime not null," .
         " lastedit datetime not null," .
+        " primary key (id)" .
+    " ) character set utf8"
+);
+
+do_dbquery(
+    "create table images (" .
+        " id int not null auto_increment," .
+        " data mediumblob not null," .
+        " mimetype varchar(64) not null," .
+        " ipaddr int not null," .
+        " postdate datetime not null," .
         " primary key (id)" .
     " ) character set utf8"
 );
