@@ -52,7 +52,7 @@ $xmltag
   <channel rdf:about="$rssurl">
     <title>Quick, say something nice!</title>
     <link>${baseurl}</link>
-    <description>Pulling your relationship out of the fire since 2007.</description>
+    <description>Pulling your relationship out of the fire since 2008.</description>
     <pubDate>${pubdate}</pubDate>
     <items>
       <rdf:Seq>
