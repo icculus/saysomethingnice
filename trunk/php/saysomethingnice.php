@@ -148,7 +148,7 @@ function update_rating($voteid, $ipaddr, $quoteid, $rating)
     $rating = (int) $rating;
 
     $sql = "update votes set rating=$rating, lastedit=NOW()" .
-           " where voteid=$voteid and quoteid=$quoteid and ipaddr=$ipaddr" .
+           " where id=$voteid and quoteid=$quoteid and ipaddr=$ipaddr" .
            " and rating<>$rating";
 
     $updated = (do_dbupdate($sql, 1) == 1);
