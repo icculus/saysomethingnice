@@ -1,5 +1,5 @@
 <?php
-
+echo "blah"; exit (1);
 require_once 'saysomethingnice.php';
 
 function do404($errstr = NULL)
