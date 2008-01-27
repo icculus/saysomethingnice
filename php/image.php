@@ -31,7 +31,9 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
     exit(0);
 }
 
-error_reporting(E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_ERROR);
+error_reporting(E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE |
+                E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING |
+                E_COMPILE_ERROR | E_COMPILE_WARNING);
 set_error_handler('myErrorHandler');
 
 if (!isset($_REQUEST['id']))
