@@ -4,7 +4,7 @@ require_once 'saysomethingnice.php';
 
 function process_vote()
 {
-    if (!get_input_string('thumbs', 'Thumb position', $quote)) return false;
+    if (!get_input_string('thumbs', 'Thumb position', $thumbs)) return false;
     if (!get_input_int('id', 'quote id', $quoteid)) return false;
 
     if (($thumbs != 'up') and ($thumbs != 'down'))
