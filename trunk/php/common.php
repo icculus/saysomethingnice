@@ -7,7 +7,7 @@ $always_show_papertrail = false;
 
 function escapehtml($str)
 {
-    return htmlentities($str, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 } // escapehtml
 
 
