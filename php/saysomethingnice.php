@@ -153,7 +153,11 @@ function update_rating($voteid, $ipaddr, $quoteid, $rating)
 
     $updated = (do_dbupdate($sql, 1) == 1);
     if ($updated)
-        update_papertrail("Vote $voteid changed to $rating", $sql);
+    {
+        $ratestr = ($rating > 0) ? 'up' : 'down';
+        $ipstr = long2ip($ipaddr);
+        update_papertrail("$ipstr changed vote for quote #${quoteid} to ${ratestr}", $sql);
+    } // if
     return $updated;
 } // update_rating
 
