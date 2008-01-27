@@ -121,7 +121,7 @@ function calculate_quote_rating($quoteid, &$rating, &$votes)
 function add_rating($quoteid, $ipaddr, $rating)
 {
     $quoteid = (int) $quoteid;
-    $ipaddr = (int) ipaddr;
+    $ipaddr = (int) $ipaddr;
     $rating = (int) $rating;
 
     if ($rating == 0)
