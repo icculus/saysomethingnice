@@ -400,6 +400,8 @@ function process_edit_action()
     if (!update_quote($id, $text, $author, ip2long($ipaddr)))
         return output_edit_widgets($id);
 
+echo "<br>$text<br>";
+
     return false;  // carry on.
 } // process_edit_action
 
