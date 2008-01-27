@@ -31,11 +31,12 @@ function get_email_url($id)
 } // get_email_url
 
 
-function get_rate_url($id)
+function get_rate_url($id, $good)
 {
     global $rateurl;
     $id = (int) $id;   // just in case it came from a URL or something.
-    return "${rateurl}?id=${id}";
+    $thumbs = $good ? "up" : "down";
+    return "${rateurl}?id=${id}&thumbs=${thumbs}";
 } // get_rate_url
 
 
@@ -49,11 +50,13 @@ function render_quote($text, $id = NULL)
     {
         $quote_url = get_quote_url($id);
         $email_url = get_email_url($id);
-        $rate_url = get_rate_url($id);
+        $good_url = get_rate_url($id, true);
+        $bad_url = get_rate_url($id, false);
         echo "<p><font size='-3'>[" .
              " <a href='$quote_url'>link</a> |" .
              " <a href='$email_url'>email</a> |" .
-             " <a href='$rate_url'>rate</a> ]" .
+             " <a href='$good_url'>thumbs up</a> |" .
+             " <a href='$bad_url'>thumbs down</a> ]" .
              " </font></p>\n";
     } // if
 
