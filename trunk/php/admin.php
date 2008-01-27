@@ -270,7 +270,7 @@ echo <<< EOF
       <table border="0" width="100%">
         <tr>
           <td width="100%" align="center" colspan="1">
-            <input type="text" size="150" name="catname" value="">
+            <input type="text" size="60" name="catname" value="">
             <input type="submit" name="addcategory" value="Add Category">
           </td>
         </tr>
