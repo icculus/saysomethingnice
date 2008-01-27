@@ -51,7 +51,7 @@ function get_img_url($id)
 
 function render_quote($text, $id = NULL)
 {
-    $htmltext = htmlentities($text, ENT_QUOTES);
+    $htmltext = escapehtml($text);
     echo "<center>\n";
     echo "\"${htmltext}\"\n";
 
