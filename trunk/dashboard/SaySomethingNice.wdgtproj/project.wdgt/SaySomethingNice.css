@@ -1,0 +1,15 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    background-image: url(Default.png);
+    background-repeat: no-repeat;
+}
+
+#content {
+    text-align: center;
+    position: absolute;
+    width: 328px;
+    height: 20px;
+    left: 19px;
+    top: 18px;
+}
