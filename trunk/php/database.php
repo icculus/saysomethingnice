@@ -161,17 +161,20 @@ function db_free_result($query)
 } // db_free_result
 
 
-function update_papertrail($action, $donesql, $quoteid=NULL)
+function update_papertrail($action, $donesql, $quoteid=NULL, $doecho=false)
 {
+    global $enable_debug;
+
     // !!! FIXME: REMOTE_USER won't work here...
     $sqlauthor = db_escape_string($_SERVER['REMOTE_USER']);
     $sqlsql = db_escape_string($donesql);
     $sqlaction = db_escape_string($action);
     $htmlaction = htmlentities($action, ENT_QUOTES);
 
-    echo "<font color='#00FF00'>$htmlaction</font><br>\n";
+    if (($enable_debug) || ($doecho))
+        echo "<font color='#00FF00'>$htmlaction</font><br>\n";
 
-    // Update quote.lastedit field if this involves an extension.
+    // Update quote.lastedit field if this involves a quote.
     if (isset($quoteid))
     {
         $sql = "update quotes set lastedit=NOW() where $quoteid";

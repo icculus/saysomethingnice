@@ -19,8 +19,13 @@ function process_possible_submission()
     $sql = "insert into quotes (text, author, ipaddr, postdate, lastedit)" .
            " values ($sqlquote, $sqlauthor, $ipaddr, NOW(), NOW())";
 
-    if (do_dbinsert($sql) == 1)
+    $inserted = (do_dbinsert($sql) == 1);
+    if ($inserted)
+    {
         update_papertrail("Quote added", $sql);
+        echo '<center><font color="#0000FF">Quote added, thanks!</font></center>';
+    } // if
+    return $inserted;
 } // process_possible_submission
 
 

@@ -317,7 +317,7 @@ function process_delete_action()
 
     $sql = "update quotes set deleted=true, approved=false where deleted=false and $idlist";
     $affected = do_dbupdate($sql, -1);
-    update_papertrail("deleted $affected quotes", $sql, $idlist);
+    update_papertrail("deleted $affected quotes", $sql, $idlist, true);
 
     return false;  // carry on.
 } // process_delete_action
@@ -330,7 +330,7 @@ function process_undelete_action()
 
     $sql = "update quotes set deleted=false where deleted=true and $idlist";
     $affected = do_dbupdate($sql, -1);
-    update_papertrail("undeleted $affected quotes", $sql, $idlist);
+    update_papertrail("undeleted $affected quotes", $sql, $idlist, true);
 
     return false;  // carry on.
 } // process_undelete_action
@@ -343,7 +343,7 @@ function process_approve_action()
 
     $sql = "update quotes set approved=true where approved=false and deleted=false and $idlist";
     $affected = do_dbupdate($sql, -1);
-    update_papertrail("approved $affected quotes", $sql, $idlist);
+    update_papertrail("approved $affected quotes", $sql, $idlist, true);
 
     return false;  // carry on.
 } // process_approve_action
@@ -356,7 +356,7 @@ function process_unapprove_action()
 
     $sql = "update quotes set approved=false where approved=true and $idlist";
     $affected = do_dbupdate($sql, -1);
-    update_papertrail("unapproved $affected quotes", $sql, $idlist);
+    update_papertrail("unapproved $affected quotes", $sql, $idlist, true);
 
     return false;  // carry on.
 } // process_unapprove_action
@@ -369,7 +369,7 @@ function process_purge_action()
 
     $sql = "delete from quotes where deleted=true and $idlist";
     $affected = do_dbdelete($sql, -1);
-    update_papertrail("purged $affected quotes", $sql);
+    update_papertrail("purged $affected quotes", $sql, NULL, true);
 
     return false;  // carry on.
 } // process_purge_action
@@ -379,7 +379,7 @@ function process_purgeall_action()
 {
     $sql = "delete from quotes where deleted=true";
     $affected = do_dbdelete($sql, -1);
-    update_papertrail("purged $affected quotes", $sql);
+    update_papertrail("purged $affected quotes", $sql, NULL, true);
 
     return false;  // carry on.
 } // process_purgeall_action
@@ -427,7 +427,7 @@ function process_movetocategory_action()
     $sqlid = db_escape_string($catid);
     $sql = "update quotes set category=$sqlid where $idlist";
     $affected = do_dbupdate($sql, -1);
-    update_papertrail("moved $affected quotes to category $catid", $sql, $idlist);
+    update_papertrail("moved $affected quotes to category $catid", $sql, $idlist, true);
 
     return false;  // carry on.
 } // process_movetocategory_action
