@@ -295,9 +295,9 @@ function output_edit_widgets($id)
         return false;
     } // if
 
-    $text = $row['text'];
+    $text = htmlentities($row['text'], ENT_QUOTES);
     $imgid = $row['imageid'];
-    $author = $row['author'];
+    $author = htmlentities($row['author'], ENT_QUOTES);
     $ipaddr = long2ip($row['ipaddr']);
 
     $imgtag = '<i>(no image uploaded.)</i>';
