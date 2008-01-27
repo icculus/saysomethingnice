@@ -44,7 +44,7 @@ if ($id == 0)
     return do404("id not valid");
 
 $sql = "select data, mimetype from images where id=$id limit 1";
-$query = db_doquery($sql);
+$query = do_dbquery($sql);
 if ($query == false)
     return do404("SQL query failed");
 
