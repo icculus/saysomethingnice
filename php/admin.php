@@ -388,7 +388,7 @@ function process_edit_action()
     else if (!get_input_string('text', 'Quote text', $text))
         return output_edit_widgets($id);
     
-    else if (!get_input_string('author', 'Quote author', $author))
+    else if (!get_input_string('author', 'Quote author', $author, '', true))
         return output_edit_widgets($id);
     
     else if (!get_input_string('ipaddr', 'IP address', $ipaddr))
