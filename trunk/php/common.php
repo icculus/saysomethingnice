@@ -3,6 +3,7 @@
 //$enable_debug = true;
 //$enable_debug = false;
 $enable_debug = (!empty($_REQUEST['debug']));
+$always_show_papertrail = false;
 
 function get_form_tag()
 {
