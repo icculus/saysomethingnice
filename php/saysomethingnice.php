@@ -53,13 +53,13 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL)
 {
     $retval = '';
     $htmltext = escapehtml($text);
-    retval .= "<center>\n";
-    retval .= "\"${htmltext}\"\n";
+    $retval .= "<center>\n";
+    $retval .= "\"${htmltext}\"\n";
 
     if ( (isset($imageid)) && (((int) $imageid) > 0) )
     {
         $img_url = get_img_url($imageid);
-        retval .= "<br><img src='$img_url' />\n";
+        $retval .= "<br><img src='$img_url' />\n";
     } // if
 
     if (isset($id))
@@ -68,17 +68,17 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL)
         $email_url = get_email_url($id);
         $good_url = get_rate_url($id, true);
         $bad_url = get_rate_url($id, false);
-        retval .= "<p><font size='-3'>[" .
-                  " <a href='$quote_url'>link</a> |" .
-                  " <a href='$email_url'>email</a> |" .
-                  " <a href='$good_url'>thumbs up</a> |" .
-                  " <a href='$bad_url'>thumbs down</a> ]" .
-                  " </font></p>\n";
+        $retval .= "<p><font size='-3'>[" .
+                   " <a href='$quote_url'>link</a> |" .
+                   " <a href='$email_url'>email</a> |" .
+                   " <a href='$good_url'>thumbs up</a> |" .
+                   " <a href='$bad_url'>thumbs down</a> ]" .
+                   " </font></p>\n";
     } // if
 
-    retval .= "</center>\n";
+    $retval .= "</center>\n";
 
-    return retval;
+    return $retval;
 } // render_quote_to_string
 
 
