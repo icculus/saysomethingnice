@@ -43,7 +43,7 @@ function get_rate_url($id, $good)
 
 function get_img_url($id)
 {
-    global $rateurl;
+    global $imgurl;
     $id = (int) $id;   // just in case it came from a URL or something.
     return "${imgurl}?id=${id}";
 } // get_img_url
