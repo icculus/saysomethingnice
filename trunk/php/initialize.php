@@ -95,6 +95,12 @@ add_admin('carrie', 'bbb');  // This is not a permanent password.  :)
 add_quote("I love your cats.", 'carrie@icculus.org', ip2long('127.0.0.1'));
 add_quote("mumumumumumumu.", 'icculus@icculus.org', ip2long('127.0.0.1'));
 
+// This is apparently something like "I will just give it a try, I will
+//  have a go at it" in Japanese Kanji...just making sure the UTF-8 support
+//  works...
+// http://www.saiga-jp.com/kanji_dictionary.html
+add_quote("一つやってみよう（ひとつやってみよう）", 'icculus@icculus.org', ip2long('127.0.0.1'));
+
 echo "...all done!<br>\n";
 
 render_footer();
