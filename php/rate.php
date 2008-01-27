@@ -14,6 +14,7 @@ function process_vote()
     } // if
 
     $rating = ($thumbs == 'up') ? 1 : -1;
+    $ipaddr = ip2long($_SERVER['REMOTE_ADDR']);
 
     $sql = "select id,rating from votes where quoteid=$quoteid and ipaddr=$ipaddr limit 1";
     $query = do_dbquery($sql);
