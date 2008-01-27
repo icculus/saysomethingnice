@@ -338,7 +338,7 @@ function output_edit_widgets($id)
     echo "</form>\n";
 
     echo "<a href='$me_url'>Nevermind.</a>\n";
-    return false;  // don't show queue.
+    return true;  // don't show queue.
 } // output_edit_widgets
 
 
@@ -697,6 +697,7 @@ function process_possible_actions()
 
 
 // mainline...
+$always_show_papertrail = true;
 if (!valid_admin_login())
     admin_login_prompt();
 else if (requested_action('logout'))

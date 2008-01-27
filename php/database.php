@@ -163,7 +163,7 @@ function db_free_result($query)
 
 function update_papertrail($action, $donesql, $quoteid=NULL, $doecho=false)
 {
-    global $enable_debug;
+    global $enable_debug, $always_show_papertrail;
 
     //$sqlauthor = db_escape_string($_SERVER['REMOTE_USER']);
     $sqlauthor = $_SERVER['REMOTE_ADDR'];
@@ -171,7 +171,7 @@ function update_papertrail($action, $donesql, $quoteid=NULL, $doecho=false)
     $sqlaction = db_escape_string($action);
     $htmlaction = htmlentities($action, ENT_QUOTES);
 
-    if (($enable_debug) || ($doecho))
+    if ( ($enable_debug) || ($always_show_papertrail) || ($doecho) )
         echo "<font color='#00FF00'>$htmlaction</font><br>\n";
 
     // Update quote.lastedit field if this involves a quote.
