@@ -95,6 +95,22 @@ function render_random_quote()
 } // render_random_quote
 
 
+function add_quote($quote, $author, $ipaddr)
+{
+    $sqlquote = db_escape_string($quote);
+    $sqlauthor = db_escape_string($author);
+    $ipaddr = (int) $ipaddr;
+
+    $sql = "insert into quotes (text, author, ipaddr, postdate, lastedit)" .
+           " values ($sqlquote, $sqlauthor, $ipaddr, NOW(), NOW())";
+
+    $inserted = (do_dbinsert($sql) == 1);
+    if ($inserted)
+        update_papertrail("Quote added", $sql);
+    return $inserted;
+} // add_quote
+
+
 function calculate_quote_rating($quoteid, &$rating, &$votes)
 {
     // !!! FIXME: this is all probably wickedly inefficient once you get some

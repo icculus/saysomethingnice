@@ -11,21 +11,8 @@ function process_possible_submission()
     if (!get_input_string('author', 'Email address', $author, '', true)) return;
 
     write_debug('Got an apparently non-bogus submission!');
-
-    $sqlquote = db_escape_string($quote);
-    $sqlauthor = db_escape_string($author);
-    $ipaddr = ip2long($_SERVER['REMOTE_ADDR']);
-
-    $sql = "insert into quotes (text, author, ipaddr, postdate, lastedit)" .
-           " values ($sqlquote, $sqlauthor, $ipaddr, NOW(), NOW())";
-
-    $inserted = (do_dbinsert($sql) == 1);
-    if ($inserted)
-    {
-        update_papertrail("Quote added", $sql);
+    if (add_quote($quote, $author, ip2long($_SERVER['REMOTE_ADDR'])))
         echo '<center><font color="#0000FF">Quote added, thanks!</font></center>';
-    } // if
-    return $inserted;
 } // process_possible_submission
 
 
