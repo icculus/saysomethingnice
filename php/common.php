@@ -114,7 +114,7 @@ function get_input_bool($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=
     $tmp = strtolower($tmp);
     if (($tmp == 'y') || ($tmp == 'yes') ||
         ($tmp == 't') || ($tmp == 'true') ||
-        ($tmp == '1'))
+        ($tmp == '1') || ($tmp == 'up'))
     {
         $reqval = 1;
         return true;
@@ -122,7 +122,7 @@ function get_input_bool($reqname, $reqtype, &$reqval, $defval=NULL, $allowblank=
 
     if (($tmp == 'n') || ($tmp == 'no') ||
         ($tmp == 'f') || ($tmp == 'false') ||
-        ($tmp == '0'))
+        ($tmp == '0') || ($tmp == 'down'))
     {
         $reqval = 0;
         return true;

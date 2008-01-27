@@ -35,7 +35,7 @@ function get_rate_url($id, $good)
 {
     global $rateurl;
     $id = (int) $id;   // just in case it came from a URL or something.
-    $thumbs = $good ? "up" : "down";
+    $thumbs = $good ? "true" : "false";
     return "${rateurl}?id=${id}&thumbs=${thumbs}";
 } // get_rate_url
 
