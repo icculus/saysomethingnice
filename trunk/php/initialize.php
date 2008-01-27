@@ -2,11 +2,14 @@
 
 require_once 'saysomethingnice.php';
 
-//if (!valid_admin_login())
-//{
-//    admin_login_prompt();
-//    exit(0);
-//} // if
+if (!valid_admin_login())
+{
+    admin_login_prompt();
+    exit(0);
+} // if
+
+$enable_debug = true;  // always for this page.
+
 
 // !!! FIXME: absolutely don't let this script run on a production site!
 
