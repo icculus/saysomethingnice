@@ -95,6 +95,29 @@ function render_random_quote()
 } // render_random_quote
 
 
+function calculate_quote_rating($quoteid, &$rating, &$votes)
+{
+    // !!! FIXME: this is all probably wickedly inefficient once you get some
+    // !!! FIXME:  data into the tables...
+    $rating = 0;
+    $votes = 0;
+    $quoteid = (int) $quoteid;
+
+    $sql = "select rating from votes where quoteid=$quoteid";
+    $query = do_dbquery($sql);
+    if ($query == false)
+        write_error('query failed');
+    else
+    {
+        while ( ($row = db_fetch_array($query)) != false )
+        {
+            $rating += $row['rating'];
+            $votes++;
+        } // while
+    } // else
+} // calculate_quote_rating
+
+
 function add_rating($quoteid, $ipaddr, $rating)
 {
     $quoteid = (int) $quoteid;
