@@ -105,7 +105,7 @@ function add_rating($quoteid, $ipaddr, $rating)
         return true;  // don't do anything here.
 
     $sql = "insert into votes (ipaddr, quoteid, rating, ratedate, lastedit)" .
-           " values ($ipaddr, $quoteid, $rating, NOW(), NOW())"
+           " values ($ipaddr, $quoteid, $rating, NOW(), NOW())";
     $inserted = (do_dbinsert($sql) == 1);
     if ($inserted)
     {
