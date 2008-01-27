@@ -18,6 +18,8 @@ function output_quote_queue_rows($category, $showall = 0)
     {
         $item_count++;
 
+        calculate_quote_rating($row['id'], $rating, $votes);
+
         $row['author'] = htmlentities($row['author'], ENT_QUOTES);
         $row['text'] = htmlentities($row['text'], ENT_QUOTES);
 
@@ -54,6 +56,7 @@ function output_quote_queue_rows($category, $showall = 0)
 
         print("<td align=\"center\"> $tags {$row['author']} $endtags </td>\n");
         print("<td align=\"center\"> $tags $ip $endtags </td>\n");
+        print("<td align=\"center\"> $tags $rating ($votes votes) $endtags </td>\n");
         print("</tr>\n");
     } // while
 
@@ -228,6 +231,7 @@ echo <<< EOF
           <td align="center"> text </td>
           <td align="center"> author </td>
           <td align="center"> ip addr </td>
+          <td align="center"> rating </td>
         </tr>
 
 EOF;
