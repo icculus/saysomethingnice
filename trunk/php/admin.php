@@ -360,9 +360,11 @@ function process_uploadpic_action()
         return output_edit_widgets($id);
 
     $filename = $_FILES['imgfile']['tmp_name'];
-    $finfo = finfo_open(FILEINFO_MIME);
-    $mime = finfo_file($finfo, $filename);
-    finfo_close($finfo);
+    //$finfo = finfo_open(FILEINFO_MIME);
+    //$mime = finfo_file($finfo, $filename);
+    //finfo_close($finfo);
+    $escaped = escapeshellcmd($filename);
+    $mime = `file --brief --mime $escaped`;
 
     $bin = file_get_contents($filename);
     if ($bin === false)
