@@ -14,12 +14,12 @@ function do404($errstr = NULL)
     header('Connection: close');
     header('Content-Type: text/html');
 
-    include '../htmlhead.php';
-    echo "<h1>Photo retrieval</h1>\n";
+    render_header();
+    echo "<h1>Image retrieval</h1>\n";
     write_error("404 Not Found");
     if ( ($enable_debug) && (isset($errstr)) )
         write_error("'$errstr' ($errno) at $errfile:$errline\n");
-    include '../htmlfoot.php';
+    render_footer();
 
     return 0;
 }
