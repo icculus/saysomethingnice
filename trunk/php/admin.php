@@ -301,7 +301,7 @@ function output_edit_widgets($id)
     $ipaddr = long2ip($row['ipaddr']);
 
     $imgtag = '<i>(no image uploaded.)</i>';
-    if (isset($imgid))
+    if ( (isset($imgid)) && (((int) $imgid) > 0) )
     {
         $imgurl = get_img_url($imgid);
         $imgtag = "<img src='$imgurl' alt='image #$imgid' title='image #$imgid'/>";
