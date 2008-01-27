@@ -4,16 +4,10 @@ require_once 'saysomethingnice.php';
 
 function process_vote()
 {
-    if (!get_input_string('thumbs', 'Thumb position', $thumbs)) return false;
+    if (!get_input_bool('thumbs', 'Thumb position', $thumbs)) return false;
     if (!get_input_int('id', 'quote id', $quoteid)) return false;
 
-    if (($thumbs != 'up') and ($thumbs != 'down'))
-    {
-        write_error("'thumbs' isn't 'up' or 'down' ...");
-        return false;
-    } // if
-
-    $rating = ($thumbs == 'up') ? 1 : -1;
+    $rating = ($thumbs) ? 1 : -1;
     $ipaddr = ip2long($_SERVER['REMOTE_ADDR']);
 
     $sql = "select id,rating from votes where quoteid=$quoteid and ipaddr=$ipaddr limit 1";

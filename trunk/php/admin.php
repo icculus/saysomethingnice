@@ -281,6 +281,25 @@ EOF;
 } // output_quote_queue_widgets
 
 
+function process_edit_action()
+{
+    if (!get_input_int('id', 'Quote ID', $id))
+        return false;
+    $sql = "select text,imageid,author,ipaddr from quotes where id=$id limit 1";
+    $query = do_dbquery($sql);
+    if ($query == false)
+        return false;  // do_dbquery will have spit out an error.
+
+    $row = db_fetch_array($query);
+    if ($row == false)
+        return false;
+
+    
+
+    return false;  // carry on.
+} // process_edit_action
+
+
 function build_id_list($itemid, &$idlist)
 {
     $idlist = '';
@@ -313,7 +332,7 @@ function build_id_list($itemid, &$idlist)
 function process_delete_action()
 {
     if (!build_id_list($_REQUEST['itemid'], $idlist))
-        return;
+        return false;
 
     $sql = "update quotes set deleted=true, approved=false where deleted=false and $idlist";
     $affected = do_dbupdate($sql, -1);
@@ -326,7 +345,7 @@ function process_delete_action()
 function process_undelete_action()
 {
     if (!build_id_list($_REQUEST['itemid'], $idlist))
-        return;
+        return false;
 
     $sql = "update quotes set deleted=false where deleted=true and $idlist";
     $affected = do_dbupdate($sql, -1);
@@ -339,7 +358,7 @@ function process_undelete_action()
 function process_approve_action()
 {
     if (!build_id_list($_REQUEST['itemid'], $idlist))
-        return;
+        return false;
 
     $sql = "update quotes set approved=true where approved=false and deleted=false and $idlist";
     $affected = do_dbupdate($sql, -1);
@@ -352,7 +371,7 @@ function process_approve_action()
 function process_unapprove_action()
 {
     if (!build_id_list($_REQUEST['itemid'], $idlist))
-        return;
+        return false;
 
     $sql = "update quotes set approved=false where approved=true and $idlist";
     $affected = do_dbupdate($sql, -1);
@@ -365,7 +384,7 @@ function process_unapprove_action()
 function process_purge_action()
 {
     if (!build_id_list($_REQUEST['itemid'], $idlist))
-        return;
+        return false;
 
     $sql = "delete from quotes where deleted=true and $idlist";
     $affected = do_dbdelete($sql, -1);
@@ -388,7 +407,7 @@ function process_purgeall_action()
 function process_addcategory_action()
 {
     if (!get_input_string('catname', 'Category name', $catname))
-        return;
+        return false;
     add_category($catname);
 
     return false;  // carry on.
@@ -398,7 +417,7 @@ function process_addcategory_action()
 function process_deletecategory_action()
 {
     if (!get_input_int('catid', 'Category ID', $catid))
-        return;
+        return false;
 
     delete_category((int) $catid);
     $_REQUEST['q'] = 1;
@@ -410,7 +429,7 @@ function process_deletecategory_action()
 function process_changecategory_action()
 {
     if (!get_input_int('catid', 'Category ID', $catid))
-        return;
+        return false;
     $_REQUEST['q'] = (int) $catid;
 
     return false;  // carry on.
@@ -420,9 +439,9 @@ function process_changecategory_action()
 function process_movetocategory_action()
 {
     if (!get_input_int('catid', 'Category ID', $catid))
-        return;
+        return false;
     if (!build_id_list($_REQUEST['itemid'], $idlist))
-        return;
+        return false;
 
     $sqlid = db_escape_string($catid);
     $sql = "update quotes set category=$sqlid where $idlist";
@@ -566,6 +585,8 @@ function process_possible_actions()
         return process_movetocategory_action();
     else if (requested_action('changepw'))
         return process_changepw_action();
+    else if (requested_action('edit'))
+        return process_edit_action();
 
     return false;
 } // process_possible_actions
