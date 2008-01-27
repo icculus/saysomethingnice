@@ -4,8 +4,6 @@ require_once 'saysomethingnice.php';
 
 function render_papertrail()
 {
-    // !!! FIXME: forbid this output to non-admins...
-
     // !!! FIXME: make a UI toggle for this.
     //if (!get_input_bool('showsql', 'should show sql', $showsql, 'y')) return;
     $showsql = true;
@@ -34,9 +32,15 @@ function render_papertrail()
     echo "<p>End of papertrail.\n";
 } // op_renderpapertrail
 
+
 // The mainline...
-render_header();
-render_papertrail();
-render_footer();
+if (!valid_admin_login())
+    admin_login_prompt();
+else
+{
+    render_header();
+    render_papertrail();
+    render_footer();
+} // else
 
 ?>
