@@ -166,7 +166,7 @@ function update_papertrail($action, $donesql, $quoteid=NULL, $doecho=false)
     global $enable_debug, $always_show_papertrail;
 
     //$sqlauthor = db_escape_string($_SERVER['REMOTE_USER']);
-    $sqlauthor = $_SERVER['REMOTE_ADDR'];
+    $sqlauthor = db_escape_string($_SERVER['REMOTE_ADDR']);
     $sqlsql = db_escape_string($donesql);
     $sqlaction = db_escape_string($action);
     $htmlaction = htmlentities($action, ENT_QUOTES);
