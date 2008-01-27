@@ -32,11 +32,13 @@ while ( ($row = db_fetch_array($query)) != false )
 {
     $url = get_quote_url($row['id']);
     $text = escapehtml($row['text']);
-    $postdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate']));
-    $items .= "<item><title>\"$text\"</title><pubDate>${postdate}</pubDate>" .
-              "<description>\"$text\"</description><link>$url</link></item>\n";
-    $digestitems .= "<rdf:li rdf:resource=\"$url\" />\n";
+    $desc = render_quote_to_string($row['text'], $row['id'], $row['imageid']);
 
+    $postdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate']));
+    $items .= "<item><title>\"${text}\"</title><pubDate>${postdate}</pubDate>" .
+              "<description>${desc}</description>" .
+              "<link>${url}</link></item>\n";
+    $digestitems .= "<rdf:li rdf:resource=\"${url}\" />\n";
 } // while
 db_free_result($query);
 
