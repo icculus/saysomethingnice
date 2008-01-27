@@ -82,6 +82,8 @@ echo "Inserting some initial rows...<br>\n";
 add_category('unsorted');
 add_admin('icculus', 'aaa');  // This is not a permanent password.  :)
 add_admin('carrie', 'bbb');  // This is not a permanent password.  :)
+add_quote("I love your cats.", 'carrie@icculus.org', ip2long('127.0.0.1'));
+add_quote("mumumumumumumu.", 'icculus@icculus.org', ip2long('127.0.0.1'));
 
 echo "...all done!<br>\n";
 
