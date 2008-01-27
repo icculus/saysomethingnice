@@ -296,16 +296,13 @@ function add_image($bin, $mimetype, $ipaddr, $id=-1)
     $sql = "insert into images (data, mimetype, ipaddr, postdate) values" .
            " ($sqlbin, $sqlmime, $ipaddr, NOW())";
     $inserted = (do_dbinsert($sql) == 1);
-    if ($inserted)
-        update_papertrail("Image added", $sql);
 
+    $sql2 = '';
     $updated = true;
     if ($id > 0)
     {
-        $sql = "update quotes set imageid=LAST_INSERT_ID(), lastedit=NOW() where id=$id";
-        $updated = do_dbupdate($sql);
-        if ($updated)
-            update_papertrail("Updated quote with new image", $sql);
+        $sql2 = "update quotes set imageid=LAST_INSERT_ID(), lastedit=NOW() where id=$id";
+        $updated = do_dbupdate($sql2);
 
         // We don't delete the old image (if any) from the the database
         //  when this replaces it...in theory, we could have multiple quotes
@@ -314,6 +311,15 @@ function add_image($bin, $mimetype, $ipaddr, $id=-1)
         //  now, though, they're just orphaned data in the table, but at least
         //  we can pull it out manually if we need it later.
     } // if
+
+    // Do papertrail down here, since the papertrail insert will kill
+    //  LAST_INSERT_ID(), and we want these to remain chronological.
+
+    if ($inserted)
+        update_papertrail("Image added", $sql);
+
+    if (($id > 0) && ($updated))
+        update_papertrail("Updated quote with new image", $sql2);
 
     return $inserted && $updated;
 } // add_image
