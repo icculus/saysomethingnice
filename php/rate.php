@@ -2,10 +2,9 @@
 
 require_once 'saysomethingnice.php';
 
-function process_vote()
+function process_vote($quoteid)
 {
     if (!get_input_bool('thumbs', 'Thumb position', $thumbs)) return false;
-    if (!get_input_int('id', 'quote id', $quoteid)) return false;
 
     $rating = ($thumbs) ? 1 : -1;
     $ipaddr = ip2long($_SERVER['REMOTE_ADDR']);
@@ -35,8 +34,12 @@ function process_vote()
 
 // The mainline...
 render_header();
-if (process_vote())
-    echo "<center>thanks!</center>";
+if (get_input_int('id', 'Quote ID number', $id))
+{
+    if (process_vote($id))
+        echo "<center><font color='#0000FF'>thanks for voting!</font></center><hr>\n";
+    render_specific_quote($id);
+} // if
 render_footer();
 
 ?>
