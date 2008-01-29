@@ -157,7 +157,8 @@ function get_input_number($reqname, $reqtype, &$reqval, $defval=NULL, $allowblan
     if (!get_input_sanitized($reqname, $reqtype, $reqval, $defval, $allowblank))
         return false;
 
-    if (sscanf($reqval, "0x%X", &$hex) == 1) // it's a 0xHEX value.
+    list($hex) = sscanf($reqval, "0x%X");
+    if (isset($hex)) // it's a 0xHEX value.
         $reqval = $hex;
 
     if (!is_numeric($reqval))
