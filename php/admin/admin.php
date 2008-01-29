@@ -717,9 +717,21 @@ function process_changepw_action()
 
 function process_logout_action()
 {
-    // apparently sending an HTTP 401 will cause most browsers to
-    //  flush their auth cache for the realm.
-    admin_login_prompt();
+    if (!valid_admin_login())  // already logged out?
+    {
+        // push browser to the non ?action=logout version, where they'll be
+        //  prompted for a password again, but they won't be in a loop here.
+        header("HTTP/1.0 307 Temporary redirect");
+        header("Location: $adminurl");
+    } // if
+    else
+    {
+        // apparently sending an HTTP 401 will cause most browsers to
+        //  flush their auth cache for the realm.
+        admin_login_prompt();
+    } // else
+
+    exit(0);  // don't go on, ever.
     return true;  // don't go on.
 } // process_logout_action
 
@@ -780,11 +792,16 @@ function process_possible_actions()
 
 
 // mainline...
-$always_show_papertrail = true;
-if (!valid_admin_login())
-    admin_login_prompt();
-else if (requested_action('logout'))
+
+if (requested_action('logout'))
+{
     process_logout_action();  // have to do this before any output.
+    exit(0);
+} // if
+
+$always_show_papertrail = true;
+else if (!valid_admin_login())
+    admin_login_prompt();
 else
 {
     render_header();
