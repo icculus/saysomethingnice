@@ -739,6 +739,8 @@ function process_changepw_action()
 
 function process_logout_action()
 {
+    global $adminurl;
+
     if (!valid_admin_login())  // already logged out?
     {
         // push browser to the non ?action=logout version, where they'll be
