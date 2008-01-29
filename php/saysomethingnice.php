@@ -257,6 +257,35 @@ function add_admin($username, $password)
 } // add_admin
 
 
+function delete_admin($username)
+{
+    $sqlname = db_escape_string($username);
+
+    $sql = "select id from admins where username=$sqlname limit 1";
+    $query = do_dbquery($sql);
+    if ($query == false)
+        return false;
+
+    $row = db_fetch_array($query);
+    if ($row == false)  // no matching login?
+    {
+        $username = escapehtml($username);
+        write_error("No such admin '$username'");
+        return false;
+    } // if
+
+    $id = (int) $row['id'];
+    $sql = "delete from admins where id=$id limit 1";
+    $deleted = (do_dbdelete($sql) == 1);
+    if ($deleted)
+    {
+        update_papertrail("Admin '$username' deleted", $sql);
+        // Move any admin stuff to a default admin here, if necessary in the future.
+    } // if
+    return $deleted;
+} // delete_admin
+
+
 function change_admin_password($user, $oldpass, $newpass)
 {
     $user = db_escape_string($user);
@@ -281,7 +310,7 @@ function add_category($name)
 
     $inserted = false;
     $row = db_fetch_array($query);
-    if ($row != false)  // no matching login?
+    if ($row != false)  // category already exists?
     {
         $id = $row['id'];
         write_error("Category '$name' already exists (id #$id)");
