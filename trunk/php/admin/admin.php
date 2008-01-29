@@ -627,11 +627,12 @@ function process_addadmin_action()
 
     $adminname = escapehtml($adminname);
     $password = escapehtml($password);
+    $myname = urlencode($_SERVER['PHP_AUTH_USER']);
     echo "<center><font color='#0000FF'>" .
          " {$adminname}'s initial password is: $password<br/>" .
          " Copy that to the clipboard now!</font><br/>" .
          " <font color='#FF0000'>" .
-         " PLEASE <a href='$logouturl'>LOG IN AS '$adminname'</a>" .
+         " PLEASE <a href='$logouturl&oldlogin=$myname'>LOG IN AS '$adminname'</a>" .
          " AND CHANGE THE PASSWORD RIGHT THIS VERY MINUTE.</font></center>";
 
     return true;  // stop normal widgets from rendering.
@@ -741,22 +742,25 @@ function process_logout_action()
 {
     global $adminurl;
 
-    if (!valid_admin_login())  // already logged out?
+    if (valid_admin_login())  // switching users maybe?
     {
-        // push browser to the non ?action=logout version, where they'll be
-        //  prompted for a password again, but they won't be in a loop here.
-        header("HTTP/1.0 307 Temporary redirect");
-        header("Location: $adminurl");
+        if (isset($_REQUEST['oldlogin']))
+        {
+            if ($_REQUEST['oldlogin'] != $_SERVER['PHP_AUTH_USER'])
+            {
+                // push browser to the non ?action=logout version, where they'll be
+                //  prompted for a password again, but they won't be in a loop here.
+                header("HTTP/1.0 307 Temporary redirect");
+                header("Location: $adminurl");
+                exit(0);
+            } // if
+        } // if
     } // if
-    else
-    {
-        // apparently sending an HTTP 401 will cause most browsers to
-        //  flush their auth cache for the realm.
-        admin_login_prompt();
-    } // else
 
+    // apparently sending an HTTP 401 will cause most browsers to
+    //  flush their auth cache for the realm.
+    admin_login_prompt();
     exit(0);  // don't go on, ever.
-    return true;  // don't go on.
 } // process_logout_action
 
 

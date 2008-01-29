@@ -244,8 +244,31 @@ function update_rating($voteid, $ipaddr, $quoteid, $rating)
 } // update_rating
 
 
+function get_admin_id($username)
+{
+    $sqlname = db_escape_string($username);
+    $sql = "select id from admins where username=$sqlname limit 1";
+    $query = do_dbquery($sql);
+    if ($query == false)
+        return false;
+
+    $row = db_fetch_array($query);
+    if ($row == false)  // no matching login?
+        return false;
+
+    return (int) $row['id'];
+} // get_admin_id
+
+
 function add_admin($username, $password)
 {
+    if (get_admin_id($username) !== false)
+    {
+        $username = escapehtml($username);
+        write_error("Admin '$username' already exists.");
+        return false;
+    } // if
+
     $sqlname = db_escape_string($username);
     $sqlpass = SHA1($password);
 
@@ -259,22 +282,14 @@ function add_admin($username, $password)
 
 function delete_admin($username)
 {
-    $sqlname = db_escape_string($username);
-
-    $sql = "select id from admins where username=$sqlname limit 1";
-    $query = do_dbquery($sql);
-    if ($query == false)
-        return false;
-
-    $row = db_fetch_array($query);
-    if ($row == false)  // no matching login?
+    $id = get_admin_id($username);
+    if ($id === false)
     {
         $username = escapehtml($username);
         write_error("No such admin '$username'");
         return false;
     } // if
 
-    $id = (int) $row['id'];
     $sql = "delete from admins where id=$id limit 1";
     $deleted = (do_dbdelete($sql) == 1);
     if ($deleted)
