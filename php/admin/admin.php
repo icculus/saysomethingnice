@@ -800,7 +800,7 @@ if (requested_action('logout'))
 } // if
 
 $always_show_papertrail = true;
-else if (!valid_admin_login())
+if (!valid_admin_login())
     admin_login_prompt();
 else
 {
