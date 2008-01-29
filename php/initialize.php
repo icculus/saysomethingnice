@@ -2,25 +2,25 @@
 
 require_once 'saysomethingnice.php';
 
-$always_show_papertrail = true;  // always for this page.
-
 // !!! FIXME: absolutely don't let this script run on a production site!
-
-render_header();
 
 if (isset($_SERVER['REMOTE_ADDR']))
 {
+    render_header();
     write_error("This isn't allowed over the web anymore.");
     render_footer();
     exit(0);
 }
-echo "building schema...<br>\n";
+
+
+echo "building schema...\n";
 
 do_dbquery("drop database if exists $dbname");
 do_dbquery("create database $dbname");
 
 close_dblink();  // force it to reselect the new database.
 
+echo "Building admins table...\n";
 do_dbquery(
     "create table admins (" .
         " id int unsigned not null auto_increment," .
@@ -30,6 +30,7 @@ do_dbquery(
     " ) character set utf8"
 );
 
+echo "Building categories table...\n";
 do_dbquery(
     "create table categories (" .
         " id int not null auto_increment," .
@@ -38,6 +39,7 @@ do_dbquery(
     " ) character set utf8"
 );
 
+echo "Building quotes table...\n";
 do_dbquery(
     "create table quotes (" .
         " id int not null auto_increment," .
@@ -54,6 +56,7 @@ do_dbquery(
     " ) character set utf8"
 );
 
+echo "Building images table...\n";
 do_dbquery(
     "create table images (" .
         " id int not null auto_increment," .
@@ -65,6 +68,7 @@ do_dbquery(
     " ) character set utf8"
 );
 
+echo "Building votes table...\n";
 do_dbquery(
     "create table votes (" .
         " id int not null auto_increment," .
@@ -77,6 +81,7 @@ do_dbquery(
     " ) character set utf8"
 );
 
+echo "Building papertrail table...\n";
 do_dbquery(
     "create table papertrail (" .
         " id int not null auto_increment," .
@@ -88,11 +93,18 @@ do_dbquery(
     " ) character set utf8"
 );
 
-echo "Inserting some initial rows...<br>\n";
+echo "Adding 'unsorted' category...\n";
 add_category('unsorted');
 
-echo "...all done!<br>\n";
+echo "Adding default admin...\n";
+add_admin('admin', 'admin');
 
-render_footer();
+echo "...all done!\n\n";
+
+echo "If there were no errors, you're good to go.\n";
+echo "\n\n\n";
+echo "PLEASE NOTE that there is a default login of admin/admin right now!\n".
+echo " You MUST change this right now, or you have a massive security hole!\n";
+echo "\n\n";
 
 ?>
