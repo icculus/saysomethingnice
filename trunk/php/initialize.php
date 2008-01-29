@@ -105,6 +105,8 @@ echo "If there were no errors, you're good to go.\n";
 echo "\n\n\n";
 echo "PLEASE NOTE that there is a default login of admin/admin right now!\n".
 echo " You MUST change this right now, or you have a massive security hole!\n";
+echo "Go do that right now! Change it here:\n\n";
+echo "     " . get_admin_url();
 echo "\n\n";
 
 ?>
