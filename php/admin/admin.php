@@ -604,12 +604,13 @@ function process_addadmin_action()
     if (!add_admin($adminname, 'password'))
         return false;
 
+    $adminname = escapehtml($adminname);
     echo "<center><font color='#00FF00'>" .
          " A new admin ('$adminname') with a default password of 'password'" .
          " has been added!</font><br>" .
-         " <font color='#FF0000'><blink>" .
-         " PLEASE <a href='$logouturl'>LOG IN AS HIM AND CHANGE IT NOW." .
-         " </blink></font></center>";
+         " <font color='#FF0000'>" .
+         " PLEASE <a href='$logouturl'>LOG IN AS '$adminname'</a>" .
+         " AND CHANGE IT RIGHT THIS VERY MINUTE.</font></center>";
 
     return true;  // stop normal widgets from rendering.
 } // process_addadmin_action
