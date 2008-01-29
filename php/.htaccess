@@ -1,0 +1,46 @@
+Options -Indexes
+
+<Files .htaccess>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files .htpasswd>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files dbpasswd.php>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files headerandfooter.php>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files common.php>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files saysomethingnice.php>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files *.sql>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files template>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files .svn>
+    order allow,deny
+    deny from all
+</Files>

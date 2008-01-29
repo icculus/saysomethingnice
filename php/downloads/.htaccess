@@ -1,0 +1,17 @@
+Options -Indexes
+
+<Files .htaccess>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files .htpasswd>
+    order allow,deny
+    deny from all
+</Files>
+
+<Files .svn>
+    order allow,deny
+    deny from all
+</Files>
+
