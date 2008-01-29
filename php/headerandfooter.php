@@ -28,14 +28,16 @@ EOF;
 
 function render_footer()
 {
-// !!! FIXME: fix front page link.
+    $baseurl = get_base_url();
+    $posturl = get_post_url();
+
 // !!! FIXME: need more here, I guess.
 echo <<<EOF
 <hr>
 <center>
   [ <a href="${baseurl}">Get a quote</a> |
     <a href="${posturl}">Add a quote</a> |
-    <a href="downloads/SaySomethingNice.wdgt.zip">Get Mac Widget</a>
+    <a href="${baseurl}/downloads/SaySomethingNice.wdgt.zip">Get Mac Widget</a>
   ]<br>
 </center>
 
