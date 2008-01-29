@@ -21,6 +21,8 @@ function get_admin_names()
 
 function output_quote_queue_rows($category, $showall = 0)
 {
+    global $adminurl;
+
     $sql = "select * from quotes where category=$category";
     if (!$showall)  // show only pending?
         $sql .= ' and (approved=false or deleted=true)';
@@ -334,6 +336,8 @@ EOF;
 
 function output_edit_widgets($id)
 {
+    global $adminurl;
+
     $sql = "select text,imageid,author,ipaddr from quotes where id=$id limit 1";
     $query = do_dbquery($sql);
     if ($query == false)
@@ -704,6 +708,8 @@ function process_deleteadmin_action()
 
 function output_changepw_widgets()
 {
+    global $adminurl;
+
     $form = get_form_tag();
     echo "$form\n";
     echo "<input type='hidden' name='action' value='changepw' />\n";
@@ -725,6 +731,8 @@ function output_changepw_widgets()
 
 function process_changepw_action()
 {
+    global $adminurl;
+
     if (!valid_admin_login())  // shouldn't happen, but just in case.
     {
         write_error("You don't seem to be logged in. Can't change password.");
