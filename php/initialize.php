@@ -10,7 +10,14 @@ if (isset($_SERVER['REMOTE_ADDR']))
     write_error("This isn't allowed over the web anymore.");
     render_footer();
     exit(0);
-}
+} // if
+
+if ((!isset($argv[1])) || ($argv[1] != '--confirm'))
+{
+    echo "You have to run this with --confirm to do anything.\n";
+    echo "...BECAUSE DOING SO DESTROYS ANY EXISTING DATABASE!!!\n";
+    exit(0);
+} // if
 
 
 echo "building schema...\n";
