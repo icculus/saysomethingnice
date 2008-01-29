@@ -290,6 +290,16 @@ echo <<< EOF
       <input type='hidden' name='q' value='$q'>
       </form>
 
+      <script language="javascript">
+      <!--
+        function allowadmindelete(val)
+        {
+            var widget = document.getElementById('deleteadmin');
+            widget.disabled = (val == 1);  // don't delete default queue.
+        } // allowadmindelete
+      // -->
+      </script>
+
       $form
       <input type='hidden' name='showall' value='$showall'>
       <input type='hidden' name='q' value='$q'>
@@ -300,7 +310,7 @@ echo <<< EOF
             <input type="submit" name="addadmin" value="Add Admin">
           </td>
           <td align="center" colspan="1">
-            <select onchange="document.getElementById('deleteadmin').disabled = (this.selectedIndex == 0);" name="adminid" id="adminid" size="1">
+            <select onchange="allowadmindelete(this.selectedIndex);" name="adminid" id="adminid" size="1">
             $adminoptlist
             </select>
             <input type="submit" name="deleteadmin" disabled="true" value="Delete Admin">
