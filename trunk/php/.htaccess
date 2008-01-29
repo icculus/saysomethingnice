@@ -15,6 +15,11 @@ Options -Indexes
     deny from all
 </Files>
 
+<Files initialize.php>
+    order allow,deny
+    deny from all
+</Files>
+
 <Files headerandfooter.php>
     order allow,deny
     deny from all
