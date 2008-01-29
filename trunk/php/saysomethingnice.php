@@ -379,7 +379,8 @@ function valid_admin_login_internal()
     $row = db_fetch_array($query);
     if ($row == false)  // no matching login?
     {
-        sleep(3);  // discourage brute-force attacks.
+        if (!empty($pass))
+            sleep(3);  // discourage brute-force attacks.
         return false;
     } // if
 
