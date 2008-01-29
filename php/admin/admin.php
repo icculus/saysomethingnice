@@ -295,17 +295,17 @@ echo <<< EOF
       <input type='hidden' name='q' value='$q'>
       <table border="0" width="100%">
         <tr>
-          <td width="100%" align="center" colspan="1">
+          <td align="center" colspan="1">
             <input type="text" name="adminname" value="">
             <input type="submit" name="addadmin" value="Add Admin">
           </td>
-          <td width="100%" align="center" colspan="1">
+          <td align="center" colspan="1">
             <select onchange="document.getElementById('deleteadmin').disabled = (this.selectedIndex == 0);" name="adminid" id="adminid" size="1">
             $adminoptlist
             </select>
             <input type="submit" name="deleteadmin" disabled="true" value="Delete Admin">
           </td>
-          <td width="100%" align="center" colspan="1">
+          <td align="center" colspan="1">
             <input type="text" name="catname" value="">
             <input type="submit" name="addcategory" value="Add Category">
           </td>
