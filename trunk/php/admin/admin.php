@@ -1,6 +1,6 @@
 <?php
 
-require_once 'saysomethingnice.php';
+require_once '../saysomethingnice.php';
 
 function output_quote_queue_rows($category, $showall = 0)
 {
