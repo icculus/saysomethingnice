@@ -392,6 +392,20 @@ function output_edit_widgets($id)
 } // output_edit_widgets
 
 
+// This code sucks.
+function qmimetype($file)
+{
+    $ext = array_pop(explode('.', $file));
+    foreach (file('./mime.types') as $line)
+    {
+        if (preg_match('/^([^#]\S+)\s+.*'.$ext.'.*$/', $line, $m))
+            return $m[1];
+    } // foreach
+
+    return 'application/octet-stream';
+} // qmimetype
+
+
 function process_uploadpic_action()
 {
     if (!get_input_int('id', 'Quote ID', $id))
@@ -410,18 +424,37 @@ function process_uploadpic_action()
         return output_edit_widgets($id);
 
     $filename = $_FILES['imgfile']['tmp_name'];
-    //$finfo = finfo_open(FILEINFO_MIME);
-    //$mime = finfo_file($finfo, $filename);
-    //finfo_close($finfo);
-    $escaped = escapeshellcmd($filename);
-    $mime = `file --brief --mime $escaped`;
+    $mime = 'image/jpeg';
+
+    if (function_exists('finfo_open'))
+    {
+        $finfo = finfo_open(FILEINFO_MIME);
+        $mime = finfo_file($finfo, $filename);
+        finfo_close($finfo);
+    } // if
+
+    else if (function_exists('mime_content_type'))
+    {
+        $mime = mime_content_type($filename);
+    } // else if
+
+    else if (false)
+    {
+        $escaped = escapeshellcmd($filename);
+        $mime = `file --brief --mime $escaped`;
+    } // else if
+
+    else
+    {
+        $mime = qmimetype($_FILES['imgfile']['name']);
+    } // else
 
     $bin = file_get_contents($filename);
     if ($bin === false)
         return output_edit_widgets($id);
 
     $ipaddr = ip2long($_SERVER['REMOTE_ADDR']);
-    add_image($bin, $mimetype, $ipaddr, $id);
+    add_image($bin, $mime, $ipaddr, $id);
 
     return output_edit_widgets($id);
 } // process_uploadpic_action

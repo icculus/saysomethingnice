@@ -11,6 +11,11 @@ AddHandler application/x-httpd-php .php
     deny from all
 </Files>
 
+<Files mime.types>
+    order allow,deny
+    deny from all
+</Files>
+
 <Files .svn>
     order allow,deny
     deny from all
