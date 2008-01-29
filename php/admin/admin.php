@@ -101,6 +101,8 @@ function output_quote_queue_widgets()
         $showalltext = "Show only pending items";
     } // if
 
+    echo "Logged in as: ${_SERVER['PHP_AUTH_USER']}<br>\n";
+
     $form = get_form_tag();
     echo "$form <input type='hidden' name='showall' value='$showall'>\n";
 
