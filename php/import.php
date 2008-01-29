@@ -3,6 +3,7 @@
 require_once 'saysomethingnice.php';
 
 $ip = ip2long('75.181.37.52');
+add_category('Cats');
 add_quote("mumumummumumumumumummumumumumumumummumumumumumu", 'carrie@icculus.org', $ip);
 add_quote("I could get lost in your eyes for days and days.", 'carrie@icculus.org', $ip);
 add_quote("Have you lost weight?", 'carrie@icculus.org', $ip);
