@@ -60,6 +60,14 @@ function get_post_url()
 } // get_post_url
 
 
+function get_admin_url()
+{
+    $baseurl = get_base_url();
+    return "${baseurl}admin.php";
+} // get_admin_url
+
+
+
 function render_quote_to_string($text, $id = NULL, $imageid = NULL)
 {
     $retval = '';
