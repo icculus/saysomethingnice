@@ -53,6 +53,13 @@ function get_rss_url()
 } // get_rss_url
 
 
+function get_post_url()
+{
+    $baseurl = get_base_url();
+    return "${baseurl}post.php";
+} // get_post_url
+
+
 function render_quote_to_string($text, $id = NULL, $imageid = NULL)
 {
     $retval = '';
