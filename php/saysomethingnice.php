@@ -361,8 +361,6 @@ function add_image($bin, $mimetype, $ipaddr, $id=-1)
 
 function valid_admin_login_internal()
 {
-phpinfo();
-return true;
     if (!isset($_SERVER['PHP_AUTH_USER']))
         return false;
     $user = $_SERVER['PHP_AUTH_USER'];
