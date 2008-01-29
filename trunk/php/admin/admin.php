@@ -2,6 +2,23 @@
 
 require_once '../saysomethingnice.php';
 
+$adminurl = get_admin_url();
+$logouturl = $adminurl . "?action=logout";
+
+function get_admin_names()
+{
+    $retval = array();
+    $sql = 'select username from admins';
+    $query = do_dbquery($sql);
+    if ($query != false)
+    {
+        while (($row = db_fetch_array($query)) != false)
+            $retval[] = $row['username'];
+    } // if
+    return $retval;
+} // get_admin_names
+
+
 function output_quote_queue_rows($category, $showall = 0)
 {
     $sql = "select * from quotes where category=$category";
@@ -51,7 +68,7 @@ function output_quote_queue_rows($category, $showall = 0)
         print("<td align=\"center\"> $tags {$row['postdate']} $endtags </td>\n");
 
         print("<td align=\"center\"> $tags");
-        print(" <a href=\"{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}\">");
+        print(" <a href=\"{$adminurl}?action=edit&id={$row['id']}\">");
         print("{$row['text']} $endtags </a> </td>\n");
 
         print("<td align=\"center\"> $tags {$row['author']} $endtags </td>\n");
@@ -67,7 +84,7 @@ function output_quote_queue_rows($category, $showall = 0)
 
 function output_quote_queue_widgets()
 {
-    global $baseurl;
+    global $baseurl, $adminurl, $logouturl;
 
     if (!valid_admin_login())
         return;  // just in case.
@@ -174,11 +191,11 @@ echo <<< EOF
           </td>
           <td align="right">
             [
-            <a href="${_SERVER['PHP_SELF']}?showall=$showallflip">$showalltext</a>
+            <a href="${adminurl}?showall=$showallflip">$showalltext</a>
             |
-            <a href="${_SERVER['PHP_SELF']}?action=changepw">Change password</a>
+            <a href="${adminurl}?action=changepw">Change password</a>
             |
-            <a href="${_SERVER['PHP_SELF']}?action=logout">Log out</a>
+            <a href="$logouturl">Log out</a>
             ]
           </td>
         </tr>
@@ -248,6 +265,14 @@ EOF;
         print("Please select a category from the above list.</font></td></tr>\n");
     } // else
 
+    $admins = get_admin_names();
+    $adminoptlist = "<option selected='true' value=''>--choose--</option>\n";
+    foreach ($admins as $adminname)
+    {
+        $adminname = escapehtml($adminname);
+        $adminoptlist .= "<option value='$adminname'>$adminname</option>\n";
+    } // foreach
+
 echo <<< EOF
 
         <tr>
@@ -270,6 +295,16 @@ echo <<< EOF
       <input type='hidden' name='q' value='$q'>
       <table border="0" width="100%">
         <tr>
+          <td width="100%" align="center" colspan="1">
+            <input type="text" name="adminname" value="">
+            <input type="submit" name="addadmin" value="Add Admin">
+          </td>
+          <td width="100%" align="center" colspan="1">
+            <select onchange="document.getElementById('deleteadmin').disabled = (this.selectedIndex == 0);" name="adminid" id="adminid" size="1">
+            $adminoptlist
+            </select>
+            <input type="submit" name="deleteadmin" disabled="true" value="Delete Admin">
+          </td>
           <td width="100%" align="center" colspan="1">
             <input type="text" name="catname" value="">
             <input type="submit" name="addcategory" value="Add Category">
@@ -308,7 +343,6 @@ function output_edit_widgets($id)
         $imgtag = "<img src='$imgurl' alt='image #$imgid' title='image #$imgid'/>";
     } // if
 
-    $me_url = $_SERVER['PHP_SELF'];
     $form = get_form_tag();
     echo "$form\n";
     echo "<input type='hidden' name='action' value='edit' />\n";
@@ -327,7 +361,7 @@ function output_edit_widgets($id)
     echo "</td></tr>\n";
     echo "</table></form>\n\n";
 
-    echo "<form enctype='multipart/form-data' method='post' action='$me_url'>";
+    echo "<form enctype='multipart/form-data' method='post' action='$adminurl'>";
     echo "<table>\n";
     echo "<input type='hidden' name='action' value='uploadpic' />\n";
     echo "<input type='hidden' name='id' value='$id' />\n";
@@ -338,7 +372,7 @@ function output_edit_widgets($id)
     echo "</table>\n";
     echo "</form>\n";
 
-    echo "<a href='$me_url'>Nevermind.</a>\n";
+    echo "<a href='$adminurl'>Nevermind.</a>\n";
     return true;  // don't show queue.
 } // output_edit_widgets
 
@@ -557,9 +591,47 @@ function process_movetocategory_action()
 } // process_movetocategory_action
 
 
+function process_addadmin_action()
+{
+    global $logouturl;
+
+    if (!get_input_string('adminname', 'Admin name', $adminname))
+        return false;
+
+    if (!add_admin($adminname, 'password'))
+        return false;
+
+    echo "<center><font color='#00FF00'>" .
+         " A new admin ('$adminname') with a default password of 'password'" .
+         " has been added!</font><br>" .
+         " <font color='#FF0000'><blink>" .
+         " PLEASE <a href='$logouturl'>LOG IN AS HIM AND CHANGE IT NOW." .
+         " </blink></font></center>";
+
+    return true;  // stop normal widgets from rendering.
+} // process_addadmin_action
+
+
+function process_deleteadmin_action()
+{
+    if (!get_input_string('adminid', 'Admin name', $adminname))
+        return false;
+
+    if ($adminname == $_SERVER['PHP_AUTH_USER'])
+    {
+        write_error("You can't delete yourself.");
+        return false;
+    } // if
+
+    if ( ($adminname == '') || (!delete_admin($adminname)) )
+        return false;
+
+    return false;  // output widgets.
+} // process_deleteadmin_action
+
+
 function output_changepw_widgets()
 {
-    $me_url = $_SERVER['PHP_SELF'];
     $form = get_form_tag();
     echo "$form\n";
     echo "<input type='hidden' name='action' value='changepw' />\n";
@@ -574,7 +646,7 @@ function output_changepw_widgets()
     echo "<input type='reset' name='changepwreset' value='Reset!' />";
     echo "<input type='submit' name='changepwsubmit' value='Change!' />\n";
     echo "</td></tr>\n";
-    echo "<tr><td><a href='$me_url'>Nevermind.</a></td></tr>\n";
+    echo "<tr><td><a href='$adminurl'>Nevermind.</a></td></tr>\n";
     echo "</table></form>\n\n";
 } // output_changepw_widgets
 
@@ -630,10 +702,9 @@ function process_changepw_action()
         return true;  // don't go on.
     } // if
 
-    $me_url = $_SERVER['PHP_SELF'];
     echo "<center>\n";
     echo "Okay, password changed!<br>\n";
-    echo "You'll need to <a href=\"$me_url\">log in again</a>.<br>\n";
+    echo "You'll need to <a href=\"$adminurl\">log in again</a>.<br>\n";
     echo "</center>\n";
 
     return true;  // don't go on.
@@ -695,6 +766,10 @@ function process_possible_actions()
         return process_uploadpic_action();
     else if (requested_action('edit'))
         return process_edit_action();
+    else if (requested_action('addadmin'))
+        return process_addadmin_action();
+    else if (requested_action('deleteadmin'))
+        return process_deleteadmin_action();
 
     return false;
 } // process_possible_actions
