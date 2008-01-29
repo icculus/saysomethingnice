@@ -33,8 +33,7 @@ echo <<<EOF
 <center>
   [ <a href="/saysomethingnice/">Get a quote</a> |
     <a href="post.php">Add a quote</a> |
-    <a href="downloads/SaySomethingNice.wdgt.zip">Get Mac Widget</a> |
-    <a href="http://1-800-flowers.com/">Cover your ass</a>
+    <a href="downloads/SaySomethingNice.wdgt.zip">Get Mac Widget</a>
   ]<br>
 </center>
 
