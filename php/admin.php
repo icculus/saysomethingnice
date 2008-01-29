@@ -603,7 +603,8 @@ function process_changepw_action()
 
     if ($_REQUEST['oldpass'] != $_SERVER['PHP_AUTH_PW'])
     {
-        sleep(3);  // prevent brute force.
+        if (!empty($_SERVER['PHP_AUTH_PW']))
+            sleep(3);  // prevent brute force.
         write_error("Old password is incorrect.");
         output_changepw_widgets();
         return true;  // don't go on.
