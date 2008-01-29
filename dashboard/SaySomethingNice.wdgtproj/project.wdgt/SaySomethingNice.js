@@ -1,4 +1,4 @@
-var widgeturl = 'http://centralserver/saysomethingnice/widget.php';
+var widgeturl = 'http://quicksaysomethingnice.com/widget.php';
 var last_updated = 0;
 var xml_request = null;
 
