@@ -269,8 +269,11 @@ EOF;
     $adminoptlist = "<option selected='true' value=''>--choose--</option>\n";
     foreach ($admins as $adminname)
     {
-        $adminname = escapehtml($adminname);
-        $adminoptlist .= "<option value='$adminname'>$adminname</option>\n";
+        if ($adminname != $_SERVER['PHP_AUTH_USER'])
+        {
+            $adminname = escapehtml($adminname);
+            $adminoptlist .= "<option value='$adminname'>$adminname</option>\n";
+        } // if
     } // foreach
 
 echo <<< EOF
