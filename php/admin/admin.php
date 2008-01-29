@@ -101,6 +101,17 @@ function output_quote_queue_widgets()
         $showalltext = "Show only pending items";
     } // if
 
+    <script language="javascript">
+    <!--
+        function confirmadmindelete()
+        {
+            var catname = document.getElementById('adminid');
+            var val = catname.options[catname.selectedIndex].value;
+            return window.confirm('Are you sure you want to delete the admin "' + val + '"?');
+        } // confirmadmindelete
+    //-->
+    </script>
+
     echo "Logged in as: ${_SERVER['PHP_AUTH_USER']}<br>\n";
 
     $form = get_form_tag();
@@ -308,7 +319,7 @@ echo <<< EOF
             <select onchange="document.getElementById('deleteadmin').disabled = (this.selectedIndex == 0);" name="adminid" id="adminid" size="1">
             $adminoptlist
             </select>
-            <input type="submit" name="deleteadmin" id="deleteadmin" disabled="true" value="Delete Admin">
+            <input type="submit" name="deleteadmin" id="deleteadmin" disabled="true" value="Delete Admin" onclick="return confirmadmindelete();">
           </td>
           <td align="center" colspan="1">
             <input type="text" name="catname" value="">
