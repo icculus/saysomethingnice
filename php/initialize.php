@@ -2,18 +2,18 @@
 
 require_once 'saysomethingnice.php';
 
-if (!valid_admin_login())
-{
-    admin_login_prompt();
-    exit(0);
-} // if
-
 $always_show_papertrail = true;  // always for this page.
 
 // !!! FIXME: absolutely don't let this script run on a production site!
 
 render_header();
 
+if (isset($_SERVER['REMOTE_ADDR']))
+{
+    write_error("This isn't allowed over the web anymore.");
+    render_footer();
+    exit(0);
+}
 echo "building schema...<br>\n";
 
 do_dbquery("drop database if exists $dbname");
@@ -90,16 +90,6 @@ do_dbquery(
 
 echo "Inserting some initial rows...<br>\n";
 add_category('unsorted');
-add_admin('icculus', 'aaa');  // This is not a permanent password.  :)
-add_admin('carrie', 'bbb');  // This is not a permanent password.  :)
-add_quote("I love your cats.", 'carrie@icculus.org', ip2long('127.0.0.1'));
-add_quote("mumumumumumumu.", 'icculus@icculus.org', ip2long('127.0.0.1'));
-
-// This is apparently something like "I will just give it a try, I will
-//  have a go at it" in Japanese Kanji...just making sure the UTF-8 support
-//  works...
-// http://www.saiga-jp.com/kanji_dictionary.html
-add_quote("ひとつやってみよう", 'icculus@icculus.org', ip2long('127.0.0.1'));
 
 echo "...all done!<br>\n";
 
