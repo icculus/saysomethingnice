@@ -42,6 +42,8 @@ while ( ($row = db_fetch_array($query)) != false )
 } // while
 db_free_result($query);
 
+$rssurl = get_rss_url();
+
 // stupid question mark endtag screws up PHP, even in strings and comments!
 $xmltag = '<' . '?' . 'xml version="1.0" encoding="UTF-8"' . '?' . '>';
 echo <<<EOF

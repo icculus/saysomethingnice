@@ -67,9 +67,10 @@ function output_quote_queue_rows($category, $showall = 0)
 
 function output_quote_queue_widgets()
 {
-    global $baseurl, $posturl;
+    global $baseurl;
 
-    //!!! FIXME: abort if not logged in.
+    if (!valid_admin_login())
+        return;  // just in case.
 
     // !!! FIXME: 'q' is a leftover from IcculusNews queues.
     get_input_int('q', 'Category ID number', $q, 0);

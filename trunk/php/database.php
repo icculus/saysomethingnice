@@ -5,16 +5,6 @@
 
 require_once 'common.php';
 
-// dbpasswd.php should have the following lines, minus comments:
-//
-//  $dbhost = 'hostname';
-//  $dbuser = 'username';
-//  $dbpass = 'password';
-//  $dbname = 'database_name';
-//
-// Obviously, those should be a real login for the database.
-require_once 'dbpasswd.php';
-
 $dblink = NULL;
 
 function get_dblink()
