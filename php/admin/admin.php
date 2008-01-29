@@ -594,23 +594,45 @@ function process_movetocategory_action()
 } // process_movetocategory_action
 
 
+function make_random_password()
+{
+    $chars = "abcdefghijkmnopqrstuvwxyz023456789";
+    srand((double) microtime() * 1000000);
+    $i = 0;
+    $pass = '';
+
+    while ($i <= 7)
+    {
+        $num = rand() % 33;
+        $tmp = substr($chars, $num, 1);
+        $pass = $pass . $tmp;
+        $i++;
+    } // while
+
+    return $pass;
+} // make_random_password
+
+
 function process_addadmin_action()
 {
     global $logouturl;
 
+    $password = make_random_password();
+
     if (!get_input_string('adminname', 'Admin name', $adminname))
         return false;
 
-    if (!add_admin($adminname, 'password'))
+    if (!add_admin($adminname, $password))
         return false;
 
     $adminname = escapehtml($adminname);
-    echo "<center><font color='#00FF00'>" .
-         " A new admin ('$adminname') with a default password of 'password'" .
-         " has been added!</font><br>" .
+    $password = escapehtml($password);
+    echo "<center><font color='#0000FF'>" .
+         " {$adminname}'s initial password is: $password<br/>" .
+         " Copy that to the clipboard now!</font><br/>" .
          " <font color='#FF0000'>" .
          " PLEASE <a href='$logouturl'>LOG IN AS '$adminname'</a>" .
-         " AND CHANGE IT RIGHT THIS VERY MINUTE.</font></center>";
+         " AND CHANGE THE PASSWORD RIGHT THIS VERY MINUTE.</font></center>";
 
     return true;  // stop normal widgets from rendering.
 } // process_addadmin_action
