@@ -10,7 +10,7 @@ Options -Indexes
     deny from all
 </Files>
 
-<Files dbpasswd.php>
+<Files localcfg.php>
     order allow,deny
     deny from all
 </Files>

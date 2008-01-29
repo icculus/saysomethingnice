@@ -2,51 +2,55 @@
 
 // Common functions for this website.
 
-// !!! FIXME: change these.
-$baseurl = 'http://centralserver/saysomethingnice/';
-$rssurl = 'http://centralserver/saysomethingnice/rss.php';
-$quoteurl = 'http://centralserver/saysomethingnice/quote.php';
-$emailurl = 'http://centralserver/saysomethingnice/email.php';
-$rateurl = 'http://centralserver/saysomethingnice/rate.php';
-$posturl = 'http://centralserver/saysomethingnice/post.php';
-$imgurl = 'http://centralserver/saysomethingnice/image.php';
-
 require_once 'common.php';
 require_once 'database.php';
 require_once 'headerandfooter.php';
 
+function get_base_url()
+{
+    global $baseurl;
+    return $baseurl;
+} // get_base_url
+
 
 function get_quote_url($id)
 {
-    global $quoteurl;
+    $baseurl = get_base_url();
     $id = (int) $id;   // just in case it came from a URL or something.
-    return "${quoteurl}?id=${id}";
+    return "${baseurl}quote.php?id=${id}";
 } // get_quote_url
 
 
 function get_email_url($id)
 {
-    global $emailurl;
+    $baseurl = get_base_url();
     $id = (int) $id;   // just in case it came from a URL or something.
-    return "${emailurl}?id=${id}";
+    return "${baseurl}email.php?id=${id}";
 } // get_email_url
 
 
 function get_rate_url($id, $good)
 {
-    global $rateurl;
+    $baseurl = get_base_url();
     $id = (int) $id;   // just in case it came from a URL or something.
     $thumbs = $good ? "true" : "false";
-    return "${rateurl}?id=${id}&thumbs=${thumbs}";
+    return "${baseurl}rate.php?id=${id}&thumbs=${thumbs}";
 } // get_rate_url
 
 
 function get_img_url($id)
 {
-    global $imgurl;
+    $baseurl = get_base_url();
     $id = (int) $id;   // just in case it came from a URL or something.
-    return "${imgurl}?id=${id}";
+    return "${baseurl}image.php?id=${id}";
 } // get_img_url
+
+
+function get_rss_url()
+{
+    $baseurl = get_base_url();
+    return "${baseurl}rss.php";
+} // get_rss_url
 
 
 function render_quote_to_string($text, $id = NULL, $imageid = NULL)

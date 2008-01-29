@@ -4,7 +4,9 @@ require_once 'common.php';
 
 function render_header($title = 'Quick, say something nice!')
 {
-    global $rssurl;
+    global $baseurl;
+    $rssurl = get_rss_url();
+    $posturl = get_post_url();
 
 // !!! FIXME: need more here, I guess.
 echo <<<EOF
@@ -31,8 +33,8 @@ function render_footer()
 echo <<<EOF
 <hr>
 <center>
-  [ <a href="/saysomethingnice/">Get a quote</a> |
-    <a href="post.php">Add a quote</a> |
+  [ <a href="${baseurl}">Get a quote</a> |
+    <a href="${posturl}">Add a quote</a> |
     <a href="downloads/SaySomethingNice.wdgt.zip">Get Mac Widget</a>
   ]<br>
 </center>

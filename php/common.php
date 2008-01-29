@@ -1,5 +1,17 @@
 <?php
 
+// localcfg.php must be supplied by you! it's not in source control, as it
+//  depends on the server itself.
+//
+// It should have these globals defined:
+//$baseurl = 'BASE_URL_GOES_HERE'; // like: 'http://quicksaysomethingnice.com/';
+//$dbhost = 'DATABASE_HOSTNAME_GOES_HERE';
+//$dbuser = 'DATABASE_USERNAME_GOES_HERE';
+//$dbpass = 'DATABASE_PASSWORD_GOES_HERE';
+//$dbname = 'DATABASE_NAME_GOES_HERE';
+
+require_once 'localcfg.php';
+
 //$enable_debug = true;
 //$enable_debug = false;
 $enable_debug = (!empty($_REQUEST['debug']));
