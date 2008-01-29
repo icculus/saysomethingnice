@@ -20,9 +20,10 @@ if ((!isset($argv[1])) || ($argv[1] != '--confirm'))
 } // if
 
 
-echo "building schema...\n";
-
+echo "Nuking any existing database (too late to go back, now!)...\n";
 do_dbquery("drop database if exists $dbname");
+
+echo "Creating new database from scratch...\n";
 do_dbquery("create database $dbname");
 
 close_dblink();  // force it to reselect the new database.
