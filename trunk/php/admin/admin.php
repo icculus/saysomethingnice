@@ -885,7 +885,8 @@ if (!valid_admin_login())
     admin_login_prompt();
 else
 {
-    render_header();
+    $firehoseurl = get_firehose_url();
+    render_header('<link rel="alternate" type="application/rss+xml" title="Firehose" href="${$firehoseurl}" />');
     if (!process_possible_actions())
         output_quote_queue_widgets();
     render_footer();
