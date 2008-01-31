@@ -25,11 +25,11 @@
 	<key>Dashboard Widget Prefs</key>
 	<dict>
 		<key>id</key>
-		<string>41aa9993120b41e1</string>
+		<string>41aa9ecfb103fe3b</string>
 		<key>in-layer</key>
 		<true/>
 		<key>path</key>
-		<string>/private/var/folders/pQ/pQJ8ZiWzEHSvmxEd9NcYAk+++TI/-Tmp-/Dashcode/.SaySomethingNice.wdgtprojLLzVsJ/SaySomethingNice.wdgtproj/project.wdgt/</string>
+		<string>/private/var/folders/pQ/pQJ8ZiWzEHSvmxEd9NcYAk+++TI/-Tmp-/Dashcode/.SaySomethingNice.wdgtprojUvWuDP/SaySomethingNice.wdgtproj/project.wdgt/</string>
 		<key>percent-offset-x</key>
 		<integer>0</integer>
 		<key>percent-offset-y</key>
