@@ -17,6 +17,25 @@ require_once 'localcfg.php';
 $enable_debug = (!empty($_REQUEST['debug']));
 $always_show_papertrail = false;
 
+
+function get_login(&$user, &$pass)
+{
+    if (isset($_SERVER['PHP_AUTH_USER']))
+        $user = $_SERVER['PHP_AUTH_USER'];
+    else if (isset($_REQUEST['user']))
+        $user = $_REQUEST['user'];
+    else
+        $user = NULL;
+
+    if (isset($_SERVER['PHP_AUTH_PW']))
+        $pass = $_SERVER['PHP_AUTH_PW'];
+    else if (isset($_REQUEST['pass']))
+        $pass = $_REQUEST['pass'];
+    else
+        $pass = NULL;
+} // get_login
+
+
 function escapehtml($str)
 {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');

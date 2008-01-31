@@ -411,12 +411,11 @@ function add_image($bin, $mimetype, $ipaddr, $id=-1)
 
 function valid_admin_login_internal()
 {
-    if (!isset($_SERVER['PHP_AUTH_USER']))
+    get_login($user, $pass);
+    if (!isset($user))
         return false;
-    $user = $_SERVER['PHP_AUTH_USER'];
-    if (!isset($_SERVER['PHP_AUTH_PW']))
+    if (!isset($pass))
         return false;
-    $pass = $_SERVER['PHP_AUTH_PW'];
 
     $user = db_escape_string($user);
     $pass = SHA1($pass);
