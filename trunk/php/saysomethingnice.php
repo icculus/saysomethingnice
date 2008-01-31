@@ -478,7 +478,7 @@ function do_rss($sql, $baseurl, $basetitle, $basedesc)
         return;
     } // if
 
-    header('Content-Type: application/rss+xml; charset=UTF-8');
+    header('Content-Type: text/xml; charset=UTF-8');
 
     $rowcount = db_num_rows($query);
     $newestentrytime = current_sql_datetime();
