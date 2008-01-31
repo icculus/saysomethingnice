@@ -2,16 +2,18 @@
 
 require_once 'common.php';
 
-function render_header($title = 'Quick, say something nice!')
+function render_header($title=NULL, $headextras='')
 {
-    global $baseurl;
     $rssurl = get_rss_url();
     $posturl = get_post_url();
+
+    if ($title == NULL)
+        $title = 'Quick, say something nice!';
 
 // !!! FIXME: need more here, I guess.
 echo <<<EOF
 <html>
-  <head>
+  <head>$headextras
     <title>$title</title>
     <link rel="alternate" type="application/rss+xml" title="Speed Feed" href="${rssurl}" />
   </head>

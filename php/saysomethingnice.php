@@ -67,6 +67,12 @@ function get_admin_url()
 } // get_admin_url
 
 
+function get_firehose_url()
+{
+    $baseurl = get_base_url();
+    return "${baseurl}admin/firehose.php";
+} // get_firehose_url
+
 
 function render_quote_to_string($text, $id = NULL, $imageid = NULL)
 {
