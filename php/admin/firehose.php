@@ -1,6 +1,6 @@
 <?php
 
-require_once 'saysomethingnice.php';
+require_once '../saysomethingnice.php';
 
 if (!valid_admin_login())
 {
