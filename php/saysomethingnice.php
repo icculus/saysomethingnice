@@ -464,6 +464,10 @@ function admin_login_prompt()
 
 function do_rss($sql, $baseurl, $basetitle, $basedesc)
 {
+    // DATE_RSS doesn't appear to be defined on Dreamhost if you are using
+    //  mod_php instead of PHP CGI, so the Admin Firehose screws up pubdates.
+    $daterss = 'D, d M Y H:i:s T';
+
     $query = do_dbquery($sql);
     if ($query == false)
     {
@@ -495,16 +499,7 @@ function do_rss($sql, $baseurl, $basetitle, $basedesc)
         $url = get_quote_url($row['id']);
         $text = escapehtml($row['text']);
         $desc = escapehtml(render_quote_to_string($row['text'], $row['id'], $row['imageid']));
-
-echo "\n\n<!--\n";
-echo $row['postdate'] . "\n";
-echo sql_datetime_to_unix_timestamp($row['postdate']) . "\n";
-echo sql_datetime_to_unix_timestamp($row['postdate']) . "\n";
-echo date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate'])) . "\n";
-echo DATE_RSS . "\n";
-echo "-->\n\n\n";
-
-        $postdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate']));
+        $postdate = date($daterss, sql_datetime_to_unix_timestamp($row['postdate']));
         $items .= "<item><title>\"${text}\"</title><pubDate>${postdate}</pubDate>" .
                   "<description>${desc}</description>" .
                   "<link>${url}</link></item>\n";
