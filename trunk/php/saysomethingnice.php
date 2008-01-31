@@ -501,6 +501,7 @@ echo $row['postdate'] . "\n";
 echo sql_datetime_to_unix_timestamp($row['postdate']) . "\n";
 echo sql_datetime_to_unix_timestamp($row['postdate']) . "\n";
 echo date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate'])) . "\n";
+echo DATE_RSS . "\n";
 echo "-->\n\n\n";
 
         $postdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate']));
