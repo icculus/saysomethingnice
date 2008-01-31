@@ -496,6 +496,13 @@ function do_rss($sql, $baseurl, $basetitle, $basedesc)
         $text = escapehtml($row['text']);
         $desc = escapehtml(render_quote_to_string($row['text'], $row['id'], $row['imageid']));
 
+echo "\n\n<!--\n";
+echo $row['postdate'] . "\n";
+echo sql_datetime_to_unix_timestamp($row['postdate']) . "\n";
+echo sql_datetime_to_unix_timestamp($row['postdate']) . "\n";
+echo date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate'])) . "\n";
+echo "-->\n\n\n";
+
         $postdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($row['postdate']));
         $items .= "<item><title>\"${text}\"</title><pubDate>${postdate}</pubDate>" .
                   "<description>${desc}</description>" .
