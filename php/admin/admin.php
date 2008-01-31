@@ -103,7 +103,9 @@ function output_quote_queue_widgets()
         $showalltext = "Show only pending items";
     } // if
 
-    echo "Logged in as: ${_SERVER['PHP_AUTH_USER']}<br>\n";
+    get_login($user, $pass);
+    $pass = NULL;
+    echo "Logged in as: $user<br>\n";
 
     $form = get_form_tag();
     echo "$form <input type='hidden' name='showall' value='$showall'>\n";
@@ -676,7 +678,9 @@ function process_addadmin_action()
 
     $adminname = escapehtml($adminname);
     $password = escapehtml($password);
-    $myname = urlencode($_SERVER['PHP_AUTH_USER']);
+
+    get_login($user, $pass);
+    $myname = urlencode($user);
     echo "<center><font color='#0000FF'>" .
          " {$adminname}'s initial password is: $password<br/>" .
          " Copy that to the clipboard now!</font><br/>" .
@@ -693,7 +697,8 @@ function process_deleteadmin_action()
     if (!get_input_string('adminid', 'Admin name', $adminname))
         return false;
 
-    if ($adminname == $_SERVER['PHP_AUTH_USER'])
+    get_login($user, $pass);
+    if ($adminname == $user)
     {
         write_error("You can't delete yourself.");
         return false;
@@ -739,7 +744,7 @@ function process_changepw_action()
         return true;  // don't go on.
     } // if
 
-    $user = $_SERVER['PHP_AUTH_USER'];
+    get_login($user, $pass);
     $htmluser = escapehtml($user);
     echo "Changing password for $htmluser...<br>\n";
 
@@ -753,9 +758,9 @@ function process_changepw_action()
         return true;  // don't go on.
     } // if
 
-    if ($_REQUEST['oldpass'] != $_SERVER['PHP_AUTH_PW'])
+    if ($_REQUEST['oldpass'] != $pass)
     {
-        if (!empty($_SERVER['PHP_AUTH_PW']))
+        if (!empty($pass))
             sleep(3);  // prevent brute force.
         write_error("Old password is incorrect.");
         output_changepw_widgets();
@@ -799,7 +804,8 @@ function process_logout_action()
     {
         if (isset($_REQUEST['oldlogin']))
         {
-            if ($_REQUEST['oldlogin'] != $_SERVER['PHP_AUTH_USER'])
+            get_login($user, $pass);
+            if ($_REQUEST['oldlogin'] != $user)
             {
                 // push browser to the non ?action=logout version, where they'll be
                 //  prompted for a password again, but they won't be in a loop here.
