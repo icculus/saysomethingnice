@@ -490,7 +490,7 @@ function do_rss($sql, $baseurl, $basetitle, $basedesc)
         db_reset_array($query);
     } // if
 
-    $pubdate = date(DATE_RSS, sql_datetime_to_unix_timestamp($newestentrytime));
+    $pubdate = date($daterss, sql_datetime_to_unix_timestamp($newestentrytime));
 
     $items = '';
     $digestitems = '';
