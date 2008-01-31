@@ -500,7 +500,7 @@ function do_rss($sql, $baseurl, $basetitle, $basedesc)
         $text = escapehtml($row['text']);
         $desc = escapehtml(render_quote_to_string($row['text'], $row['id'], $row['imageid']));
         $postdate = date($daterss, sql_datetime_to_unix_timestamp($row['postdate']));
-        $items .= "<item><title>\"${text}\"</title><pubDate>${postdate}</pubDate>" .
+        $items .= "<item rdf:about=\"$url\"><title>\"${text}\"</title><pubDate>${postdate}</pubDate>" .
                   "<description>${desc}</description>" .
                   "<link>${url}</link></item>\n";
         $digestitems .= "<rdf:li rdf:resource=\"${url}\" />\n";
