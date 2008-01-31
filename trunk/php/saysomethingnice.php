@@ -462,7 +462,7 @@ function admin_login_prompt()
 } // admin_login_prompt
 
 
-function do_rss($sql)
+function do_rss($sql, $baseurl, $basetitle, $basedesc)
 {
     $query = do_dbquery($sql);
     if ($query == false)
@@ -514,9 +514,9 @@ $xmltag
          xmlns="http://purl.org/rss/1.0/">
 
   <channel rdf:about="$rssurl">
-    <title>Quick, say something nice!</title>
-    <link>${baseurl}</link>
-    <description>Pulling your relationship out of the fire since 2008.</description>
+    <title>$basetitle</title>
+    <link>$baseurl</link>
+    <description>$basedesc</description>
     <pubDate>${pubdate}</pubDate>
     <items>
       <rdf:Seq>
