@@ -8,6 +8,10 @@ if (!valid_admin_login())
     exit(0);
 } // if
 
-do_rss('select * from quotes order by postdate desc limit 15');
+$sql = 'select * from quotes order by postdate desc limit 15';
+$title = 'Say Something Nice Admin Firehose';
+$desc = 'Look here to filter out people looking for a booty call.';
+$baseurl = get_base_url();
+do_rss($sql, $baseurl, $title, $desc);
 
 ?>
