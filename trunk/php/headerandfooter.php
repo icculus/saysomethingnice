@@ -39,7 +39,7 @@ echo <<<EOF
 <center>
   [ <a href="${baseurl}">Get a quote</a> |
     <a href="${posturl}">Add a quote</a> |
-    <a href="${baseurl}/downloads/SaySomethingNice.wdgt.zip">Get Mac Widget</a>
+    <a href="${baseurl}downloads/SaySomethingNice.wdgt.zip">Get Mac Widget</a>
   ]<br>
 </center>
 
