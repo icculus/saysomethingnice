@@ -95,7 +95,7 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL)
         $bad_url = get_rate_url($id, false);
         $retval .= "<p><font size='-3'>[" .
                    " <a href='$quote_url'>link</a> |" .
-                   " <a href='$email_url'>email</a> |" .
+                   //" <a href='$email_url'>email</a> |" .
                    " <a href='$good_url'>thumbs up</a> |" .
                    " <a href='$bad_url'>thumbs down</a> ]" .
                    " </font></p>\n";
