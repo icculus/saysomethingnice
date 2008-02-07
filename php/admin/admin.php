@@ -26,6 +26,7 @@ function output_quote_queue_rows($category, $showall = 0)
     $sql = "select * from quotes where category=$category";
     if (!$showall)  // show only pending?
         $sql .= ' and (approved=false or deleted=true)';
+    $sql .= ' order by id desc';
 
     $query = do_dbquery($sql);
     if ($query == false)
