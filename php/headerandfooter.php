@@ -10,6 +10,8 @@ function render_header($title=NULL, $headextras='')
     if ($title == NULL)
         $title = 'Quick, say something nice!';
 
+    $advertisements = get_advertisements();
+
 // !!! FIXME: need more here, I guess.
 echo <<<EOF
 <html>
@@ -19,6 +21,7 @@ echo <<<EOF
   </head>
   <body>
   <center>
+    $advertisements
     <h1>Say Something Nice</h1>
   </center>
 
