@@ -2,6 +2,8 @@
 
 require_once 'saysomethingnice.php';
 
+header('Content-Type: text/plain; charset=UTF-8');
+
 // The mainline...
 // This is ALL this does...it doesn't output the <html> tags or anything;
 //  the widget handles that.

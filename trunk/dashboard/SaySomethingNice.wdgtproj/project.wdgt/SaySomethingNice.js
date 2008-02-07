@@ -12,7 +12,7 @@ function updateContent(str)
 {
     var content = document.getElementById("content");
     content.style.display = "block";
-    content.innerHTML = str;
+    content.innerText = str;
 } // updateContent
 
 function loaded(e, request)  // called when new page is pulled from server.
