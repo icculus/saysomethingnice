@@ -17,6 +17,6 @@ if ($query == false)
 else if ( ($row = db_fetch_array($query)) == false )
     echo 'No quote at the moment, apparently.';
 else
-    echo escapehtml($row['text']);
+    echo $row['text'];
 ?>
 
