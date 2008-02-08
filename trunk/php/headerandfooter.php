@@ -2,7 +2,7 @@
 
 require_once 'common.php';
 
-function render_header($title=NULL, $headextras='')
+function render_header($title=NULL, $headextras='', $showads=true)
 {
     $rssurl = get_rss_url();
     $posturl = get_post_url();
@@ -11,7 +11,7 @@ function render_header($title=NULL, $headextras='')
     if ($title == NULL)
         $title = 'Quick, say something nice!';
 
-    $advertisements = get_advertisements();
+    $advertisements = $showads ? get_advertisements() : '';
 
 // !!! FIXME: need more here, I guess.
 echo <<<EOF
@@ -24,7 +24,7 @@ echo <<<EOF
   <body>
   <center>
     $advertisements
-    <h1>Say Something Nice</h1>
+    <h1>Quick, Say Something Nice!</h1>
   </center>
 
 EOF;
