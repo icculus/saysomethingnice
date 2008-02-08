@@ -6,6 +6,7 @@ function render_header($title=NULL, $headextras='')
 {
     $rssurl = get_rss_url();
     $posturl = get_post_url();
+    $cssurl = get_css_url();
 
     if ($title == NULL)
         $title = 'Quick, say something nice!';
@@ -18,6 +19,7 @@ echo <<<EOF
   <head>$headextras
     <title>$title</title>
     <link rel="alternate" type="application/rss+xml" title="Speed Feed" href="${rssurl}" />
+    <link rel="stylesheet" type="text/css" href="${cssurl}" />
   </head>
   <body>
   <center>

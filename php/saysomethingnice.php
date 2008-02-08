@@ -74,11 +74,18 @@ function get_firehose_url()
 } // get_firehose_url
 
 
+function get_css_url()
+{
+    $baseurl = get_base_url();
+    return "${baseurl}style.css";
+} // get_css_url
+
+
 function render_quote_to_string($text, $id = NULL, $imageid = NULL)
 {
     $retval = '';
     $htmltext = escapehtml($text);
-    $retval .= "<center>\n";
+    $retval .= "<center><div id='content'>\n";
     $retval .= "\"${htmltext}\"\n";
 
     if ( (isset($imageid)) && (((int) $imageid) > 0) )
@@ -93,6 +100,7 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL)
         $email_url = get_email_url($id);
         $good_url = get_rate_url($id, true);
         $bad_url = get_rate_url($id, false);
+
         $retval .= "<p><font size='-3'>[" .
                    " <a href='$quote_url'>link</a> |" .
                    //" <a href='$email_url'>email</a> |" .
@@ -101,7 +109,7 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL)
                    " </font></p>\n";
     } // if
 
-    $retval .= "</center>\n";
+    $retval .= "</div></center>\n";
 
     return $retval;
 } // render_quote_to_string
