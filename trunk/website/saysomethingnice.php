@@ -140,10 +140,10 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL)
     return "<center>" .
              "<div class='box' style='width: 200px'>" .
                "<div class='boxtop'></div>" .
-                 "<div class='boxcontent'>" .
+               "<div class='boxcontent'>" .
                    "\"${htmltext}\"" .
                    $linkhtml .
-                 "</div>" .
+               "</div>" .
                "<div class='boxbottom'></div>" .
              "</div>" .
              $thumbshtml .
