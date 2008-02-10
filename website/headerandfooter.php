@@ -14,13 +14,14 @@ function render_header($title=NULL, $headextras='', $showads=true)
 
     $advertisements = $showads ? get_advertisements() : '';
 
-    echo "<html>" .
+    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' .
+         "<html xmlns='http://www.w3.org/1999/xhtml'>" .
            "<head>" .
              $headextras .
              "<title>$title</title>" .
              "<link rel='alternate' type='application/rss+xml'" .
              " title='Speed Feed' href='${rssurl}' />" .
-             //"<link rel='stylesheet' type='text/css' href='${cssurl}' />" .
+             "<link rel='stylesheet' type='text/css' href='${cssurl}' />" .
            "</head>" .
            "<body style='text-align: center'>" .
              $advertisements .
