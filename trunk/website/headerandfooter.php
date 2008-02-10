@@ -44,7 +44,7 @@ function render_footer()
     $posturl = get_post_url();
     $widgeturl = get_widget_url();
 
-    echo     "<a href='${baseurl}'>Get a quote</a>" .
+    echo     "<a href='${baseurl}'>Get another quote</a>" .
              "&nbsp;&nbsp;&nbsp;" .
              "<a href='${posturl}'>Add a quote</a>" .
              //"&nbsp;&nbsp;" .
