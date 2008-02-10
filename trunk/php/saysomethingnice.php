@@ -81,37 +81,73 @@ function get_css_url()
 } // get_css_url
 
 
+function get_static_imgdir_url()
+{
+    $baseurl = get_base_url();
+    return "${baseurl}img/";
+} // get_imgdir_url
+
+
+function get_widget_url()
+{
+    $baseurl = get_base_url();
+    return "${baseurl}downloads/SaySomethingNice.wdgt.zip";
+} // get_widget_url
+
+
 function render_quote_to_string($text, $id = NULL, $imageid = NULL)
 {
-    $retval = '';
     $htmltext = escapehtml($text);
-    $retval .= "<center><div id='content'>\n";
-    $retval .= "\"${htmltext}\"\n";
 
+    $imghtml = '';
     if ( (isset($imageid)) && (((int) $imageid) > 0) )
     {
-        $img_url = get_img_url($imageid);
-        $retval .= "<br/><img src='$img_url' />\n";
+        $imghtml = get_img_url($imageid);
+        $imghtml .= "<br/><img src='$imghtml' />\n";
     } // if
 
+    $linkhtml = '';
+    $thumbshtml = '';
     if (isset($id))
     {
         $quote_url = get_quote_url($id);
-        $email_url = get_email_url($id);
+        //$email_url = get_email_url($id);
         $good_url = get_rate_url($id, true);
         $bad_url = get_rate_url($id, false);
+        $imgurl = get_static_imgdir_url();
 
-        $retval .= "<p><font size='-3'>[" .
-                   " <a href='$quote_url'>link</a> |" .
-                   //" <a href='$email_url'>email</a> |" .
-                   " <a href='$good_url'>thumbs up</a> |" .
-                   " <a href='$bad_url'>thumbs down</a> ]" .
-                   " </font></p>\n";
+        $linkhtml = "<a href='$quote_url'>" .
+                      "<img src='${imgurl}chainlinkicon_1.png'" .
+                      " style='border-style: none; vertical-align: middle'" .
+                      " alt='link' title='permalink to this quote' />" .
+                    "</a>";
+
+        $thumbshtml = "<p>" .
+                        "<a href='$good_url'>" .
+                          "<img src='${imgurl}thumbup.png'" .
+                          " style='border-style: none; vertical-align: middle'" .
+                          " alt='thumbs up!' title='Vote this quote UP!' />" .
+                        "</a>" .
+                        "&nbsp;&nbsp;&nbsp;&nbsp;" .
+                        "<a href='$bad_url'>" .
+                          "<img src='${imgurl}thumbdown.png'" .
+                          " style='border-style: none; vertical-align: middle'" .
+                          " alt='thumbs down!' title='Vote this quote DOWN!' />" .
+                        "</a>" .
+                      "</p>";
     } // if
 
-    $retval .= "</div></center>\n";
-
-    return $retval;
+    return "<center>" .
+             "<div class='box' style='width: 200px'>" .
+               "<div class='boxtop'></div>" .
+                 "<div class='boxcontent'>" .
+                   "\"${htmltext}\"" .
+                   $linkhtml .
+                 "</div>" .
+               "<div class='boxbottom'></div>" .
+             "</div>" .
+             $thumbshtml .
+           "</center>";
 } // render_quote_to_string
 
 
