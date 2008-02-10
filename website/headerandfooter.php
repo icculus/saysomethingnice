@@ -24,7 +24,8 @@ function render_header($title=NULL, $headextras='', $showads=true)
              "<title>$title</title>" .
              "<link rel='alternate' type='application/rss+xml'" .
              " title='Speed Feed' href='${rssurl}' />" .
-             "<link rel='stylesheet' type='text/css' href='${cssurl}' />" .
+             "<link rel='stylesheet' type='text/css' href='${cssurl}'" .
+             " media='screen' charset='utf-8' />" .
            "</head>" .
            "<body style='text-align: center'>" .
              $advertisements .

@@ -14,18 +14,18 @@ a
   background: #FFFFFF; 
 }
 .boxtop { 
-  background: url(ne.gif) no-repeat top right; 
+  background: url(img/ne.gif) no-repeat top right; 
 }
 .boxtop div { 
   height: 10px; 
-  background: url(nw.gif) no-repeat top left; 
+  background: url(img/nw.gif) no-repeat top left; 
 }
 .boxbottom { 
-  background: url(se.gif) no-repeat bottom right; 
+  background: url(img/se.gif) no-repeat bottom right; 
 }
 .boxbottom div { 
   height: 10px; 
-  background: url(sw.gif) no-repeat bottom left; 
+  background: url(img/sw.gif) no-repeat bottom left; 
 }
 .boxcontent {
   padding: 0px 10px 0px 10px;

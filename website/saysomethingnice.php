@@ -116,7 +116,8 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL)
         $bad_url = get_rate_url($id, false);
         $imgurl = get_static_imgdir_url();
 
-        $linkhtml = "<a href='$quote_url'>" .
+        $linkhtml = ' ' .
+                    "<a href='$quote_url'>" .
                       "<img src='${imgurl}chainlinkicon_1.png'" .
                       " style='border-style: none; vertical-align: middle'" .
                       " alt='link' title='permalink to this quote' />" .
@@ -138,13 +139,13 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL)
     } // if
 
     return "<center>" .
-             "<div class='box' style='width: 200px'>" .
-               "<div class='boxtop'></div>" .
+             "<div class='box' style='width: 30%'>" .
+               "<div class='boxtop'><div></div></div>" .
                "<div class='boxcontent'>" .
                    "\"${htmltext}\"" .
                    $linkhtml .
                "</div>" .
-               "<div class='boxbottom'></div>" .
+               "<div class='boxbottom'><div></div></div>" .
              "</div>" .
              $thumbshtml .
            "</center>";
