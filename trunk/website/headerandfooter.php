@@ -43,10 +43,13 @@ function render_footer()
     $baseurl = get_base_url();
     $posturl = get_post_url();
     $widgeturl = get_widget_url();
+    $mailtourl = get_contact_url();
 
     echo     "<a href='${baseurl}'>Get another quote</a>" .
              "&nbsp;&nbsp;&nbsp;" .
              "<a href='${posturl}'>Add a quote</a>" .
+             "&nbsp;&nbsp;&nbsp;" .
+             "<a href='${mailtourl}'>Contact us</a>" .
              //"&nbsp;&nbsp;" .
              //"<a href='${widgeturl}'>Get Mac Widget</a>" .
            "</body>" .
