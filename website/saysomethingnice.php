@@ -95,6 +95,12 @@ function get_widget_url()
 } // get_widget_url
 
 
+function get_contact_url()
+{
+    return "mailto:contact@quicksaysomethingnice.com";
+} // get_contact_url
+
+
 function render_quote_to_string($text, $id = NULL, $imageid = NULL)
 {
     $htmltext = escapehtml($text);
