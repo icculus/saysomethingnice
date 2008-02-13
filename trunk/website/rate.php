@@ -36,9 +36,15 @@ function process_vote($quoteid)
 render_header();
 if (get_input_int('id', 'Quote ID number', $id))
 {
-    if (process_vote($id))
-        echo "<center><font color='#0000FF'>thanks for voting!</font></center><hr>\n";
-    render_specific_quote($id);
+    if (!process_vote($id))  // it will have shown an error.
+        render_specific_quote($id);
+    else
+    {
+        echo "<center><font color='#0000FF'>Thanks for voting!<br/>";
+        echo "Here's another random quote, if you want to vote again...";
+        echo "</font></center><hr>\n";
+        render_random_quote();
+    } // else
 } // if
 render_footer();
 
