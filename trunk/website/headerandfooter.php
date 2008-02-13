@@ -54,6 +54,13 @@ function render_footer()
              "<a href='${mailtourl}'>Contact us</a>" .
              //"&nbsp;&nbsp;" .
              //"<a href='${widgeturl}'>Get Mac Widget</a>" .
+             "&nbsp;&nbsp;&nbsp;" .
+             "<script type='text/javascript'>" .
+               "digg_bgcolor = '#90CE90';" .
+               "digg_skin = 'compact';" .
+               "digg_url = '${baseurl}';" .
+             "</script>" .
+             "<script src='http://digg.com/tools/diggthis.js' type='text/javascript'></script>" .
            "</body>" .
          "</html>";
 } // render_footer
