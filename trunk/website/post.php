@@ -14,7 +14,7 @@ function process_possible_submission()
     if (add_quote($quote, $author, ip2long($_SERVER['REMOTE_ADDR'])))
     {
         echo '<center><font color="#0000FF">Quote added, thanks!' .
-             '<br/>Feel free to add another.</font></center><hr>';
+             '<br/>Feel free to add another, if you like.</font></center><hr>';
     } // if
 } // process_possible_submission
 
@@ -25,9 +25,14 @@ function render_submission_ui()
 
 echo <<< EOF
     $form
-    Whisper sweet nothings: <input type='text' size="60" name='quote'><br>
+    <p>Go ahead an add a compliment, apology, encouragement, or some other sweetness.
+    It will show up on the front page once the crew comes along
+    and makes sure it isn't spam or anything.</p>
+    <p>
+    Your quote: <input type='text' size="60" name='quote'><br>
     (optional) email address: <input type='text' size="20" name='author'><br>
     <input type='submit' name='submitting' value='Go!'>
+    </p>
     </form>
 
 EOF;
