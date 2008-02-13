@@ -172,7 +172,7 @@ function select_and_render_quote($sql)
     else
     {
         if ( ($row = db_fetch_array($query)) == false )
-            write_error('No quote at the moment, apparently.');
+            write_error("No quote at the moment, apparently. Maybe we deleted or haven't approved it yet?");
         else
             render_quote($row['text'], $row['id'], $row['imageid']);
         db_free_result($query);
@@ -231,7 +231,7 @@ function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL)
     if ($updated)
         update_papertrail("Updated quote", $sql);
     return $updated;
-} // add_quote
+} // update_quote
 
 
 function calculate_quote_rating($quoteid, &$rating, &$votes)
