@@ -25,7 +25,7 @@ function render_submission_ui()
 
 echo <<< EOF
     $form
-    <p>Go ahead an add a compliment, apology, encouragement, or some other sweetness.
+    <p>Go ahead an add a compliment, apology, encouragement, or some other sweetness.<br/>
     It will show up on the front page once the crew comes along
     and makes sure it isn't spam or anything.</p>
     <p>
