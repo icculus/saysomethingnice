@@ -5,5 +5,6 @@ $sql = 'select * from quotes where approved=true and deleted=false order by post
 $title = 'Quick, Say Something Nice!';
 $desc = 'Pulling your relationship out of the fire since 2008.';
 $baseurl = get_base_url();
-do_rss($sql, $baseurl, $title, $desc);
+$rssurl = get_rss_url();
+do_rss($sql, $baseurl, $rssurl, $title, $desc, 'get_quote_url');
 ?>

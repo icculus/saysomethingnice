@@ -11,7 +11,15 @@ if (!valid_admin_login())
 $sql = 'select * from quotes order by postdate desc limit 15';
 $title = 'Say Something Nice Admin Firehose';
 $desc = 'Look here to filter out people looking for a booty call.';
-$baseurl = get_base_url();
-do_rss($sql, $baseurl, $title, $desc);
+$baseurl = get_admin_url();
+$rssurl = get_firehose_url();
+
+function firehosecallback($id)
+{
+    global $baseurl;
+    return "${baseurl}?action=edit&id=$id";
+} // firehosecallback
+
+do_rss($sql, $baseurl, $rssurl, $title, $desc, 'firehosecallback');
 
 ?>

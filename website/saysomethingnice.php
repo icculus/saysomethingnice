@@ -211,7 +211,7 @@ function add_quote($quote, $author, $ipaddr)
 } // add_quote
 
 
-function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL)
+function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL, $approved=NULL, $deleted=NULL)
 {
     $id = (int) $id;
 
@@ -222,6 +222,10 @@ function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL)
         $updstr .= ", author=" . db_escape_string($author);
     if (isset($ipaddr))
         $updstr .= ", ipaddr=" . ((int) $ipaddr);
+    if (isset($approved))
+        $updstr .= ", approved=" . (($approved) ? 'true' : 'false');
+    if (isset($deleted))
+        $updstr .= ", deleted=" . (($deleted) ? 'true' : 'false');
 
     if ($updstr == '')
         return true;
@@ -513,7 +517,7 @@ function admin_login_prompt()
 } // admin_login_prompt
 
 
-function do_rss($sql, $baseurl, $basetitle, $basedesc)
+function do_rss($sql, $baseurl, $rssurl, $basetitle, $basedesc, $callback)
 {
     // DATE_RSS doesn't appear to be defined on Dreamhost if you are using
     //  mod_php instead of PHP CGI, so the Admin Firehose screws up pubdates.
@@ -547,7 +551,7 @@ function do_rss($sql, $baseurl, $basetitle, $basedesc)
     $digestitems = '';
     while ( ($row = db_fetch_array($query)) != false )
     {
-        $url = get_quote_url($row['id']);
+        $url = callback($row['id']);
         $text = escapehtml($row['text']);
         $desc = escapehtml(render_quote_to_string($row['text'], $row['id'], $row['imageid']));
         $postdate = date($daterss, sql_datetime_to_unix_timestamp($row['postdate']));
@@ -557,8 +561,6 @@ function do_rss($sql, $baseurl, $basetitle, $basedesc)
         $digestitems .= "<rdf:li rdf:resource=\"${url}\" />\n";
     } // while
     db_free_result($query);
-
-    $rssurl = get_rss_url();
 
     // stupid question mark endtag screws up PHP, even in strings and comments!
     $xmltag = '<' . '?' . 'xml version="1.0" encoding="UTF-8"' . '?' . '>';
