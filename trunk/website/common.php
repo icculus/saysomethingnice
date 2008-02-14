@@ -9,6 +9,7 @@
 //$dbuser = 'DATABASE_USERNAME_GOES_HERE';
 //$dbpass = 'DATABASE_PASSWORD_GOES_HERE';
 //$dbname = 'DATABASE_NAME_GOES_HERE';
+//$geoipdb = 'PATH_TO_GEOIP_DAT_GOES_HERE';  // (or NULL).
 //function get_advertisements() { return $MY_ADVERTISEMENT_HTML_HERE; }
 
 require_once 'localcfg.php';
