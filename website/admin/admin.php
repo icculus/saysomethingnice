@@ -105,6 +105,12 @@ function get_admin_names()
 } // get_admin_names
 
 
+function geostr($str)
+{
+    return ( (empty($str)) ? '???' : escapehtml($str) );
+} // geostr
+
+
 function output_quote_queue_rows($category, $showall = 0)
 {
     global $adminurl, $geoipdb, $GEOIP_REGION_NAME;
@@ -164,14 +170,14 @@ function output_quote_queue_rows($category, $showall = 0)
         {
             $record = geoip_record_by_addr($gi, $ip);
             $ip = "<div onMouseover=\"ddrivetip('" . 
-                  "country: " . escapehtml($record->country_name) . "<br/>" .
-                  "region: " . escapehtml($GEOIP_REGION_NAME[$record->country_code][$record->region]) . "<br/>" .
-                  "city: " . escapehtml($record->city) . "<br/>" .
-                  "latitude: " . escapehtml($record->latitude) . "<br/>" .
-                  "longitude: " . escapehtml($record->longitude) . "<br/>" .
-                  "zip code: " . escapehtml($record->postal_code) . "<br/>" .
-                  "dma code: " . escapehtml($record->dma_code) . "<br/>" .
-                  "area code :" . escapehtml($record->area_code) . "<br/>" .
+                  "country: " . geostr($record->country_name) . "<br/>" .
+                  "region: " . geostr($GEOIP_REGION_NAME[$record->country_code][$record->region]) . "<br/>" .
+                  "city: " . geostr($record->city) . "<br/>" .
+                  "latitude: " . geostr($record->latitude) . "<br/>" .
+                  "longitude: " . geostr($record->longitude) . "<br/>" .
+                  "zip code: " . geostr($record->postal_code) . "<br/>" .
+                  "dma code: " . geostr($record->dma_code) . "<br/>" .
+                  "area code :" . geostr($record->area_code) . "<br/>" .
                   "', 'yellow', 300);\" onMouseout=\"hideddrivetip();\">$ip</div>";
         } // if
 
