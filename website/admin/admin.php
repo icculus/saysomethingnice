@@ -113,16 +113,25 @@ function geostr($str)
 
 function output_quote_queue_rows($category, $showall = 0)
 {
-    global $adminurl, $geoipdb, $GEOIP_REGION_NAME;
+    global $adminurl, $geoipdb, $geoiporgdb, $GEOIP_REGION_NAME;
 
     $gi = NULL;
+    $giorg = NULL;
 
     if (isset($geoipdb))
     {
         // uncomment for Shared Memory support
         // geoip_load_shared_mem($geoipdb);
-        // $gi = geoip_open($geoipdb,GEOIP_SHARED_MEMORY);
-        $gi = geoip_open($geoipdb,GEOIP_STANDARD);
+        // $gi = geoip_open($geoipdb, GEOIP_SHARED_MEMORY);
+        $gi = geoip_open($geoipdb, GEOIP_STANDARD);
+    } // if
+
+    if (isset($geoiporgdb))
+    {
+        // uncomment for Shared Memory support
+        // geoip_load_shared_mem($geoiporgdb);
+        // $giorg = geoip_open($geoiporgdb, GEOIP_SHARED_MEMORY);
+        $giorg = geoip_open($geoiporgdb, GEOIP_STANDARD);
     } // if
 
     $sql = "select * from quotes where category=$category";
@@ -166,20 +175,32 @@ function output_quote_queue_rows($category, $showall = 0)
 
         $ip = long2ip($row['ipaddr']);
 
+        $geoipstr = '';
         if (isset($gi))
         {
             $record = geoip_record_by_addr($gi, $ip);
-            $ip = "<div onMouseover=\"ddrivetip('" . 
-                  "country: " . geostr($record->country_name) . "<br/>" .
-                  "region: " . geostr($GEOIP_REGION_NAME[$record->country_code][$record->region]) . "<br/>" .
-                  "city: " . geostr($record->city) . "<br/>" .
-                  "latitude: " . geostr($record->latitude) . "<br/>" .
-                  "longitude: " . geostr($record->longitude) . "<br/>" .
-                  "zip code: " . geostr($record->postal_code) . "<br/>" .
-                  "dma code: " . geostr($record->dma_code) . "<br/>" .
-                  "area code :" . geostr($record->area_code) . "<br/>" .
-                  "', 'yellow', 300);\" onMouseout=\"hideddrivetip();\">$ip</div>";
+            if ($geoipstr != '')
+                $geoipstr .= "<br/>";
+            $geoipstr .= "country: " . geostr($record->country_name) . "<br/>" .
+                         "region: " . geostr($GEOIP_REGION_NAME[$record->country_code][$record->region]) . "<br/>" .
+                         "city: " . geostr($record->city) . "<br/>" .
+                         "latitude: " . geostr($record->latitude) . "<br/>" .
+                         "longitude: " . geostr($record->longitude) . "<br/>" .
+                         "zip code: " . geostr($record->postal_code) . "<br/>" .
+                         "dma code: " . geostr($record->dma_code) . "<br/>" .
+                         "area code :" . geostr($record->area_code);
         } // if
+
+        if (isset($giorg))
+        {
+            $record = geoip_org_by_addr($giorg, $ip);
+            if ($geoipstr != '')
+                $geoipstr .= "<br/>";
+            $geoipstr .= "org: " . geostr($record);
+        } // if
+
+        if ($geoipstr != '')
+            $ip = "<div onMouseover=\"ddrivetip('$geoipstr', 'yellow', 300);\" onMouseout=\"hideddrivetip();\">$ip</div>";
 
         print("<tr>\n");
         print('<td align="center"> <input type="checkbox" name="itemid[]"');
@@ -196,6 +217,12 @@ function output_quote_queue_rows($category, $showall = 0)
         print("<td align=\"center\"> $tags $rating ($votes votes) $endtags </td>\n");
         print("</tr>\n");
     } // while
+
+    if (isset($giorg))
+        geoip_close($giorg);
+
+    if (isset($gi))
+        geoip_close($gi);
 
     print('<tr><td align="center" colspan="6"><font color="#0000FF">');
     print("$item_count items listed, $deleted deleted, $approved approved, $pending pending.</font></td></tr>\n");
