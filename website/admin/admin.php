@@ -363,9 +363,9 @@ function output_edit_widgets($id)
     if (($approved) && ($deleted))
         $approved = false;
 
-    $approvedchecked = ($approved) ? 'true' : 'false';
-    $deletedchecked = ($deleted) ? 'true' : 'false';
-    $unapprovedchecked = ((!$approved) && (!$deleted)) ? 'true' : 'false';
+    $approvedchecked = ($approved) ? 'checked' : '';
+    $deletedchecked = ($deleted) ? 'checked' : '';
+    $unapprovedchecked = ((!$approved) && (!$deleted)) ? 'checked' : '';
 
     $imgtag = '<i>(no image uploaded.)</i>';
     if ( (isset($imgid)) && (((int) $imgid) > 0) )
@@ -387,9 +387,9 @@ function output_edit_widgets($id)
     echo "<tr><td>IP address:\n";
     echo "<input type='text' size='60' name='ipaddr' value='$ipaddr' /></td></tr>\n";
     echo "<tr><td>\n";
-    echo "<input type='radio' name='state' value='deleted' checked='$deletedchecked' />Deleted<br/>\n";
-    echo "<input type='radio' name='state' value='unapproved' checked='$unapprovedchecked' />Unapproved<br/>\n";
-    echo "<input type='radio' name='state' value='approved' checked='$approvedchecked' />Approved<br/>\n";
+    echo "<input type='radio' name='state' value='deleted' $deletedchecked />Deleted<br/>\n";
+    echo "<input type='radio' name='state' value='unapproved' $unapprovedchecked />Unapproved<br/>\n";
+    echo "<input type='radio' name='state' value='approved' $approvedchecked />Approved<br/>\n";
     echo "</td></tr>\n";
     echo "<tr><td>\n";
     echo "<input type='reset' name='editreset' value='Reset!' />\n";
