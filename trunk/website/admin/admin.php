@@ -341,7 +341,7 @@ function output_edit_widgets($id)
 {
     global $adminurl;
 
-    $sql = "select text,imageid,author,ipaddr from quotes where id=$id limit 1";
+    $sql = "select text,imageid,author,ipaddr,approved,deleted from quotes where id=$id limit 1";
     $query = do_dbquery($sql);
     if ($query == false)
         return false;  // do_dbquery will have spit out an error.
@@ -357,6 +357,15 @@ function output_edit_widgets($id)
     $imgid = $row['imageid'];
     $author = escapehtml($row['author']);
     $ipaddr = long2ip($row['ipaddr']);
+    $approved = $row['approved'];
+    $deleted = $row['deleted'];
+
+    if (($approved) && ($deleted))
+        $approved = false;
+
+    $approvedchecked = ($approved) ? 'true' : 'false';
+    $deletedchecked = ($deleted) ? 'true' : 'false';
+    $unapprovedchecked = ((!$approved) && (!$deleted)) ? 'true' : 'false';
 
     $imgtag = '<i>(no image uploaded.)</i>';
     if ( (isset($imgid)) && (((int) $imgid) > 0) )
@@ -377,6 +386,11 @@ function output_edit_widgets($id)
     echo "<input type='text' size='60' name='author' value='$author' /></td></tr>\n";
     echo "<tr><td>IP address:\n";
     echo "<input type='text' size='60' name='ipaddr' value='$ipaddr' /></td></tr>\n";
+    echo "<tr><td>\n";
+    echo "<input type='radio' name='state' value='deleted' checked='$deletedchecked' />Deleted<br/>\n";
+    echo "<input type='radio' name='state' value='unapproved' checked='$unapprovedchecked' />Unapproved<br/>\n";
+    echo "<input type='radio' name='state' value='approved' checked='$approvedchecked' />Approved<br/>\n";
+    echo "</td></tr>\n";
     echo "<tr><td>\n";
     echo "<input type='reset' name='editreset' value='Reset!' />\n";
     echo "<input type='submit' name='editsubmit' value='Change!' />\n";
@@ -484,10 +498,16 @@ function process_edit_action()
     else if (!get_input_string('ipaddr', 'IP address', $ipaddr))
         return output_edit_widgets($id);
 
+    else if (!get_input_string('state', 'state', $state))
+        return output_edit_widgets($id);
+
     else if (ip2long($ipaddr) == 0)
         return output_edit_widgets($id);
 
-    if (!update_quote($id, $text, $author, ip2long($ipaddr)))
+    $deleted = ($state == 'deleted');
+    $approved = (($state == 'approved') && (!$deleted));
+
+    if (!update_quote($id, $text, $author, ip2long($ipaddr), $approved, $deleted))
         return output_edit_widgets($id);
 
     return false;  // carry on.
