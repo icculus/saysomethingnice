@@ -551,7 +551,7 @@ function do_rss($sql, $baseurl, $rssurl, $basetitle, $basedesc, $callback)
     $digestitems = '';
     while ( ($row = db_fetch_array($query)) != false )
     {
-        $url = callback($row['id']);
+        $url = $callback($row['id']);
         $text = escapehtml($row['text']);
         $desc = escapehtml(render_quote_to_string($row['text'], $row['id'], $row['imageid']));
         $postdate = date($daterss, sql_datetime_to_unix_timestamp($row['postdate']));
