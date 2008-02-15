@@ -101,9 +101,14 @@ function get_contact_url()
 } // get_contact_url
 
 
-function render_quote_to_string($text, $id = NULL, $imageid = NULL)
+function render_quote_to_string($text, $id = NULL, $imageid = NULL, $randomized=false)
 {
     $htmltext = escapehtml($text);
+
+    $adstartignore = "\n<!-- google_ad_section_start(weight=ignore) -->\n";
+    $adstartnoignore = "\n<!-- google_ad_section_start -->\n";
+    $adstart = ($randomized) ? $adstartignore : $adstartnoignore;
+    $adend = "\n<!-- google_ad_section_end -->\n";
 
     $imghtml = '';
     if ( (isset($imageid)) && (((int) $imageid) > 0) )
@@ -148,23 +153,29 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL)
              "<div class='box' style='width: 30%'>" .
                "<div class='boxtop'><div></div></div>" .
                "<div class='boxcontent'>" .
+                   $adstart .
                    "\"${htmltext}\"" .
+                   $adend .
+                   $adstartignore .
                    $linkhtml .
+                   $adend .
                "</div>" .
                "<div class='boxbottom'><div></div></div>" .
              "</div>" .
+             $adstartignore .
              $thumbshtml .
+             $adend .
            "</center>";
 } // render_quote_to_string
 
 
-function render_quote($text, $id = NULL, $imageid = NULL)
+function render_quote($text, $id = NULL, $imageid = NULL, $randomized=false)
 {
-    echo render_quote_to_string($text, $id, $imageid);
+    echo render_quote_to_string($text, $id, $imageid, $randomized);
 } // render_quote
 
 
-function select_and_render_quote($sql)
+function select_and_render_quote($sql, $randomized=false)
 {
     $query = do_dbquery($sql);
     if ($query == false)
@@ -174,7 +185,7 @@ function select_and_render_quote($sql)
         if ( ($row = db_fetch_array($query)) == false )
             write_error("No quote at the moment, apparently. Maybe we deleted or haven't approved it yet?");
         else
-            render_quote($row['text'], $row['id'], $row['imageid']);
+            render_quote($row['text'], $row['id'], $row['imageid'], $randomized);
         db_free_result($query);
     } // else
 } // select_and_render_quote
@@ -183,7 +194,7 @@ function select_and_render_quote($sql)
 function render_specific_quote($id)
 {
     $sql = "select * from quotes where id=$id and approved=true and deleted=false limit 1;";
-    select_and_render_quote($sql);
+    select_and_render_quote($sql, false);
 } // render_specific_quote
 
 
@@ -191,7 +202,7 @@ function render_random_quote()
 {
     // !!! FIXME: 'order by rand() limit 1' isn't efficient as the size of the table grows!
     $sql = 'select * from quotes where approved=true and deleted=false order by rand() limit 1';
-    select_and_render_quote($sql);
+    select_and_render_quote($sql, true);
 } // render_random_quote
 
 
@@ -554,7 +565,7 @@ function do_rss($sql, $baseurl, $rssurl, $basetitle, $basedesc, $callback)
         $url = $callback($row['id']);
         $urlenc = escapehtml($url);
         $text = escapehtml($row['text']);
-        $desc = escapehtml(render_quote_to_string($row['text'], $row['id'], $row['imageid']));
+        $desc = escapehtml(render_quote_to_string($row['text'], $row['id'], $row['imageid'], false));
         $postdate = date($daterss, sql_datetime_to_unix_timestamp($row['postdate']));
         $items .= "<item rdf:about=\"$urlenc\"><title>\"${text}\"</title><pubDate>${postdate}</pubDate>" .
                   "<description>${desc}</description>" .

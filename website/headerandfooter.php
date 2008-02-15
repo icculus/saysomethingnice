@@ -32,9 +32,14 @@ function render_header($title=NULL, $headextras='', $showads=true)
            "<body style='text-align: center'>" .
              $advertisements .
              "<p>" .
-               "<font size='-1'>Flowers? Candy? Jewelry? Relationship advice? No time for that!</font><br/>" .
+               "<font size='-1'>\n" .
+               "<!-- google_ad_section_start -->\n" .
+               "Flowers? Candy? Jewelry? Relationship advice?\n" .
+              "No time for that!</font><br/>" .
                "<img src='${imgurl}header.jpg'" .
-               " alt='Quick, Say Something Nice!' />" .
+               " alt='Quick, Say Something Nice!'" .
+               " title='Fixing your romantic relationships since 2008.' />\n" .
+               "<!-- google_ad_section_end -->\n" .
              "</p>";
 
     write_debug('If you can read this, debugging is enabled!');
@@ -48,7 +53,8 @@ function render_footer()
     $widgeturl = get_widget_url();
     $mailtourl = get_contact_url();
 
-    echo     "<a href='${baseurl}'>Get another quote</a>" .
+    echo     "\n<!-- google_ad_section_start(weight=ignore) -->\n" .
+             "<a href='${baseurl}'>Get another quote</a>" .
              "&nbsp;&nbsp;&nbsp;" .
              "<a href='${posturl}'>Add a quote</a>" .
              "&nbsp;&nbsp;&nbsp;" .
@@ -61,7 +67,8 @@ function render_footer()
                "digg_skin = 'compact';" .
                "digg_url = '${baseurl}';" .
              "</script>" .
-             "<script src='http://digg.com/tools/diggthis.js' type='text/javascript'></script>" .
+             "<script src='http://digg.com/tools/diggthis.js' type='text/javascript'></script>\n" .
+             "<!-- google_ad_section_end -->\n" .
            "</body>" .
          "</html>";
 } // render_footer

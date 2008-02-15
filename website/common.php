@@ -64,9 +64,11 @@ function is_authorized()
 
 function write_error($err)
 {
+    echo "\n<!-- google_ad_section_start(weight=ignore) -->\n";
     echo "<p><center><font color='#FF0000'>";
     echo   "ERROR: $err<br>";
     echo "</font></center>\n";
+    echo "<!-- google_ad_section_end -->\n";
 } // write_error
 
 
@@ -75,9 +77,11 @@ function write_debug($dbg)
     global $enable_debug;
     if ($enable_debug)
     {
+        echo "\n<!-- google_ad_section_start(weight=ignore) -->\n";
         echo "<p><center><font color='#0000FF'>";
         echo   "DEBUG: $dbg<br>";
         echo "</font></center>\n";
+        echo "<!-- google_ad_section_end -->\n";
     } // if
 } // write_debug
 
