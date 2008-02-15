@@ -32,7 +32,7 @@ function render_header($title=NULL, $headextras='', $showads=true)
            "<body style='text-align: center'>" .
              $advertisements .
              "<p>" .
-               "Flowers? Candy? Jewelry? Relationship advice? No time for that!<br/>
+               "<font size='-1'>Flowers? Candy? Jewelry? Relationship advice? No time for that!</font><br/>" .
                "<img src='${imgurl}header.jpg'" .
                " alt='Quick, Say Something Nice!' />" .
              "</p>";
