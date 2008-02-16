@@ -149,7 +149,7 @@ function output_quote_queue_rows($category, $showall = 0)
     {
         $item_count++;
 
-        calculate_quote_rating($row['id'], $rating, $votes);
+        calculate_quote_rating($row['id'], $rating, $votes, $positive, $negative);
 
         $row['author'] = escapehtml($row['author']);
         $row['text'] = escapehtml($row['text']);
