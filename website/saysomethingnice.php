@@ -249,12 +249,14 @@ function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL, $approved=NU
 } // update_quote
 
 
-function calculate_quote_rating($quoteid, &$rating, &$votes)
+function calculate_quote_rating($quoteid, &$rating, &$votes, &$positive, &$negative)
 {
     // !!! FIXME: this is all probably wickedly inefficient once you get some
     // !!! FIXME:  data into the tables...
     $rating = 0;
     $votes = 0;
+    $positive = 0;
+    $negative = 0;
     $quoteid = (int) $quoteid;
 
     $sql = "select rating from votes where quoteid=$quoteid";
@@ -265,7 +267,12 @@ function calculate_quote_rating($quoteid, &$rating, &$votes)
     {
         while ( ($row = db_fetch_array($query)) != false )
         {
-            $rating += $row['rating'];
+            $val = $row['rating'];
+            $rating += $val;
+            if ($val >= 0)
+                $positive += $val;
+            else
+                $negative -= $val;
             $votes++;
         } // while
     } // else
