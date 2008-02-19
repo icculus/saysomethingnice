@@ -208,6 +208,20 @@ function render_random_quote()
 
 function add_quote($quote, $author, $ipaddr)
 {
+    // Trim quotes from submitted quotes (we add them ourselves later).
+    // I have a feeling there's a more efficient way to do this...
+    $len = strlen($quote);
+    if ($len > 1)
+    {
+        $firstch = substr($quote, 0, 1);
+        $lastch = substr($quote, $len-1, 1);
+        if (($firstch == $lastch) && (($firstch == '"') || ($firstch == "'")))
+            $quote = substr($quote, 1, $len-2);
+    } // if
+
+    if (empty($quote))
+        return false;
+
     $sqlquote = db_escape_string($quote);
     $sqlauthor = db_escape_string($author);
     $ipaddr = (int) $ipaddr;
