@@ -44,24 +44,55 @@ function write_table($sorttype, $q)
     echo "<td>downs</td>";
     echo "<td>pct</td>";
     echo "</tr>";
+
+    $total_votes = 0;
+    $total_rating = 0;
+    $total_positive = 0;
+    $total_negative = 0;
+
     foreach ($q as $i)
     {
         $id = $i['id'];
+        $votes = $i['votes'];
+        $rating = $i['rating'];
+        $positive = $i['positive'];
+        $negative = $i['negative'];
+        $text = $i['text'];
+
+        $total_votes += $votes;
+        $total_rating += $rating;
+        $total_positive += $positive;
+        $total_negative += $negative;
+
         $link = get_quote_url($id);
-        $pct = ( ($i['votes'] == 0) ? 0 : ((int) (($i['positive'] / $i['votes']) * 100.0)) );
+        $pct = ( ($votes == 0) ? 0 : ((int) (($positive / $votes) * 100.0)) );
+
         echo "<tr>" .
                "<td>" .
-                 "${i['text']}" .
+                 "$text" .
                  " <font size=1>[ <a href='$link'>link</a> | <a href='$adminurl?action=edit&id=$id'>edit</a> ]</font>" .
                "</td>" .
-               "<td>${i['rating']}</td>" .
-               "<td>${i['votes']}</td>" .
-               "<td>${i['positive']}</td>" .
-               "<td>${i['negative']}</td>" .
+               "<td>$rating</td>" .
+               "<td>$votes</td>" .
+               "<td>$positive</td>" .
+               "<td>$negative</td>" .
                "<td>$pct</td>" .
              "</tr>";
     } // foreach
-    echo "</table>";
+
+    $total_pct = ( ($total_votes == 0) ? 0 : ((int) (($total_positive / $total_votes) * 100.0)) );
+
+    echo "<tr>" .
+           "<td>" .
+             "<i>(TOTALS VALUES FOR ALL QUOTES)</i>" .
+           "</td>" .
+           "<td>$total_rating</td>" .
+           "<td>$total_votes</td>" .
+           "<td>$total_positive</td>" .
+           "<td>$total_negative</td>" .
+           "<td>$total_pct</td>" .
+         "</tr>" .
+         "</table>";
 } // write_table
 
 
