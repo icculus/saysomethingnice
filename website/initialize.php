@@ -59,7 +59,7 @@ do_dbquery(
         " deleted bool not null default false," .
         " imageid int unsigned," .
         " author varchar(128) not null," .
-        " ipaddr int unsigned not null," .
+        " ipaddr int not null," .
         " postdate datetime not null," .
         " lastedit datetime not null," .
         " index domain_index (domain)," .
@@ -73,7 +73,7 @@ do_dbquery(
         " id int unsigned not null auto_increment," .
         " data mediumblob not null," .
         " mimetype varchar(64) not null," .
-        " ipaddr int unsigned not null," .
+        " ipaddr int not null," .
         " postdate datetime not null," .
         " primary key (id)" .
     " ) character set utf8"
@@ -83,7 +83,7 @@ echo "Building votes table...\n";
 do_dbquery(
     "create table votes (" .
         " id int unsigned not null auto_increment," .
-        " ipaddr int unsigned not null," .
+        " ipaddr int not null," .
         " quoteid int unsigned not null," .
         " rating tinyint not null," .
         " ratedate datetime not null," .
