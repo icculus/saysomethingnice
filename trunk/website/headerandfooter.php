@@ -71,7 +71,7 @@ function render_footer()
              //"<a href='${widgeturl}'>Get Mac Widget</a>" .
              "&nbsp;&nbsp;&nbsp;" .
              "<script type='text/javascript'>" .
-               "<!--\n" .
+               "\n<!--\n" .
                "digg_bgcolor = document.body.bgColor;" .
                "digg_skin = 'compact';" .
                "digg_url = '${baseurl}';" .
