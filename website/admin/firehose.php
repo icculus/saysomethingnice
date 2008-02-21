@@ -8,9 +8,12 @@ if (!valid_admin_login())
     exit(0);
 } // if
 
-$sql = 'select * from quotes order by postdate desc limit 15';
-$title = 'Say Something Nice Admin Firehose';
-$desc = 'Look here to filter out people looking for a booty call.';
+$domain = get_domain_info();
+$domid = (int) $domain['id'];
+
+$sql = 'select * from quotes where domain=$domid order by postdate desc limit 15';
+$title = $domain['firehosename'];
+$desc = $domain['firehosedesc'];
 $adminurl = get_admin_url();
 $rssurl = get_firehose_url();
 

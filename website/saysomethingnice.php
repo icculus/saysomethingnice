@@ -6,10 +6,53 @@ require_once 'common.php';
 require_once 'database.php';
 require_once 'headerandfooter.php';
 
+function get_domain_info()
+{
+    static $domain = NULL;
+    if (isset($domain))
+        return $domain;
+
+    $host = $_SERVER['SERVER_NAME'];
+    if (empty($host))
+        $host = 'quicksaysomethingnice.com'; // for php from command line.
+    else if (substr($host, 0, 4) == 'www.')
+        $host = substr($host, 4);
+
+    $sqlhost = db_escape_string($host);
+    $sql = "select * from domains where domainname=$host limit 1";
+    $query = do_dbquery($sql, NULL, true);
+    if ( ($query == false) || ( ($domain = db_fetch_array($query)) == false ) )
+    {
+        header('HTTP/1.0 503 Server Error');
+        header('Content-Type: text/html;charset=utf-8');
+        header('Cache-Control: no-cache');
+        echo("\n\n\ndomain is misconfigured, or database is down. Try again later.\n\n\n");
+
+        global $enable_debug;
+        if ($enable_debug)
+        {
+            $err = mysql_error();
+            echo("\n\n(debug data...)\n\n");
+            echo("SQL statement was: $sql\n\n");
+            echo("mysql_error() reports: {$err}\n\n");
+        } // if
+
+        exit(0);  // just bail now.
+    } // if
+
+    return $domain;
+} // get_domain_info
+
+
 function get_base_url()
 {
-    global $baseurl;
-    return $baseurl;
+    static $retval = NULL;
+    if (!isset($retval))
+    {
+        $domain = get_domain_info();
+        $retval = "http://${domain['domainname']}/";
+    } // if
+    return $retval;
 } // get_base_url
 
 
@@ -97,7 +140,9 @@ function get_widget_url()
 
 function get_contact_url()
 {
-    return "mailto:contact@quicksaysomethingnice.com";
+    $domain = get_domain_info();
+    $addr = htmlescape($domain['contactemail']);
+    return "mailto:$addr";
 } // get_contact_url
 
 
@@ -193,15 +238,21 @@ function select_and_render_quote($sql, $randomized=false)
 
 function render_specific_quote($id)
 {
-    $sql = "select * from quotes where id=$id and approved=true and deleted=false limit 1;";
+    $domain = get_domain_info();
+    $domid = (int) $domain['id'];
+    $id = (int) $id;
+    $sql = "select * from quotes where id=$id and domain=$domid" .
+           " and approved=true and deleted=false limit 1;";
     select_and_render_quote($sql, false);
 } // render_specific_quote
 
 
 function render_random_quote()
 {
+    $domain = get_domain_info();
+    $domid = (int) $domain['id'];
     // !!! FIXME: 'order by rand() limit 1' isn't efficient as the size of the table grows!
-    $sql = 'select * from quotes where approved=true and deleted=false order by rand() limit 1';
+    $sql = 'select * from quotes where domain=$domid and approved=true and deleted=false order by rand() limit 1';
     select_and_render_quote($sql, true);
 } // render_random_quote
 
@@ -226,8 +277,10 @@ function add_quote($quote, $author, $ipaddr)
     $sqlauthor = db_escape_string($author);
     $ipaddr = (int) $ipaddr;
 
-    $sql = "insert into quotes (text, author, ipaddr, postdate, lastedit)" .
-           " values ($sqlquote, $sqlauthor, $ipaddr, NOW(), NOW())";
+    $domain = get_domain_info();
+    $domid = (int) $domain['id'];
+    $sql = "insert into quotes (domain, text, author, ipaddr, postdate, lastedit)" .
+           " values ($domid, $sqlquote, $sqlauthor, $ipaddr, NOW(), NOW())";
 
     $inserted = (do_dbinsert($sql) == 1);
     if ($inserted)
@@ -565,7 +618,7 @@ function do_rss($sql, $baseurl, $rssurl, $basetitle, $basedesc, $callback)
         return;
     } // if
 
-    header('Content-Type: text/xml; charset=UTF-8');
+    header('Content-Type: text/xml;charset=UTF-8');
 
     $rowcount = db_num_rows($query);
     $newestentrytime = current_sql_datetime();

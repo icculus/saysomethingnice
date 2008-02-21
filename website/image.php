@@ -12,7 +12,7 @@ function do404($errstr = NULL)
 
     header('HTTP/1.0 404 Not Found');
     header('Connection: close');
-    header('Content-Type: text/html; charset=UTF-8');
+    header('Content-Type: text/html;charset=UTF-8');
 
     render_header();
     echo "<h1>Image retrieval</h1>\n";

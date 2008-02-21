@@ -4,18 +4,22 @@ require_once 'common.php';
 
 function render_header($title=NULL, $headextras='', $showads=true)
 {
+    $domain = get_domain_info();
+
+    header('Content-Type: text/html;charset=utf-8');
+    header('Cache-Control: no-cache');
+
     $rssurl = get_rss_url();
     $posturl = get_post_url();
     $cssurl = get_css_url();
     $imgurl = get_static_imgdir_url();
 
-    if ($title == NULL)
-        $title = 'Quick, say something nice!';
-
-    header('Content-Type: text/html;charset=utf-8');
-    header('Cache-Control: no-cache');
-
     $advertisements = $showads ? get_advertisements() : '';
+    $realname = escapehtml($domain['realname']);
+    $logotext = escapehtml($domain['logotext']);
+
+    if ($title == NULL)
+        $title = $realname;
 
     echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' .
          "<html xmlns='http://www.w3.org/1999/xhtml'>" .
@@ -32,13 +36,11 @@ function render_header($title=NULL, $headextras='', $showads=true)
            "<body style='text-align: center'>" .
              $advertisements .
              "<p>" .
-               "<font size='-1'>\n" .
                "<!-- google_ad_section_start -->\n" .
-               "Flowers? Candy? Jewelry? Relationship advice?\n" .
-              "No time for that!</font><br/>" .
+               "<font size='-1'>$tagline</font><br/>" .
                "<img src='${imgurl}header.jpg'" .
-               " alt='Quick, Say Something Nice!'" .
-               " title='Fixing your romantic relationships since 2008.' />\n" .
+               " alt='$realname'" .
+               " title='$logotext' />\n" .
                "<!-- google_ad_section_end -->\n" .
              "</p>";
 
@@ -50,7 +52,7 @@ function render_footer()
 {
     $baseurl = get_base_url();
     $posturl = get_post_url();
-    $widgeturl = get_widget_url();
+    //$widgeturl = get_widget_url();
     $mailtourl = get_contact_url();
 
     echo     "\n<!-- google_ad_section_start(weight=ignore) -->\n" .

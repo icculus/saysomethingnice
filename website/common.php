@@ -4,7 +4,6 @@
 //  depends on the server itself.
 //
 // It should have these globals defined:
-//$baseurl = 'BASE_URL_GOES_HERE'; // like: 'http://quicksaysomethingnice.com/';
 //$dbhost = 'DATABASE_HOSTNAME_GOES_HERE';
 //$dbuser = 'DATABASE_USERNAME_GOES_HERE';
 //$dbpass = 'DATABASE_PASSWORD_GOES_HERE';

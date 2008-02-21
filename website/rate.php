@@ -6,8 +6,11 @@ function process_vote($quoteid)
 {
     if (!get_input_bool('thumbs', 'Thumb position', $thumbs)) return false;
 
+    $quoteid = (int) $quoteid;
     $rating = ($thumbs) ? 1 : -1;
     $ipaddr = ip2long($_SERVER['REMOTE_ADDR']);
+
+    // !!! FIXME: make sure quoteid exists, is approved, is not deleted, and is from this domain?
 
     $sql = "select id,rating from votes where quoteid=$quoteid and ipaddr=$ipaddr limit 1";
     $query = do_dbquery($sql);
