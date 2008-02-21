@@ -18,6 +18,10 @@ a {
  color: #FFFFFF;
  padding-bottom: 2em;
 }
+.externallink {
+ font: 0.6em "Lucida Grande", Lucida, Verdana, sans-serif;
+ padding-bottom: 2em;
+}
 .box { 
  background: #FFFFFF; 
 }
@@ -35,4 +39,3 @@ a {
   height: 10px; 
   background: url(img/sw.gif) no-repeat bottom left; 
 }
-
