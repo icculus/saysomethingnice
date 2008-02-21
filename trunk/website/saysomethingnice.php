@@ -289,7 +289,7 @@ function add_quote($quote, $author, $ipaddr)
 } // add_quote
 
 
-function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL, $approved=NULL, $deleted=NULL)
+function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL, $approved=NULL, $deleted=NULL, $domainid=NULL)
 {
     $id = (int) $id;
 
@@ -304,6 +304,8 @@ function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL, $approved=NU
         $updstr .= ", approved=" . (($approved) ? 'true' : 'false');
     if (isset($deleted))
         $updstr .= ", deleted=" . (($deleted) ? 'true' : 'false');
+    if (isset($domainid))
+        $updstr .= ", domain=" . ((int) $domainid);
 
     if ($updstr == '')
         return true;
@@ -630,6 +632,13 @@ function do_rss($sql, $baseurl, $rssurl, $basetitle, $basedesc, $callback)
         db_reset_array($query);
     } // if
 
+    $domainstr = '';
+    if (isset($row['domainstr']))
+    {
+        $domainstr = escapehtml($row['domainstr']);
+        $domainstr = "($domainstr) ";
+    } // if
+
     $pubdate = date($daterss, sql_datetime_to_unix_timestamp($newestentrytime));
 
     $items = '';
@@ -641,7 +650,7 @@ function do_rss($sql, $baseurl, $rssurl, $basetitle, $basedesc, $callback)
         $text = escapehtml($row['text']);
         $desc = escapehtml(render_quote_to_string($row['text'], $row['id'], $row['imageid'], false));
         $postdate = date($daterss, sql_datetime_to_unix_timestamp($row['postdate']));
-        $items .= "<item rdf:about=\"$urlenc\"><title>\"${text}\"</title><pubDate>${postdate}</pubDate>" .
+        $items .= "<item rdf:about=\"$urlenc\"><title>$domainstr\"${text}\"</title><pubDate>${postdate}</pubDate>" .
                   "<description>${desc}</description>" .
                   "<link>${urlenc}</link></item>\n";
         $digestitems .= "<rdf:li rdf:resource=\"${urlenc}\" />\n";
