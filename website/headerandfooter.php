@@ -11,6 +11,7 @@ function render_header($title=NULL, $headextras='', $showads=true)
 
     $rssurl = get_rss_url();
     $posturl = get_post_url();
+    $basecssurl = get_basecss_url();
     $cssurl = get_css_url();
     $imgurl = get_static_imgdir_url();
 
@@ -31,6 +32,8 @@ function render_header($title=NULL, $headextras='', $showads=true)
              "<title>$title</title>" .
              "<link rel='alternate' type='application/rss+xml'" .
              " title='Speed Feed' href='${rssurl}' />" .
+             "<link rel='stylesheet' type='text/css' href='${basecssurl}'" .
+             " media='screen' charset='utf-8' />" .
              "<link rel='stylesheet' type='text/css' href='${cssurl}'" .
              " media='screen' charset='utf-8' />" .
            "</head>" .
