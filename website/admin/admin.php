@@ -136,7 +136,7 @@ function output_quote_queue_rows($category, $showall = 0)
 
     $sql = 'select q.*, d.shortname as domainstr' .
            ' from quotes as q inner join domains as d on (q.domain = d.id)' .
-           ' where category=$category';
+           " where category=$category";
 
     if (!$showall)  // show only pending?
         $sql .= ' and (approved=false or deleted=true)';
@@ -202,23 +202,27 @@ function output_quote_queue_rows($category, $showall = 0)
             $geoipstr .= "org: " . geostr($record);
         } // if
 
+        $iptags = $tags;
+        $ipendtags = $endtags;
         if ($geoipstr != '')
-            $ip = "<div onMouseover=\"ddrivetip('$geoipstr', 'yellow', 300);\" onMouseout=\"hideddrivetip();\">$ip</div>";
-
+        {
+            $iptags = "<div onMouseover=\"ddrivetip('$geoipstr', 'yellow', 300);\" onMouseout=\"hideddrivetip();\">$iptags";
+            $ipendtags = "$ipendtags</div>";
+        } // if
+       
         print("<tr>\n");
         print('<td align="center"> <input type="checkbox" name="itemid[]"');
         print(" value=\"{$row['id']}\"></td>\n");
 
-        print("<td align=\"center\"> $tags {$row['domainstr']} $endtags </td>\n");
-
         print("<td align=\"center\"> $tags {$row['postdate']} $endtags </td>\n");
+        print("<td align=\"center\"> $tags {$row['domainstr']} $endtags </td>\n");
 
         print("<td align=\"center\"> $tags");
         print(" <a href=\"{$adminurl}?action=edit&id={$row['id']}\">");
         print("{$row['text']} $endtags </a> </td>\n");
 
         print("<td align=\"center\"> $tags {$row['author']} $endtags </td>\n");
-        print("<td align=\"center\"> $tags $ip $endtags </td>\n");
+        print("<td align=\"center\"> $iptags $ip $ipendtags </td>\n");
         print("<td align=\"center\"> $tags $rating ($votes votes) $endtags </td>\n");
         print("</tr>\n");
     } // while

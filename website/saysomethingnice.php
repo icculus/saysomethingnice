@@ -632,19 +632,19 @@ function do_rss($sql, $baseurl, $rssurl, $basetitle, $basedesc, $callback)
         db_reset_array($query);
     } // if
 
-    $domainstr = '';
-    if (isset($row['domainstr']))
-    {
-        $domainstr = escapehtml($row['domainstr']);
-        $domainstr = "($domainstr) ";
-    } // if
-
     $pubdate = date($daterss, sql_datetime_to_unix_timestamp($newestentrytime));
 
     $items = '';
     $digestitems = '';
     while ( ($row = db_fetch_array($query)) != false )
     {
+        $domainstr = '';
+        if (isset($row['domainstr']))
+        {
+            $domainstr = escapehtml($row['domainstr']);
+            $domainstr = "($domainstr) ";
+        } // if
+
         $url = $callback($row['id']);
         $urlenc = escapehtml($url);
         $text = escapehtml($row['text']);
