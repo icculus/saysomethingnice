@@ -11,7 +11,7 @@ if (!valid_admin_login())
 $domain = get_domain_info();
 $domid = (int) $domain['id'];
 
-$sql = 'select * from quotes where domain=$domid order by postdate desc limit 15';
+$sql = "select * from quotes where domain=$domid order by postdate desc limit 15";
 $title = $domain['firehosename'];
 $desc = $domain['firehosedesc'];
 $adminurl = get_admin_url();

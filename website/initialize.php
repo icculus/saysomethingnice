@@ -148,7 +148,7 @@ dp_dbinsert(
     " 'obama.quicksaysomethingnice.com'," .
     " 'obama'," .
     " 'Quick, Say Something Nice to Barack Obama!'," .
-    " 'Send some hope to the candidate of Hope.'," .
+    " 'Send some hope to the candidate of Hope!'," .
     " 'Cheering on Barack Obama since 2008.'," .
     " 'Cheering on Barack Obama since 2008.'," .
     " 'Obama qssn Admin Firehose'," .
@@ -182,7 +182,7 @@ dp_dbinsert(
     " 'mccain.quicksaysomethingnice.com'," .
     " 'mccain'," .
     " 'Quick, Say Something Nice to John McCain!'," .
-    " 'Send kind words to a true American hero!'," .
+    " 'Send some kind words to a true American hero!'," .
     " 'Cheering on John McCain since 2008.'," .
     " 'Cheering on John McCain since 2008.'," .
     " 'McCain qssn Admin Firehose'," .

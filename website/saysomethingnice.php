@@ -19,12 +19,12 @@ function get_domain_info()
         $host = substr($host, 4);
 
     $sqlhost = db_escape_string($host);
-    $sql = "select * from domains where domainname=$host limit 1";
+    $sql = "select * from domains where domainname=$sqlhost limit 1";
     $query = do_dbquery($sql, NULL, true);
     if ( ($query == false) || ( ($domain = db_fetch_array($query)) == false ) )
     {
         header('HTTP/1.0 503 Server Error');
-        header('Content-Type: text/html;charset=utf-8');
+        header('Content-Type: text/plain;charset=utf-8');
         header('Cache-Control: no-cache');
         echo("\n\n\ndomain is misconfigured, or database is down. Try again later.\n\n\n");
 
@@ -141,7 +141,7 @@ function get_widget_url()
 function get_contact_url()
 {
     $domain = get_domain_info();
-    $addr = htmlescape($domain['contactemail']);
+    $addr = escapehtml($domain['contactemail']);
     return "mailto:$addr";
 } // get_contact_url
 
@@ -252,7 +252,7 @@ function render_random_quote()
     $domain = get_domain_info();
     $domid = (int) $domain['id'];
     // !!! FIXME: 'order by rand() limit 1' isn't efficient as the size of the table grows!
-    $sql = 'select * from quotes where domain=$domid and approved=true and deleted=false order by rand() limit 1';
+    $sql = "select * from quotes where domain=$domid and approved=true and deleted=false order by rand() limit 1";
     select_and_render_quote($sql, true);
 } // render_random_quote
 
