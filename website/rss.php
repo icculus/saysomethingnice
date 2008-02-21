@@ -6,7 +6,7 @@ $domid = (int) $domain['id'];
 
 $sql = 'select * from quotes' .
        " where domain=$domid and approved=true and deleted=false" .
-       ' order by postdate desc limit 5';
+       ' order by id desc limit 5';
 
 $title = $domain['realname'];
 $desc = $domain['rssdesc'];
