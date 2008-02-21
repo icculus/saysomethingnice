@@ -124,10 +124,18 @@ function get_firehose_url()
 } // get_firehose_url
 
 
-function get_css_url()
+function get_basecss_url()
 {
     $baseurl = get_base_url();
     return "${baseurl}style.css";
+} // get_basecss_url
+
+
+function get_css_url()
+{
+    $baseurl = get_base_url();
+    $domain = get_domain_info();
+    return "${baseurl}${domain['shortname']}_style.css";
 } // get_css_url
 
 

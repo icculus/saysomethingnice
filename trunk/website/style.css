@@ -1,31 +1,6 @@
 body {
-	margin: 80px 40px 40px;
-	background-color: #90CE90;
-	font: 1em "Lucida Grande", Lucida, Verdana, sans-serif;
-	
-}
-
-a
-{
-	color: #FFFFFF;
-}
-
-.box { 
-  background: #FFFFFF; 
-}
-.boxtop { 
-  background: url(img/ne.gif) no-repeat top right; 
-}
-.boxtop div { 
-  height: 10px; 
-  background: url(img/nw.gif) no-repeat top left; 
-}
-.boxbottom { 
-  background: url(img/se.gif) no-repeat bottom right; 
-}
-.boxbottom div { 
-  height: 10px; 
-  background: url(img/sw.gif) no-repeat bottom left; 
+ margin: 80px 40px 40px;
+ font: 1em "Lucida Grande", Lucida, Verdana, sans-serif;
 }
 .boxcontent {
   padding: 0px 10px 0px 10px;

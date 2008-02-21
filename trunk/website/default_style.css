@@ -1,0 +1,24 @@
+body {
+ background-color: #90CE90;	
+}
+a {
+ color: #FFFFFF;
+}
+.box { 
+ background: #FFFFFF; 
+}
+.boxtop { 
+  background: url(img/ne.gif) no-repeat top right; 
+}
+.boxtop div { 
+  height: 10px; 
+  background: url(img/nw.gif) no-repeat top left; 
+}
+.boxbottom { 
+  background: url(img/se.gif) no-repeat bottom right; 
+}
+.boxbottom div { 
+  height: 10px; 
+  background: url(img/sw.gif) no-repeat bottom left; 
+}
+
