@@ -21,12 +21,19 @@ function get_domain_info()
     $sqlhost = db_escape_string($host);
     $sql = "select * from domains where domainname=$sqlhost limit 1";
     $query = do_dbquery($sql, NULL, true);
+
+    $failout = false;
     if ( ($query == false) || ( ($domain = db_fetch_array($query)) == false ) )
+        $failout = true;
+    else if ($domain['disabled'] != 0)
+        $failout = true;
+
+    if ($failout)
     {
         header('HTTP/1.0 503 Server Error');
         header('Content-Type: text/plain;charset=utf-8');
         header('Cache-Control: no-cache');
-        echo("\n\n\ndomain is misconfigured, or database is down. Try again later.\n\n\n");
+        echo("\n\n\nDomain is disabled/misconfigured, or database is down. Try again later.\n\n\n");
 
         global $enable_debug;
         if ($enable_debug)

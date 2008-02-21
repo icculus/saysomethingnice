@@ -110,6 +110,7 @@ do_dbquery(
     "create table domains (" .
         "id int unsigned not null auto_increment," .
         " domainname varchar(64) not null," .
+        " disabled bool not null," .
         " shortname varchar(32) not null," .
         " realname varchar(128) not null," .
         " tagline varchar(128) not null," .
