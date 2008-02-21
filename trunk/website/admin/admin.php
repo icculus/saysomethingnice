@@ -526,19 +526,20 @@ function output_edit_widgets($id)
     $deletedchecked = ($deleted) ? 'checked' : '';
     $unapprovedchecked = ((!$approved) && (!$deleted)) ? 'checked' : '';
 
-    $imgtag = '<i>(no image uploaded.)</i>';
+    $imgtag = '<i>(no picture uploaded.)</i>';
     if ( (isset($imgid)) && (((int) $imgid) > 0) )
     {
         $imgurl = get_img_url($imgid);
         $imgtag = "<img src='$imgurl' alt='image #$imgid' title='image #$imgid'/>";
     } // if
 
+    echo "<div style='text-align: left'>\n";
     $form = get_form_tag();
     echo "$form\n";
     echo "<input type='hidden' name='action' value='edit' />\n";
     echo "<input type='hidden' name='id' value='$id' />\n";
-    echo "<table>\n";
-    echo "<tr><td>Quote #$id</td></tr>\n";
+    echo "<table border='1'>\n";
+    echo "<tr><td><b>Quote #$id</b></td></tr>\n";
     echo "<tr><td>Text:\n";
     echo "<input type='text' size='60' name='text' value='$text' /></td></tr>\n";
     echo "<tr><td>Email:\n";
@@ -546,9 +547,9 @@ function output_edit_widgets($id)
     echo "<tr><td>IP address:\n";
     echo "<input type='text' size='60' name='ipaddr' value='$ipaddr' /></td></tr>\n";
     echo "<tr><td>\n";
-    echo "<input type='radio' name='state' value='deleted' $deletedchecked />Deleted<br/>\n";
-    echo "<input type='radio' name='state' value='unapproved' $unapprovedchecked />Unapproved<br/>\n";
-    echo "<input type='radio' name='state' value='approved' $approvedchecked />Approved<br/>\n";
+    echo "<input type='radio' name='state' value='deleted' $deletedchecked />Deleted&nbsp;\n";
+    echo "<input type='radio' name='state' value='unapproved' $unapprovedchecked />Unapproved&nbsp;\n";
+    echo "<input type='radio' name='state' value='approved' $approvedchecked />Approved&nbsp;\n";
     echo "</td></tr>\n";
 
     $sql = 'select id,shortname from domains';
@@ -588,23 +589,28 @@ function output_edit_widgets($id)
     } // if
 
     echo "<tr><td>\n";
-    echo "<input type='reset' name='editreset' value='Reset!' />\n";
-    echo "<input type='submit' name='editsubmit' value='Change!' />\n";
+    echo "<input type='reset' name='editreset' value='Start over.' />\n";
+    echo "<input type='submit' name='editsubmit' value='Change this quote!' />\n";
     echo "</td></tr>\n";
     echo "</table></form>\n\n";
 
+    echo "<br/><br/>\n";
     echo "<form enctype='multipart/form-data' method='post' action='$adminurl'>";
-    echo "<table>\n";
+    echo "<table border='1'>\n";
     echo "<input type='hidden' name='action' value='uploadpic' />\n";
     echo "<input type='hidden' name='id' value='$id' />\n";
     echo "<input type='hidden' name='MAX_FILE_SIZE' value='1024000' />\n";
-    echo "<tr><td>Image: $imgtag</td></tr>\n";
+    echo "<tr><td><b>Picture for Quote #$id:</b></td></tr>\n";
+    echo "<tr><td>$imgtag</td></tr>\n";
     echo "<tr><td><input type='file' name='imgfile' />\n";
     echo "<input type='submit' name='uploadpicsubmit' value='Upload Image' /></td></tr>\n";
     echo "</table>\n";
     echo "</form>\n";
 
-    echo "<a href='$adminurl'>Nevermind.</a>\n<br/>\n";
+    echo "<br/><br/>\n";
+    echo "<a href='$adminurl'>Nevermind.</a>\n</td></tr>\n";
+    echo "</div>\n";
+
     return true;  // don't show queue.
 } // output_edit_widgets
 
