@@ -15,6 +15,7 @@ function render_header($title=NULL, $headextras='', $showads=true)
     $imgurl = get_static_imgdir_url();
 
     $advertisements = $showads ? get_advertisements() : '';
+    $tagline = escapehtml($domain['tagline']);
     $realname = escapehtml($domain['realname']);
     $logotext = escapehtml($domain['logotext']);
 

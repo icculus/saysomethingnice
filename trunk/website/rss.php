@@ -5,7 +5,7 @@ $domain = get_domain_info();
 $domid = (int) $domain['id'];
 
 $sql = 'select * from quotes' .
-       ' where domain=$domid and approved=true and deleted=false' .
+       " where domain=$domid and approved=true and deleted=false" .
        ' order by postdate desc limit 5';
 
 $title = $domain['realname'];
