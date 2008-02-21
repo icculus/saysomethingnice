@@ -115,9 +115,6 @@ function output_quote_queue_rows($category, $showall = 0)
 {
     global $adminurl, $geoipdb, $geoiporgdb, $GEOIP_REGION_NAME;
 
-    $domain = get_domain_info();
-    $domid = (int) $domain['id'];
-
     $gi = NULL;
     $giorg = NULL;
 
@@ -137,7 +134,10 @@ function output_quote_queue_rows($category, $showall = 0)
         $giorg = geoip_open($geoiporgdb, GEOIP_STANDARD);
     } // if
 
-    $sql = "select * from quotes where domain=$domid and category=$category";
+    $sql = 'select q.*, d.shortname as domainstr' .
+           ' from quotes as q inner join domains as d on (q.domain = d.id)' .
+           ' where category=$category';
+
     if (!$showall)  // show only pending?
         $sql .= ' and (approved=false or deleted=true)';
     $sql .= ' order by id desc';
@@ -209,6 +209,8 @@ function output_quote_queue_rows($category, $showall = 0)
         print('<td align="center"> <input type="checkbox" name="itemid[]"');
         print(" value=\"{$row['id']}\"></td>\n");
 
+        print("<td align=\"center\"> $tags {$row['domainstr']} $endtags </td>\n");
+
         print("<td align=\"center\"> $tags {$row['postdate']} $endtags </td>\n");
 
         print("<td align=\"center\"> $tags");
@@ -227,7 +229,7 @@ function output_quote_queue_rows($category, $showall = 0)
     if (isset($gi))
         geoip_close($gi);
 
-    print('<tr><td align="center" colspan="6"><font color="#0000FF">');
+    print('<tr><td align="center" colspan="7"><font color="#0000FF">');
     print("$item_count items listed, $deleted deleted, $approved approved, $pending pending.</font></td></tr>\n");
 } // output_quote_queue_rows
 
@@ -402,6 +404,7 @@ echo <<< EOF
           </td>
 
           <td align="center"> date </td>
+          <td align="center"> domain </td>
           <td align="center"> text </td>
           <td align="center"> author </td>
           <td align="center"> ip addr </td>
@@ -417,7 +420,7 @@ EOF;
         output_quote_queue_rows($q, $showall);
     else
     {
-        print('<tr><td colspan="6" align="center"><font color="#0000FF">');
+        print('<tr><td colspan="7" align="center"><font color="#0000FF">');
         print("Please select a category from the above list.</font></td></tr>\n");
     } // else
 
@@ -435,7 +438,7 @@ EOF;
 echo <<< EOF
 
         <tr>
-          <td align="center" colspan="6">
+          <td align="center" colspan="7">
             <input type="submit" name="refresh"   value="Refresh">
             <input type="submit" name="delete"    value="Delete">
             <input type="submit" name="undelete"  value="Undelete">
@@ -490,11 +493,10 @@ function output_edit_widgets($id)
 {
     global $adminurl;
 
-    $id = (int) $id;
-    $domain = get_domain_info();
-    $domid = (int) $domain['id'];
+    // !!! FIXME: let admin move quote to different subdomain.
 
-    $sql = "select text,imageid,author,ipaddr,approved,deleted from quotes where id=$id and domain=$domid limit 1";
+    $id = (int) $id;
+    $sql = "select text,imageid,author,ipaddr,approved,deleted from quotes where id=$id limit 1";
     $query = do_dbquery($sql);
     if ($query == false)
         return false;  // do_dbquery will have spit out an error.
@@ -727,10 +729,7 @@ function process_approve_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return false;
 
-    $domain = get_domain_info();
-    $domid = (int) $domain['id'];
-
-    $sql = "update quotes set approved=true where domain=$domid and approved=false and deleted=false and $idlist";
+    $sql = "update quotes set approved=true where approved=false and deleted=false and $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("approved $affected quotes", $sql, $idlist, true);
 
@@ -743,10 +742,7 @@ function process_unapprove_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return false;
 
-    $domain = get_domain_info();
-    $domid = (int) $domain['id'];
-
-    $sql = "update quotes set approved=false where domain=$domid and approved=true and $idlist";
+    $sql = "update quotes set approved=false where approved=true and $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("unapproved $affected quotes", $sql, $idlist, true);
 
@@ -759,10 +755,7 @@ function process_purge_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return false;
 
-    $domain = get_domain_info();
-    $domid = (int) $domain['id'];
-
-    $sql = "delete from quotes where domain=$domid and deleted=true and $idlist";
+    $sql = "delete from quotes where deleted=true and $idlist";
     $affected = do_dbdelete($sql, -1);
     update_papertrail("purged $affected quotes", $sql, NULL, true);
 
@@ -772,10 +765,7 @@ function process_purge_action()
 
 function process_purgeall_action()
 {
-    $domain = get_domain_info();
-    $domid = (int) $domain['id'];
-
-    $sql = "delete from quotes where domain=$domid and deleted=true";
+    $sql = "delete from quotes where deleted=true";
     $affected = do_dbdelete($sql, -1);
     update_papertrail("purged $affected quotes", $sql, NULL, true);
 
@@ -822,11 +812,8 @@ function process_movetocategory_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return false;
 
-    $domain = get_domain_info();
-    $domid = (int) $domain['id'];
-
     $sqlid = db_escape_string($catid);
-    $sql = "update quotes set category=$sqlid where domain=$domid and $idlist";
+    $sql = "update quotes set category=$sqlid where $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("moved $affected quotes to category $catid", $sql, $idlist, true);
 
