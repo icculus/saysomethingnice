@@ -39,9 +39,11 @@ function render_header($title=NULL, $headextras='', $showads=true)
              "<p>" .
                "<!-- google_ad_section_start -->\n" .
                "<font size='-1'>$tagline</font><br/>" .
-               "<img src='${imgurl}header.jpg'" .
-               " alt='$realname'" .
-               " title='$logotext' />\n" .
+                 //"<img src='${imgurl}header.jpg'" .
+                 //" alt='$realname'" .
+                 //" title='$logotext' />\n" .
+                 "<font size='+4' color='#FFFFFF'>$realname</font><br/>"\n" .
+                 "<font size='-2'>$logotext</font><br/>\n" .
                "<!-- google_ad_section_end -->\n" .
              "</p>";
 
