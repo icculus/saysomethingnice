@@ -4,6 +4,19 @@ body {
 a {
  color: #FFFFFF;
 }
+.tagline {
+ font: 0.6em "Lucida Grande", Lucida, Verdana, sans-serif;
+ color: #000000;
+}
+.logorealname {
+ font: 3.5em "Lucida Grande", Lucida, Verdana, sans-serif;
+ color: #FFFFFF;
+}
+.logotext {
+ font: 0.8em "Lucida Grande", Lucida, Verdana, sans-serif;
+ color: #FFFFFF;
+ padding-bottom: 2em;
+}
 .box { 
  background: #FFFFFF; 
 }
