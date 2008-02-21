@@ -626,6 +626,8 @@ function do_rss($sql, $baseurl, $rssurl, $basetitle, $basedesc, $callback)
     $newestentrytime = current_sql_datetime();
     if ($rowcount > 0)
     {
+        // This assumes that they are sorted by postdate (which sorting
+        //  by id should also accomplish, faster...)
         $row = db_fetch_array($query);
         if ($row != false)
             $newestentrytime = $row['postdate'];

@@ -13,7 +13,7 @@ $domid = (int) $domain['id'];
 
 $sql = 'select q.*, d.shortname as domainstr' .
        ' from quotes as q inner join domains as d on (q.domain = d.id)' .
-       ' order by postdate desc limit 15';
+       ' order by id desc limit 15';
 
 $title = $domain['firehosename'];
 $desc = $domain['firehosedesc'];
