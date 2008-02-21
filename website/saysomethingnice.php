@@ -296,7 +296,7 @@ function add_quote($quote, $author, $ipaddr)
 } // add_quote
 
 
-function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL, $approved=NULL, $deleted=NULL, $domainid=NULL)
+function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL, $approved=NULL, $deleted=NULL, $domainid=NULL, $categoryid=NULL)
 {
     $id = (int) $id;
 
@@ -313,6 +313,8 @@ function update_quote($id, $quote=NULL, $author=NULL, $ipaddr=NULL, $approved=NU
         $updstr .= ", deleted=" . (($deleted) ? 'true' : 'false');
     if (isset($domainid))
         $updstr .= ", domain=" . ((int) $domainid);
+    if (isset($categoryid))
+        $updstr .= ", category=" . ((int) $categoryid);
 
     if ($updstr == '')
         return true;

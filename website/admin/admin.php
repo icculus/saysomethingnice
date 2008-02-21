@@ -497,10 +497,8 @@ function output_edit_widgets($id)
 {
     global $adminurl;
 
-    // !!! FIXME: let admin move quote to different subdomain.
-
     $id = (int) $id;
-    $sql = "select text,imageid,author,ipaddr,approved,deleted from quotes where id=$id limit 1";
+    $sql = "select text,domain,category,imageid,author,ipaddr,approved,deleted from quotes where id=$id limit 1";
     $query = do_dbquery($sql);
     if ($query == false)
         return false;  // do_dbquery will have spit out an error.
@@ -518,6 +516,8 @@ function output_edit_widgets($id)
     $ipaddr = long2ip($row['ipaddr']);
     $approved = $row['approved'];
     $deleted = $row['deleted'];
+    $domainid = $row['domain'];
+    $categoryid = $row['category'];
 
     if (($approved) && ($deleted))
         $approved = false;
@@ -550,6 +550,43 @@ function output_edit_widgets($id)
     echo "<input type='radio' name='state' value='unapproved' $unapprovedchecked />Unapproved<br/>\n";
     echo "<input type='radio' name='state' value='approved' $approvedchecked />Approved<br/>\n";
     echo "</td></tr>\n";
+
+    $sql = 'select id,shortname from domains';
+    $query = do_dbquery($sql);
+    if ($query != false)
+    {
+        echo "<tr><td>Domain: <select name='domainid' size='1'>\n";
+
+        while (($row = db_fetch_array($query)) != false)
+        {
+            $thisid = $row['id'];
+            $thisname = $row['shortname'];
+            $selected = ($thisid == $domainid) ? "selected='true'" : '';
+            echo "<option $selected value='$thisid'>$thisname</option>\n";
+        } // while
+
+        echo "</select>\n";
+        echo "</td></tr>\n";
+    } // if
+
+    $sql = 'select id,name from categories';
+    $query = do_dbquery($sql);
+    if ($query != false)
+    {
+        echo "<tr><td>Category: <select name='catid' size='1'>\n";
+
+        while (($row = db_fetch_array($query)) != false)
+        {
+            $thisid = $row['id'];
+            $thisname = $row['name'];
+            $selected = ($thisid == $categoryid) ? "selected='true'" : '';
+            echo "<option $selected value='$thisid'>$thisname</option>\n";
+        } // while
+
+        echo "</select>\n";
+        echo "</td></tr>\n";
+    } // if
+
     echo "<tr><td>\n";
     echo "<input type='reset' name='editreset' value='Reset!' />\n";
     echo "<input type='submit' name='editsubmit' value='Change!' />\n";
@@ -567,7 +604,7 @@ function output_edit_widgets($id)
     echo "</table>\n";
     echo "</form>\n";
 
-    echo "<a href='$adminurl'>Nevermind.</a>\n";
+    echo "<a href='$adminurl'>Nevermind.</a>\n<br/>\n";
     return true;  // don't show queue.
 } // output_edit_widgets
 
@@ -660,13 +697,25 @@ function process_edit_action()
     else if (!get_input_string('state', 'state', $state))
         return output_edit_widgets($id);
 
+    else if (!get_input_int('domainid', 'domain id', $domainid, 0))
+        return output_edit_widgets($id);
+
+    else if (!get_input_int('catid', 'category id', $catid, 0))
+        return output_edit_widgets($id);
+
     else if (ip2long($ipaddr) == 0)
         return output_edit_widgets($id);
 
     $deleted = ($state == 'deleted');
     $approved = (($state == 'approved') && (!$deleted));
 
-    if (!update_quote($id, $text, $author, ip2long($ipaddr), $approved, $deleted))
+    if ($domainid <= 0)
+        $domainid = NULL;
+
+    if ($catid <= 0)
+        $catid = NULL;
+
+    if (!update_quote($id, $text, $author, ip2long($ipaddr), $approved, $deleted, $domainid, $catid))
         return output_edit_widgets($id);
 
     return false;  // carry on.
