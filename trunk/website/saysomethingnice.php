@@ -177,6 +177,15 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL, $randomized=
         $imghtml .= "<br/><img src='$imghtml' />\n";
     } // if
 
+    $extlinkhtml = '';
+    $domain = get_domain_info();
+    if ( (isset($domain['linkurl'])) && (isset($domain['linktext'])) )
+    {
+        $extlinkurl = $domain['linkurl'];
+        $extlinktext = escapehtml($domain['linktext']);
+        $extlinkhtml = "$adstart<div class='externallink'><a href='$extlinkurl'>$extlinktext</a></div>$adend\n";
+    } // if
+
     $linkhtml = '';
     $thumbshtml = '';
     if (isset($id))
@@ -225,6 +234,7 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL, $randomized=
              $adstartignore .
              $thumbshtml .
              $adend .
+             $extlinkhtml .
            "</center>";
 } // render_quote_to_string
 

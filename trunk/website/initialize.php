@@ -119,6 +119,8 @@ do_dbquery(
         " firehosename varchar(128) not null," .
         " firehosedesc varchar(128) not null," .
         " contactemail varchar(64) not null," .
+        " linkurl varchar(128)," .
+        " linktext varchar(128)," .
         " unique index domainname_index (domainname)," .
         " primary key (id)" .
     " ) character set utf8"
@@ -144,7 +146,7 @@ dp_dbinsert(
 echo "Adding obama domain...\n";
 dp_dbinsert(
     "insert into domains" .
-    " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail)" .
+    " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail, linkurl, linktext)" .
     " values (" .
     " 'obama.quicksaysomethingnice.com'," .
     " 'obama'," .
@@ -154,14 +156,16 @@ dp_dbinsert(
     " 'Cheering on Barack Obama since 2008.'," .
     " 'Obama qssn Admin Firehose'," .
     " 'Look here to filter out Hillary wonks.'," .
-    " 'contact@quicksaysomethingnice.com'" .
-    ")"
+    " 'contact@quicksaysomethingnice.com'," .
+    " 'http://barackobama.com/'," .
+    " 'Go to Barack Obama's website.'" .
+     ")"
 );
 
 echo "Adding clinton domain...\n";
 dp_dbinsert(
     "insert into domains" .
-    " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail)" .
+    " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail, linkurl, linktext)" .
     " values (" .
     " 'clinton.quicksaysomethingnice.com'," .
     " 'clinton'," .
@@ -171,14 +175,16 @@ dp_dbinsert(
     " 'Cheering on Hillary Clinton since 2008.'," .
     " 'Clinton qssn Admin Firehose'," .
     " 'Look here to filter out Obama cult members.'," .
-    " 'contact@quicksaysomethingnice.com'" .
+    " 'contact@quicksaysomethingnice.com'," .
+    " 'http://hillaryclinton.com/'," .
+    " 'Go to Hillary Clinton's website.'" .
     ")"
 );
 
 echo "Adding mccain domain...\n";
 dp_dbinsert(
     "insert into domains" .
-    " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail)" .
+    " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail, linkurl, linktext)" .
     " values (" .
     " 'mccain.quicksaysomethingnice.com'," .
     " 'mccain'," .
@@ -188,8 +194,10 @@ dp_dbinsert(
     " 'Cheering on John McCain since 2008.'," .
     " 'McCain qssn Admin Firehose'," .
     " 'Look here to filter out Huckabee weenies.'," .
-    " 'contact@quicksaysomethingnice.com'" .
-    ")"
+    " 'contact@quicksaysomethingnice.com'," .
+    " 'http://johnmccain.com/'," .
+    " 'Go to John McCain's website.'" .
+     ")"
 );
 
 echo "Adding 'unsorted' category...\n";
