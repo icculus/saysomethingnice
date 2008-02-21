@@ -1,6 +1,6 @@
 <?php
 
-require_once 'saysomethingnice.php';
+require_once '../saysomethingnice.php';
 
 function render_papertrail()
 {
