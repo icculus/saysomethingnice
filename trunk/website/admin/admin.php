@@ -12,7 +12,7 @@ function output_tooltip_script()
     // !!! FIXME: this should really be in tooltip.js instead.
 echo <<< EOF
 
-<div id="dhtmltooltip"></div>
+<div id="dhtmltooltip" style="position: absolute; width: 150px; border: 2px solid black; padding: 2px; background-color: lightyellow; visibility: hidden; z-index: 100;"></div>
 
 <script type="text/javascript">
 
