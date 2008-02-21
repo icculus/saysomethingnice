@@ -539,7 +539,7 @@ function output_edit_widgets($id)
     echo "<input type='hidden' name='action' value='edit' />\n";
     echo "<input type='hidden' name='id' value='$id' />\n";
     echo "<table border='1'>\n";
-    echo "<tr><td><b>Quote #$id</b></td></tr>\n";
+    echo "<tr><td><b>Quote #$id:</b></td></tr>\n";
     echo "<tr><td>Text:\n";
     echo "<input type='text' size='60' name='text' value='$text' /></td></tr>\n";
     echo "<tr><td>Email:\n";
