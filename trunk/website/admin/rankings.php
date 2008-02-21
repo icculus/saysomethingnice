@@ -13,7 +13,9 @@ if (!valid_admin_login())
 render_header(NULL, '', false);
 
 $quotes = array();
-$sql = "select id, text from quotes where approved=1";
+$domain = get_domain_info();
+$domid = (int) $domain['id'];
+$sql = "select id, text from quotes where domain=$domid and approved=1 and deleted=0";
 $query = do_dbquery($sql);
 if ($query != false)
 {
@@ -75,59 +77,6 @@ function cmpweight($a, $b)
 if (usort($quotes, 'cmpweight'))
      write_table('sorted by weight (rating times votes)', $quotes);
 
-
-function cmprating($a, $b)
-{
-    $aval = $a['rating'];
-    $bval = $b['rating'];
-    if ($aval == $bval)
-        return 0;
-    return (($aval < $bval) ? 1 : -1);
-} // cmprating
-
-if (usort($quotes, 'cmprating'))
-    write_table('sorted by basic rating', $quotes);
-
-
-function cmprating_votes4tie($a, $b)
-{
-    $aval = $a['rating'];
-    $bval = $b['rating'];
-    if ($aval == $bval)
-    {
-        $aval = $a['votes'];
-        $bval = $b['votes'];
-        if ($aval == $bval)
-            return 0;
-        return (($aval < $bval) ? 1 : -1);
-    } // if
-    return (($aval < $bval) ? 1 : -1);
-} // cmprating
-
-if (usort($quotes, 'cmprating_votes4tie'))
-    write_table('sorted by basic rating, then total vote count', $quotes);
-
-
-
-function cmppct_votes4tie($a, $b)
-{
-    $avotes = $a['votes'];
-    $bvotes = $b['votes'];
-    $aval = ( ($avotes == 0) ? 0 : ($a['positive'] / $avotes) );
-    $bval = ( ($bvotes == 0) ? 0 : ($b['positive'] / $bvotes) );
-    if ($aval == $bval)
-    {
-        if ($avotes == $bvotes)
-            return 0;
-        return (($avotes < $bvotes) ? 1 : -1);
-    } // if
-    return (($aval < $bval) ? 1 : -1);
-} // cmppct_votes4tie
-
-if (usort($quotes, 'cmppct_votes4tie'))
-    write_table('sorted by positive percentage, then total vote count', $quotes);
-
-echo "<hr>";
 
 render_footer();
 

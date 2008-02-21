@@ -57,7 +57,7 @@ function db_escape_string($str)
 } // db_escape_string
 
 
-function do_dbquery($sql, $link = NULL)
+function do_dbquery($sql, $link = NULL, $suppress_output = false)
 {
     if ($link == NULL)
         $link = get_dblink();
@@ -65,13 +65,17 @@ function do_dbquery($sql, $link = NULL)
     if ($link == NULL)
         return(false);
 
-    write_debug("SQL query: [$sql;]");
+    if (!$suppress_output)
+        write_debug("SQL query: [$sql;]");
 
     $rc = mysql_query($sql, $link);
     if ($rc == false)
     {
-        $err = mysql_error();
-        write_error("Problem in SELECT statement: {$err}");
+        if (!$suppress_output)
+        {
+            $err = mysql_error();
+            write_error("Problem in SELECT statement: {$err}");
+        } // if
         return(false);
     } // if
 

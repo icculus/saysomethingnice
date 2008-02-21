@@ -1,9 +1,15 @@
 <?php
 require_once 'saysomethingnice.php';
 
-$sql = 'select * from quotes where approved=true and deleted=false order by postdate desc limit 5';
-$title = 'Quick, Say Something Nice!';
-$desc = 'Pulling your relationship out of the fire since 2008.';
+$domain = get_domain_info();
+$domid = (int) $domain['id'];
+
+$sql = 'select * from quotes' .
+       ' where domain=$domid and approved=true and deleted=false' .
+       ' order by postdate desc limit 5';
+
+$title = $domain['realname'];
+$desc = $domain['rssdesc'];
 $baseurl = get_base_url();
 $rssurl = get_rss_url();
 do_rss($sql, $baseurl, $rssurl, $title, $desc, 'get_quote_url');

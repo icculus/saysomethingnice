@@ -34,6 +34,7 @@ do_dbquery(
         " id int unsigned not null auto_increment," .
         " username varchar (64) not null," .
         " password char (40) not null," .  // SHA1 hash as ASCII string
+        " unique index username_index (username)" .
         " primary key (id)" .
     " ) character set utf8"
 );
@@ -41,7 +42,7 @@ do_dbquery(
 echo "Building categories table...\n";
 do_dbquery(
     "create table categories (" .
-        " id int not null auto_increment," .
+        " id int unsigned not null auto_increment," .
         " name varchar(128) not null," .
         " primary key (id)" .
     " ) character set utf8"
@@ -50,16 +51,18 @@ do_dbquery(
 echo "Building quotes table...\n";
 do_dbquery(
     "create table quotes (" .
-        " id int not null auto_increment," .
-        " category int not null default 1," .
+        " id int unsigned not null auto_increment," .
+        " domain int unsigned not null," .
+        " category int unsigned not null default 1," .
         " text mediumtext not null," .
         " approved bool not null default false," .
         " deleted bool not null default false," .
-        " imageid int," .
+        " imageid int unsigned," .
         " author varchar(128) not null," .
-        " ipaddr int not null," .
+        " ipaddr int unsigned not null," .
         " postdate datetime not null," .
         " lastedit datetime not null," .
+        " index domain_index (domain)," .
         " primary key (id)" .
     " ) character set utf8"
 );
@@ -67,10 +70,10 @@ do_dbquery(
 echo "Building images table...\n";
 do_dbquery(
     "create table images (" .
-        " id int not null auto_increment," .
+        " id int unsigned not null auto_increment," .
         " data mediumblob not null," .
         " mimetype varchar(64) not null," .
-        " ipaddr int not null," .
+        " ipaddr int unsigned not null," .
         " postdate datetime not null," .
         " primary key (id)" .
     " ) character set utf8"
@@ -79,12 +82,13 @@ do_dbquery(
 echo "Building votes table...\n";
 do_dbquery(
     "create table votes (" .
-        " id int not null auto_increment," .
-        " ipaddr int not null," .
-        " quoteid int not null," .
+        " id int unsigned not null auto_increment," .
+        " ipaddr int unsigned not null," .
+        " quoteid int unsigned not null," .
         " rating tinyint not null," .
         " ratedate datetime not null," .
         " lastedit datetime not null," .
+        " index quoteid_index (quoteid)," .
         " primary key (id)" .
     " ) character set utf8"
 );
@@ -92,13 +96,99 @@ do_dbquery(
 echo "Building papertrail table...\n";
 do_dbquery(
     "create table papertrail (" .
-        " id int not null auto_increment," .
+        " id int unsigned not null auto_increment," .
         " action text not null," .
         " sqltext mediumtext not null," .
         " author varchar(128) not null," .
         " entrydate datetime not null," .
         " primary key (id)" .
     " ) character set utf8"
+);
+
+echo "Building domains table...\n";
+do_dbquery(
+    "create table domains (" .
+        "id int unsigned not null auto_increment," .
+        " domainname varchar(64) not null," .
+        " shortname varchar(32) not null," .
+        " realname varchar(128) not null," .
+        " tagline varchar(128) not null," .
+        " logotext varchar(128) not null," .
+        " rssdesc varchar(128) not null," .
+        " firehosename varchar(128) not null," .
+        " firehosedesc varchar(128) not null," .
+        " contactemail varchar(64) not null," .
+        " unique index domainname_index (domainname)," .
+        " primary key (id)" .
+    " ) character set utf8"
+);
+
+echo "Adding default domain...\n";
+dp_dbinsert(
+    "insert into domains" .
+    " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail)" .
+    " values (" .
+    " 'quicksaysomethingnice.com'," .
+    " 'default'," .
+    " 'Quick, Say Something Nice!'," .
+    " 'Flowers? Candy? Jewelry? Relationship advice? No time for that!'," .
+    " 'Fixing your romantic relationships since 2008.'," .
+    " 'Pulling your relationships out of the fire since 2008.'," .
+    " 'Say Something Nice Admin Firehose'," .
+    " 'Look here to filter out people looking for a booty call.'," .
+    " 'contact@quicksaysomethingnice.com'" .
+    ")"
+);
+
+echo "Adding obama domain...\n";
+dp_dbinsert(
+    "insert into domains" .
+    " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail)" .
+    " values (" .
+    " 'obama.quicksaysomethingnice.com'," .
+    " 'obama'," .
+    " 'Quick, Say Something Nice to Barack Obama!'," .
+    " 'Send some hope to the candidate of Hope.'," .
+    " 'Cheering on Barack Obama since 2008.'," .
+    " 'Cheering on Barack Obama since 2008.'," .
+    " 'Obama qssn Admin Firehose'," .
+    " 'Look here to filter out Hillary wonks.'," .
+    " 'contact@quicksaysomethingnice.com'" .
+    ")"
+);
+
+echo "Adding clinton domain...\n";
+dp_dbinsert(
+    "insert into domains" .
+    " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail)" .
+    " values (" .
+    " 'clinton.quicksaysomethingnice.com'," .
+    " 'clinton'," .
+    " 'Quick, Say Something Nice to Hillary Clinton!'," .
+    " 'Pass on good feelings to Hillary!'," .
+    " 'Cheering on Hillary Clinton since 2008.'," .
+    " 'Cheering on Hillary Clinton since 2008.'," .
+    " 'Clinton qssn Admin Firehose'," .
+    " 'Look here to filter out Obama cult members.'," .
+    " 'contact@quicksaysomethingnice.com'" .
+    ")"
+);
+
+echo "Adding mccain domain...\n";
+dp_dbinsert(
+    "insert into domains" .
+    " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail)" .
+    " values (" .
+    " 'mccain.quicksaysomethingnice.com'," .
+    " 'mccain'," .
+    " 'Quick, Say Something Nice to John McCain!'," .
+    " 'Send kind words to a true American hero!'," .
+    " 'Cheering on John McCain since 2008.'," .
+    " 'Cheering on John McCain since 2008.'," .
+    " 'McCain qssn Admin Firehose'," .
+    " 'Look here to filter out Huckabee weenies.'," .
+    " 'contact@quicksaysomethingnice.com'" .
+    ")"
 );
 
 echo "Adding 'unsorted' category...\n";

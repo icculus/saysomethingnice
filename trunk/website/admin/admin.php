@@ -115,6 +115,9 @@ function output_quote_queue_rows($category, $showall = 0)
 {
     global $adminurl, $geoipdb, $geoiporgdb, $GEOIP_REGION_NAME;
 
+    $domain = get_domain_info();
+    $domid = (int) $domain['id'];
+
     $gi = NULL;
     $giorg = NULL;
 
@@ -134,7 +137,7 @@ function output_quote_queue_rows($category, $showall = 0)
         $giorg = geoip_open($geoiporgdb, GEOIP_STANDARD);
     } // if
 
-    $sql = "select * from quotes where category=$category";
+    $sql = "select * from quotes where domain=$domid and category=$category";
     if (!$showall)  // show only pending?
         $sql .= ' and (approved=false or deleted=true)';
     $sql .= ' order by id desc';
@@ -487,7 +490,11 @@ function output_edit_widgets($id)
 {
     global $adminurl;
 
-    $sql = "select text,imageid,author,ipaddr,approved,deleted from quotes where id=$id limit 1";
+    $id = (int) $id;
+    $domain = get_domain_info();
+    $domid = (int) $domain['id'];
+
+    $sql = "select text,imageid,author,ipaddr,approved,deleted from quotes where id=$id and domain=$domid limit 1";
     $query = do_dbquery($sql);
     if ($query == false)
         return false;  // do_dbquery will have spit out an error.
@@ -720,7 +727,10 @@ function process_approve_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return false;
 
-    $sql = "update quotes set approved=true where approved=false and deleted=false and $idlist";
+    $domain = get_domain_info();
+    $domid = (int) $domain['id'];
+
+    $sql = "update quotes set approved=true where domain=$domid and approved=false and deleted=false and $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("approved $affected quotes", $sql, $idlist, true);
 
@@ -733,7 +743,10 @@ function process_unapprove_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return false;
 
-    $sql = "update quotes set approved=false where approved=true and $idlist";
+    $domain = get_domain_info();
+    $domid = (int) $domain['id'];
+
+    $sql = "update quotes set approved=false where domain=$domid and approved=true and $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("unapproved $affected quotes", $sql, $idlist, true);
 
@@ -746,7 +759,10 @@ function process_purge_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return false;
 
-    $sql = "delete from quotes where deleted=true and $idlist";
+    $domain = get_domain_info();
+    $domid = (int) $domain['id'];
+
+    $sql = "delete from quotes where domain=$domid and deleted=true and $idlist";
     $affected = do_dbdelete($sql, -1);
     update_papertrail("purged $affected quotes", $sql, NULL, true);
 
@@ -756,7 +772,10 @@ function process_purge_action()
 
 function process_purgeall_action()
 {
-    $sql = "delete from quotes where deleted=true";
+    $domain = get_domain_info();
+    $domid = (int) $domain['id'];
+
+    $sql = "delete from quotes where domain=$domid and deleted=true";
     $affected = do_dbdelete($sql, -1);
     update_papertrail("purged $affected quotes", $sql, NULL, true);
 
@@ -803,8 +822,11 @@ function process_movetocategory_action()
     if (!build_id_list($_REQUEST['itemid'], $idlist))
         return false;
 
+    $domain = get_domain_info();
+    $domid = (int) $domain['id'];
+
     $sqlid = db_escape_string($catid);
-    $sql = "update quotes set category=$sqlid where $idlist";
+    $sql = "update quotes set category=$sqlid where domain=$domid and $idlist";
     $affected = do_dbupdate($sql, -1);
     update_papertrail("moved $affected quotes to category $catid", $sql, $idlist, true);
 
