@@ -41,12 +41,12 @@ function render_header($title=NULL, $headextras='', $showads=true)
              $advertisements .
              "<p>" .
                "<!-- google_ad_section_start -->\n" .
-               "<font size='-1'>$tagline</font><br/>" .
+               "<div class='tagline'>$tagline</div>" .
                  //"<img src='${imgurl}header.jpg'" .
                  //" alt='$realname'" .
                  //" title='$logotext' />\n" .
-                 "<font size='+4' color='#FFFFFF'>$realname</font><br/>\n" .
-                 "<font size='-2'>$logotext</font><br/>\n" .
+                 "<div class='logorealname'>$realname</div>\n" .
+                 "<div class='logotext'>$logotext</div>\n" .
                "<!-- google_ad_section_end -->\n" .
              "</p>";
 
