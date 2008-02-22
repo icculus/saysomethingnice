@@ -351,7 +351,7 @@ echo <<< EOF
           <td align="left">
             $catlist
           </td>
-          <td align="right">
+          <td align="right"><div style='font: 0.6em "Lucida Grande", Lucida, Verdana, sans-serif;'>
             [
             <a href="${adminurl}?showall=$showallflip">$showalltext</a>
             |
@@ -361,7 +361,7 @@ echo <<< EOF
             |
             <a href="$logouturl">Log out</a>
             ]
-          </td>
+          </div></td>
         </tr>
       <table>
 
