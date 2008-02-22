@@ -261,7 +261,7 @@ function output_quote_queue_widgets()
 
     get_login($user, $pass);
     $pass = NULL;
-    echo "Logged in as: $user<br>\n";
+    echo "Logged in as: $user<br/>\n";
 
     $form = get_form_tag();
     echo "$form <input type='hidden' name='showall' value='$showall'>\n";
@@ -356,6 +356,8 @@ echo <<< EOF
             <a href="${adminurl}?showall=$showallflip">$showalltext</a>
             |
             <a href="${adminurl}?action=changepw">Change password</a>
+            |
+            <a href='stats.php'>Web stats</a>
             |
             <a href="$logouturl">Log out</a>
             ]
