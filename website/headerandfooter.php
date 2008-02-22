@@ -61,6 +61,19 @@ function render_footer()
     //$widgeturl = get_widget_url();
     $mailtourl = get_contact_url();
 
+    $domain = get_domain_info();
+    $thisdom = (int) $domain['id'];
+
+    $otherdoms = '';
+    // !!! FIXME: I'd rather not do a DB lookup here...
+    $sql = "select domainname, shortname from domains where id<>$thisdom order by id";
+    $query = do_dbquery($sql);
+    if ($query != false)
+    {
+        while (($row = db_fetch_array($query)) != false)
+            $otherdoms .= "&nbsp;&nbsp;&nbsp;<a href='http://{$row['domainname']}/'>${row['shortname']} qssn</a>";
+    } // if    
+
     echo     "\n<!-- google_ad_section_start(weight=ignore) -->\n" .
              "<a href='${baseurl}'>Get another quote</a>" .
              "&nbsp;&nbsp;&nbsp;" .
@@ -69,14 +82,15 @@ function render_footer()
              "<a href='${mailtourl}'>Contact us</a>" .
              //"&nbsp;&nbsp;" .
              //"<a href='${widgeturl}'>Get Mac Widget</a>" .
-             "&nbsp;&nbsp;&nbsp;" .
-             "<script type='text/javascript'><!--\n" .
-               "digg_bgcolor = document.body.bgColor;" .
-               "digg_skin = 'compact';" .
-               "digg_url = '${baseurl}';" .
-               "\n// -->\n" .
-             "</script>" .
-             "<script src='http://digg.com/tools/diggthis.js' type='text/javascript'></script>\n" .
+             //"&nbsp;&nbsp;&nbsp;" .
+             //"<script type='text/javascript'><!--\n" .
+             //  "digg_bgcolor = document.body.bgColor;" .
+             //  "digg_skin = 'compact';" .
+             //  "digg_url = '${baseurl}';" .
+             //  "\n// -->\n" .
+             //"</script>" .
+             //"<script src='http://digg.com/tools/diggthis.js' type='text/javascript'></script>\n" .
+             $otherdoms .
              "<!-- google_ad_section_end -->\n" .
            "</body>" .
          "</html>";
