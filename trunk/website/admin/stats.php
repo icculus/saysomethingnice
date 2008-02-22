@@ -8,7 +8,7 @@ $query = do_dbquery($sql);
 if ($query == false)
     return;  // do_dbquery will have spit out an error.
 
-echo "<table align='center' width='30%'><tr><td>";
+echo "<table align='center'><tr><td>";
 echo "<div class='box'>" .
         "<div class='boxtop'><div></div></div>" .
             "<div class='boxcontent'>";
