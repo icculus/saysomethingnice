@@ -97,7 +97,7 @@ echo "Building papertrail table...\n";
 do_dbquery(
     "create table papertrail (" .
         " id int unsigned not null auto_increment," .
-        " action text not null," .
+        " action mediumtext not null," .
         " sqltext mediumtext not null," .
         " author varchar(128) not null," .
         " entrydate datetime not null," .
@@ -121,6 +121,7 @@ do_dbquery(
         " contactemail varchar(64) not null," .
         " linkurl varchar(128)," .
         " linktext varchar(128)," .
+        " adhtml mediumtext," .
         " unique index domainname_index (domainname)," .
         " primary key (id)" .
     " ) character set utf8"

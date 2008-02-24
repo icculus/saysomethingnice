@@ -10,7 +10,6 @@
 //$dbname = 'DATABASE_NAME_GOES_HERE';
 //$geoipdb = 'PATH_TO_GEOIP_DAT_GOES_HERE';  // (or NULL).
 //$geoiporgdb = 'PATH_TO_GEOIPORG_DAT_GOES_HERE';  // (or NULL).
-//function get_advertisements() { return $MY_ADVERTISEMENT_HTML_HERE; }
 
 require_once 'localcfg.php';
 
