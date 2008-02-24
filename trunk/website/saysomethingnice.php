@@ -161,6 +161,13 @@ function get_contact_url()
 } // get_contact_url
 
 
+function get_advertisements()
+{
+    $domain = get_domain_info();
+    return isset($domain['adhtml']) ? $domain['adhtml'] : '';
+} // get_advertisements
+
+
 function render_quote_to_string($text, $id = NULL, $imageid = NULL, $randomized=false)
 {
     $htmltext = escapehtml($text);
