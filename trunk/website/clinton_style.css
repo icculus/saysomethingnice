@@ -22,21 +22,3 @@ a {
  font: 0.6em "Lucida Grande", Lucida, Verdana, sans-serif;
  padding-bottom: 2em;
 }
-.box { 
- background: #FFFFFF; 
-}
-.boxtop { 
-  background: url(img/clinton_ne.gif) no-repeat top right; 
-}
-.boxtop div { 
-  height: 10px; 
-  background: url(img/clinton_nw.gif) no-repeat top left; 
-}
-.boxbottom { 
-  background: url(img/clinton_se.gif) no-repeat bottom right; 
-}
-.boxbottom div { 
-  height: 10px; 
-  background: url(img/clinton_sw.gif) no-repeat bottom left; 
-}
-
