@@ -227,7 +227,6 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL, $randomized=
 
     return "<center>" .
              "<div class='box' style='width: 30%'>" .
-               "<div class='boxtop'><div></div></div>" .
                "<div class='boxcontent'>" .
                    $adstart .
                    "\"${htmltext}\"" .
@@ -236,7 +235,6 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL, $randomized=
                    $linkhtml .
                    $adend .
                "</div>" .
-               "<div class='boxbottom'><div></div></div>" .
              "</div>" .
              $adstartignore .
              $thumbshtml .

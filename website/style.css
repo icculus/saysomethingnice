@@ -3,6 +3,11 @@ body {
  font: 1em "Lucida Grande", Lucida, Verdana, sans-serif;
 }
 .boxcontent {
-  padding: 0px 10px 0px 10px;
+  padding: 10px 10px 10px 10px;
+}
+.box {
+ background: #FFFFFF;
+ -moz-border-radius: 10px;
+ -webkit-border-radius: 10px;
 }
 
