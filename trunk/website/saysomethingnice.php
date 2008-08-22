@@ -583,18 +583,26 @@ function add_image($bin, $mimetype, $ipaddr, $id=-1)
 } // add_image
 
 
+function set_login_cookie($user, $sha1pass, $expire)
+{
+    $domaininfo = get_domain_info();              
+    $domain = "." . $domaininfo['domainname'];
+    setcookie('user', $user, $expire, '/', $domain, FALSE, TRUE); 
+    setcookie('sha1pass', $sha1pass, $expire, '/', $domain, FALSE, TRUE); 
+} // set_login_cookie
+
+
 function valid_admin_login_internal()
 {
-    get_login($user, $pass);
+    get_login($user, $sha1pass);
     if (!isset($user))
         return false;
-    if (!isset($pass))
+    if (!isset($sha1pass))
         return false;
 
-    $user = db_escape_string($user);
-    $pass = SHA1($pass);
+    $sqluser = db_escape_string($user);
 
-    $sql = "select id from admins where username=$user and password='$pass'";
+    $sql = "select id from admins where username=$sqluser and password='$sha1pass'";
     $query = do_dbquery($sql);
     if ($query == false)
         return false;
@@ -602,12 +610,14 @@ function valid_admin_login_internal()
     $row = db_fetch_array($query);
     if ($row == false)  // no matching login?
     {
-        if (!empty($pass))
+        if (!empty($sha1pass))
             sleep(3);  // discourage brute-force attacks.
         return false;
     } // if
 
-    return true;  // we've got a match.
+    // we've got a match. Set a cookie. This is probably bad.
+    set_login_cookie($user, $sha1pass, time() + (60*60*24*365));
+    return true;
 } // valid_admin_login_internal
 
 
@@ -626,11 +636,22 @@ function valid_admin_login()
 
 function admin_login_prompt()
 {
-    $realm = "saysomethingnice admin";
-    header("WWW-Authenticate: Basic realm=\"$realm\"");
-    header('HTTP/1.0 401 Unauthorized');
+    if (!headers_sent())
+    {
+        header('HTTP/1.1 403 Forbidden');
+        set_login_cookie('', '', time() - 3600);
+    } // if
+
     render_header();
     write_error('This page requires a valid admin login.');
+    $url = $_SERVER['PHP_SELF'];
+    if (!empty($_SERVER['QUERY_STRING']))
+        $url = $url . "?" . $_SERVER['QUERY_STRING'];
+    echo "<form method='post' action='$url'>\n";
+    echo "Username: <input type='text' size='60' name='user' value='' /><br/>\n";
+    echo "Password: <input type='password' size='60' name='pass' value='' /><br/>\n";
+    echo "<input type='submit' name='submit' value='Go!' /><br/>\n";
+    echo "</form>\n";
     render_footer();
     exit(0);
 } // admin_login_prompt

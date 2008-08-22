@@ -995,7 +995,7 @@ function process_changepw_action()
         return true;  // don't go on.
     } // if
 
-    if ($_REQUEST['oldpass'] != $pass)
+    if (SHA1($_REQUEST['oldpass']) != $pass)
     {
         if (!empty($pass))
             sleep(3);  // prevent brute force.
@@ -1037,26 +1037,12 @@ function process_logout_action()
 {
     global $adminurl;
 
-    if (valid_admin_login())  // switching users maybe?
-    {
-        if (isset($_REQUEST['oldlogin']))
-        {
-            get_login($user, $pass);
-            if ($_REQUEST['oldlogin'] != $user)
-            {
-                // push browser to the non ?action=logout version, where they'll be
-                //  prompted for a password again, but they won't be in a loop here.
-                header("HTTP/1.0 307 Temporary redirect");
-                header("Location: $adminurl");
-                exit(0);
-            } // if
-        } // if
-    } // if
-
-    // apparently sending an HTTP 401 will cause most browsers to
-    //  flush their auth cache for the realm.
-    admin_login_prompt();
-    exit(0);  // don't go on, ever.
+    // push browser to the non ?action=logout version, where they'll be
+    //  prompted for a password again, but they won't be in a loop here.
+    set_login_cookie('', '', time() - 3600);
+    header("HTTP/1.0 307 Temporary redirect");
+    header("Location: $adminurl");
+    exit(0);
 } // process_logout_action
 
 
@@ -1125,7 +1111,9 @@ if (requested_action('logout'))
 
 $always_show_papertrail = true;
 if (!valid_admin_login())
+{
     admin_login_prompt();
+}
 else
 {
     $firehoseurl = get_firehose_url();

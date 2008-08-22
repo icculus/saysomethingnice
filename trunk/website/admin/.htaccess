@@ -1,5 +1,4 @@
 Options -Indexes
-AddHandler application/x-httpd-php .php
 
 <Files .htaccess>
     order allow,deny
