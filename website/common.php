@@ -30,9 +30,11 @@ function get_login(&$user, &$pass)
         $user = NULL;
 
     if (isset($_SERVER['PHP_AUTH_PW']))
-        $pass = $_SERVER['PHP_AUTH_PW'];
+        $pass = SHA1($_SERVER['PHP_AUTH_PW']);
     else if (isset($_REQUEST['pass']))
-        $pass = $_REQUEST['pass'];
+        $pass = SHA1($_REQUEST['pass']);
+    else if (isset($_REQUEST['sha1pass']))
+        $pass = $_REQUEST['sha1pass'];
     else
         $pass = NULL;
 } // get_login
