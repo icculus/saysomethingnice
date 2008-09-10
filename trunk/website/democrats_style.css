@@ -1,21 +1,21 @@
 body {
- background-color: #A6C4EA;
- color: #233253;
+ background-color: #183379;
+ color: #000000;
 }
 a {
  color: #FFFFFF;
 }
 .tagline {
  font: 0.6em "Lucida Grande", Lucida, Verdana, sans-serif;
- color: #000000;
+ color: #AAAAAA;
 }
 .logorealname {
  font: 2.5em "Lucida Grande", Lucida, Verdana, sans-serif;
- color: #233253;
+ color: #FFFFFF;
 }
 .logotext {
  font: 0.8em "Lucida Grande", Lucida, Verdana, sans-serif;
- color: #000000;
+ color: #FFFFFF;
  padding-bottom: 2em;
 }
 .externallink {
