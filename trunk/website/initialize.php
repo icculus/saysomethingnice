@@ -121,6 +121,8 @@ do_dbquery(
         " contactemail varchar(64) not null," .
         " linkurl varchar(128)," .
         " linktext varchar(128)," .
+        " linkurl2 varchar(128)," .
+        " linktext2 varchar(128)," .
         " adhtml mediumtext," .
         " unique index domainname_index (domainname)," .
         " primary key (id)" .
