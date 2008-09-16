@@ -90,7 +90,7 @@ function render_footer()
              //  "\n// -->\n" .
              //"</script>" .
              //"<script src='http://digg.com/tools/diggthis.js' type='text/javascript'></script>\n" .
-             $otherdoms .
+//             $otherdoms .
              "<!-- google_ad_section_end -->\n" .
            "</body>" .
          "</html>";
