@@ -185,13 +185,24 @@ function render_quote_to_string($text, $id = NULL, $imageid = NULL, $randomized=
     } // if
 
     $extlinkhtml = '';
+
     $domain = get_domain_info();
     if ( (isset($domain['linkurl'])) && (isset($domain['linktext'])) )
     {
         $extlinkurl = $domain['linkurl'];
         $extlinktext = escapehtml($domain['linktext']);
-        $extlinkhtml = "$adstart<div class='externallink'><a href='$extlinkurl'>$extlinktext</a></div>$adend\n";
+        $extlinkhtml = "<a href='$extlinkurl'>$extlinktext</a>\n";
     } // if
+
+    if ( (isset($domain['linkurl2'])) && (isset($domain['linktext2'])) )
+    {
+        $extlinkurl = $domain['linkurl2'];
+        $extlinktext = escapehtml($domain['linktext2']);
+        $extlinkhtml .= "&nbsp;&nbsp;&nbsp;&nbsp;<a href='$extlinkurl'>$extlinktext</a>\n";
+    } // if
+
+    if ($extlinkhtml != '')
+        $extlinkhtml = "${adstart}<div class='externallink'>${extlinkhtml}</div>${adend}";
 
     $linkhtml = '';
     $thumbshtml = '';
