@@ -1,9 +1,17 @@
 body {
  background-color: #183379;
- color: #000000;
+ color: #D0D0D0;
 }
 a {
  color: #FFFFFF;
+}
+.errortext {
+ color: #FF0000;
+ padding: 1em;
+}
+.sitestatus {
+ color: #73F7F9;
+ padding: 1em;
 }
 .tagline {
  font: 0.6em "Lucida Grande", Lucida, Verdana, sans-serif;
