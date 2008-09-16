@@ -585,8 +585,9 @@ function add_image($bin, $mimetype, $ipaddr, $id=-1)
 
 function set_login_cookie($user, $sha1pass, $expire)
 {
-    $domaininfo = get_domain_info();              
-    $domain = "." . $domaininfo['domainname'];
+//    $domaininfo = get_domain_info();      
+// !!! FIXME: just strip subdomain from domaininfo.
+    $domain = ".quicksaysomethingnice.com";
     setcookie('user', $user, $expire, '/', $domain, FALSE, TRUE); 
     setcookie('sha1pass', $sha1pass, $expire, '/', $domain, FALSE, TRUE); 
 } // set_login_cookie
