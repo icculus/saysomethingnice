@@ -540,6 +540,7 @@ function output_edit_widgets($id)
     echo "$form\n";
     echo "<input type='hidden' name='action' value='edit' />\n";
     echo "<input type='hidden' name='id' value='$id' />\n";
+    echo "<input type='hidden' name='q' value='$categoryid' />\n";
     echo "<table border='1'>\n";
     echo "<tr><td><b>Quote #$id:</b></td></tr>\n";
     echo "<tr><td>Text:\n";
@@ -610,7 +611,7 @@ function output_edit_widgets($id)
     echo "</form>\n";
 
     echo "<br/><br/>\n";
-    echo "<a href='$adminurl'>Nevermind.</a>\n</td></tr>\n";
+    echo "<a href='$adminurl?q=$categoryid'>Nevermind.</a>\n</td></tr>\n";
     echo "</div>\n";
 
     return true;  // don't show queue.
