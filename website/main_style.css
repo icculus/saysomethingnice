@@ -5,6 +5,14 @@ body {
 a {
  color: #FFFFFF;
 }
+.errortext {
+ color: #881A1A;
+ padding: 1em;
+}
+.sitestatus {
+ color: #F0FF00;
+ padding: 1em;
+}
 .tagline {
  font: 0.6em "Lucida Grande", Lucida, Verdana, sans-serif;
  color: #000000;

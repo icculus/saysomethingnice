@@ -24,8 +24,8 @@ function process_possible_submission()
     write_debug('Got an apparently non-bogus submission!');
     if (add_quote($quote, $author, ip2long($_SERVER['REMOTE_ADDR'])))
     {
-        echo '<center><font color="#0000FF">Quote added, thanks!' .
-             '<br/>Feel free to add another, if you like.</font></center><hr>';
+        echo '<center><div class="sitestatus">Quote added, thanks!' .
+             '<br/>Feel free to add another, if you like.</div></center><hr>';
     } // if
 } // process_possible_submission
 

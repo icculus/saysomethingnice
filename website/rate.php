@@ -43,9 +43,9 @@ if (get_input_int('id', 'Quote ID number', $id))
         render_specific_quote($id);
     else
     {
-        echo "<center><font color='#0000FF'>Thanks for voting!<br/>";
+        echo "<center><div class='sitestatus'>Thanks for voting!<br/>";
         echo "Here's another random quote, if you want to vote again...";
-        echo "</font></center><hr>\n";
+        echo "</div></center><hr>\n";
         render_random_quote();
     } // else
 } // if

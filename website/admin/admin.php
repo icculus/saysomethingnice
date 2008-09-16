@@ -12,7 +12,7 @@ function output_tooltip_script()
     // !!! FIXME: this should really be in tooltip.js instead.
 echo <<< EOF
 
-<div id="dhtmltooltip" style="position: absolute; width: 150px; border: 2px solid black; padding: 2px; background-color: lightyellow; visibility: hidden; z-index: 100;"></div>
+<div id="dhtmltooltip" style="position: absolute; width: 150px; border: 2px solid black; padding: 2px; color: black; background-color: lightyellow; visibility: hidden; z-index: 100;"></div>
 
 <script type="text/javascript">
 
@@ -233,8 +233,8 @@ function output_quote_queue_rows($category, $showall = 0)
     if (isset($gi))
         geoip_close($gi);
 
-    print('<tr><td align="center" colspan="7"><font color="#0000FF">');
-    print("$item_count items listed, $deleted deleted, $approved approved, $pending pending.</font></td></tr>\n");
+    print('<tr><td align="center" colspan="7"><div class="sitestatus">');
+    print("$item_count items listed, $deleted deleted, $approved approved, $pending pending.</div></td></tr>\n");
 } // output_quote_queue_rows
 
 
@@ -426,8 +426,8 @@ EOF;
         output_quote_queue_rows($q, $showall);
     else
     {
-        print('<tr><td colspan="7" align="center"><font color="#0000FF">');
-        print("Please select a category from the above list.</font></td></tr>\n");
+        print('<tr><td colspan="7" align="center"><div class="sitestatus">');
+        print("Please select a category from the above list.</div></td></tr>\n");
     } // else
 
     $admins = get_admin_names();
@@ -918,12 +918,12 @@ function process_addadmin_action()
 
     get_login($user, $pass);
     $myname = urlencode($user);
-    echo "<center><font color='#0000FF'>" .
+    echo "<center><div class='sitestatus'>" .
          " {$adminname}'s initial password is: $password<br/>" .
-         " Copy that to the clipboard now!</font><br/>" .
-         " <font color='#FF0000'>" .
+         " Copy that to the clipboard now!</div><br/>" .
+         " <div class='errortext'>" .
          " PLEASE <a href='$logouturl&oldlogin=$myname'>LOG IN AS '$adminname'</a>" .
-         " AND CHANGE THE PASSWORD RIGHT THIS VERY MINUTE.</font></center>";
+         " AND CHANGE THE PASSWORD RIGHT THIS VERY MINUTE.</div></center>";
 
     return true;  // stop normal widgets from rendering.
 } // process_addadmin_action

@@ -166,7 +166,7 @@ function update_papertrail($action, $donesql, $quoteid=NULL, $doecho=false)
     $htmlaction = escapehtml($action);
 
     if ( ($enable_debug) || ($always_show_papertrail) || ($doecho) )
-        echo "<font color='#00FF00'>$htmlaction</font><br>\n";
+        echo "<div class='sitestatus'>$htmlaction</div><br>\n";
 
     // Update quote.lastedit field if this involves a quote.
     if (isset($quoteid))
