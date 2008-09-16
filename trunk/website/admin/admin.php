@@ -353,9 +353,9 @@ echo <<< EOF
           </td>
           <td align="right"><div style='font: 0.6em "Lucida Grande", Lucida, Verdana, sans-serif;'>
             [
-            <a href="${adminurl}?showall=$showallflip">$showalltext</a>
+            <a href="${adminurl}?showall=$showallflip&q=$q">$showalltext</a>
             |
-            <a href="${adminurl}?action=changepw">Change password</a>
+            <a href="${adminurl}?action=changepw&q=$q">Change password</a>
             |
             <a href='stats.php'>Web stats</a>
             |
@@ -953,9 +953,12 @@ function output_changepw_widgets()
 {
     global $adminurl;
 
+    get_input_int('q', 'Category ID number', $q, 0);
+
     $form = get_form_tag();
     echo "$form\n";
     echo "<input type='hidden' name='action' value='changepw' />\n";
+    echo "<input type='hidden' name='q' value='$q' />\n";
     echo "<table>\n";
     echo "<tr><td>Current password:\n";
     echo "<input type='password' name='oldpass' value='' /></td></tr>\n";
@@ -967,7 +970,7 @@ function output_changepw_widgets()
     echo "<input type='reset' name='changepwreset' value='Reset!' />";
     echo "<input type='submit' name='changepwsubmit' value='Change!' />\n";
     echo "</td></tr>\n";
-    echo "<tr><td><a href='$adminurl'>Nevermind.</a></td></tr>\n";
+    echo "<tr><td><a href='$adminurl?q=$q'>Nevermind.</a></td></tr>\n";
     echo "</table></form>\n\n";
 } // output_changepw_widgets
 
@@ -975,6 +978,8 @@ function output_changepw_widgets()
 function process_changepw_action()
 {
     global $adminurl;
+
+    get_input_int('q', 'Category ID number', $q, 0);
 
     if (!valid_admin_login())  // shouldn't happen, but just in case.
     {
@@ -1027,7 +1032,7 @@ function process_changepw_action()
 
     echo "<center>\n";
     echo "Okay, password changed!<br>\n";
-    echo "You'll need to <a href=\"$adminurl\">log in again</a>.<br>\n";
+    echo "You'll need to <a href=\"$adminurl?q=$q\">log in again</a>.<br>\n";
     echo "</center>\n";
 
     return true;  // don't go on.
