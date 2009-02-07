@@ -130,7 +130,7 @@ do_dbquery(
 );
 
 echo "Adding default domain...\n";
-dp_dbinsert(
+do_dbinsert(
     "insert into domains" .
     " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail)" .
     " values (" .
@@ -147,7 +147,7 @@ dp_dbinsert(
 );
 
 echo "Adding obama domain...\n";
-dp_dbinsert(
+do_dbinsert(
     "insert into domains" .
     " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail, linkurl, linktext)" .
     " values (" .
@@ -166,7 +166,7 @@ dp_dbinsert(
 );
 
 echo "Adding clinton domain...\n";
-dp_dbinsert(
+do_dbinsert(
     "insert into domains" .
     " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail, linkurl, linktext)" .
     " values (" .
@@ -185,7 +185,7 @@ dp_dbinsert(
 );
 
 echo "Adding mccain domain...\n";
-dp_dbinsert(
+do_dbinsert(
     "insert into domains" .
     " (domainname, shortname, realname, tagline, logotext, rssdesc, firehosename, firehosedesc, contactemail, linkurl, linktext)" .
     " values (" .
