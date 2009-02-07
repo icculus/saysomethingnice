@@ -34,7 +34,7 @@ do_dbquery(
         " id int unsigned not null auto_increment," .
         " username varchar (64) not null," .
         " password char (40) not null," .  // SHA1 hash as ASCII string
-        " unique index username_index (username)" .
+        " unique index username_index (username)," .
         " primary key (id)" .
     " ) character set utf8"
 );
