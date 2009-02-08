@@ -33,13 +33,13 @@ function process_possible_submission()
 function render_submission_ui()
 {
     $form = get_form_tag();
+    $domain = get_domain_info();
+    $instructions = $domain['addinstructions'];
 
 echo <<< EOF
     $form
     <!-- google_ad_section_start -->
-    <p>Go ahead and add a compliment, apology, encouragement, or some other sweetness.<br/>
-    It will show up on the front page once the crew comes along
-    and makes sure it isn't spam or anything.</p>
+    <p>$instructions</p>
     <!-- google_ad_section_end -->
     <!-- google_ad_section_start(weight=ignore) -->
     <p>
