@@ -161,6 +161,21 @@ function get_contact_url()
 } // get_contact_url
 
 
+function get_twitter_url()
+{
+    static $retval = NULL;
+    if (!isset($retval))
+    {
+        $domain = get_domain_info();
+        if (!isset($domain['twitteruser']))
+            $retval = '';
+        else
+            $retval = "http://twitter.com/${domain['twitteruser']}/";
+    } // if
+    return $retval;
+} // get_twitter_url
+
+
 function get_advertisements()
 {
     $domain = get_domain_info();
