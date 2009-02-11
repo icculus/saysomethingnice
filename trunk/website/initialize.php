@@ -67,6 +67,19 @@ do_dbquery(
     " ) character set utf8"
 );
 
+echo "Building tweets table...\n";
+do_dbquery(
+    "create table tweets (" .
+        " id int unsigned not null auto_increment," .
+        " quoteid int unsigned not null," .
+        " userid bigint unsigned not null," .
+        " postdate datetime not null," .
+        " index userid_index (userid)," .
+        " index quoteid_index (quoteid)," .
+        " primary key (id)" .
+    " ) character set utf8"
+);
+
 echo "Building images table...\n";
 do_dbquery(
     "create table images (" .
@@ -121,6 +134,7 @@ do_dbquery(
         " firehosedesc varchar(128) not null," .
         " contactemail varchar(64) not null," .
         " twitteruser varchar(20) not null," .
+        " twitterpass varchar(20) not null," .
         " linkurl varchar(128)," .
         " linktext varchar(128)," .
         " linkurl2 varchar(128)," .
