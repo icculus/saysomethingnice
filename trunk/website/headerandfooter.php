@@ -30,6 +30,7 @@ function render_header($title=NULL, $headextras='', $showads=true)
              "<meta http-equiv='Cache-Control' content='no-cache' />" .
              $headextras .
              "<title>$title</title>" .
+             "<link rel='icon' type='image/png' href='/favicon.png' />" .
              "<link rel='alternate' type='application/rss+xml'" .
              " title='Speed Feed' href='${rssurl}' />" .
              "<link rel='stylesheet' type='text/css' href='${basecssurl}'" .
