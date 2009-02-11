@@ -68,7 +68,7 @@ function render_footer()
 
     $otherdoms = '';
     // !!! FIXME: I'd rather not do a DB lookup here...
-    $sql = "select domainname, shortname from domains where (id<>$thisdom) and (disabled=0) order by id";
+    $sql = "select domainname, shortname from domains where (id<>$thisdom) and (disabled=0) and (public=1) order by id";
     $query = do_dbquery($sql);
     if ($query != false)
     {

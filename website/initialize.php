@@ -111,6 +111,7 @@ do_dbquery(
         "id int unsigned not null auto_increment," .
         " domainname varchar(64) not null," .
         " disabled bool not null," .
+        " public bool not null," .
         " shortname varchar(32) not null," .
         " realname varchar(128) not null," .
         " tagline varchar(128) not null," .
