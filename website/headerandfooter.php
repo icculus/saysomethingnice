@@ -61,6 +61,7 @@ function render_footer()
     $posturl = get_post_url();
     //$widgeturl = get_widget_url();
     $mailtourl = get_contact_url();
+    $twitterurl = get_twitter_url();
 
     $domain = get_domain_info();
     $thisdom = (int) $domain['id'];
@@ -75,12 +76,17 @@ function render_footer()
             $otherdoms .= "&nbsp;&nbsp;&nbsp;<a href='http://{$row['domainname']}/'>${row['shortname']} qssn</a>";
     } // if    
 
+    $twitterlink = '';
+    if ($twitterurl != '')
+        $twitterlink = "&nbsp;&nbsp;&nbsp;<a href='${twitterurl}'>Twitter</a>";
+
     echo     "\n<!-- google_ad_section_start(weight=ignore) -->\n" .
              "<a href='${baseurl}'>Get another quote</a>" .
              "&nbsp;&nbsp;&nbsp;" .
              "<a href='${posturl}'>Add a quote</a>" .
              "&nbsp;&nbsp;&nbsp;" .
              "<a href='${mailtourl}'>Contact us</a>" .
+             $twitterlink .
              //"&nbsp;&nbsp;" .
              //"<a href='${widgeturl}'>Get Mac Widget</a>" .
              //"&nbsp;&nbsp;&nbsp;" .
