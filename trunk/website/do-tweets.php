@@ -1,12 +1,12 @@
 <?php
 
-require_once('./twitter.php');
-require_once('./saysomethingnice.php');
+require_once('twitter.php');
+require_once('saysomethingnice.php');
 
 
 function tweet($domain, $twitter, $username, $userid)
 {
-    $delay = 24;  // !!! FIXME
+    $delay = 27;
     $sql = "select t.id from tweets as t" .
            " inner join quotes as q on (t.quoteid=q.id)" .
            " where (t.userid=$userid) and (q.domain=${domain['id']}) and" .
