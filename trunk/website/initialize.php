@@ -140,7 +140,7 @@ do_dbquery(
         " linkurl2 varchar(128)," .
         " linktext2 varchar(128)," .
         " adhtml mediumtext," .
-        " addinstrucitons varchar(255) not null," .
+        " addinstructions varchar(255) not null," .
         " unique index domainname_index (domainname)," .
         " primary key (id)" .
     " ) character set utf8"
