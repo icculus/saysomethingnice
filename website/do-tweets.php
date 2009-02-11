@@ -6,9 +6,11 @@ require_once('./saysomethingnice.php');
 
 function tweet($domain, $twitter, $username, $userid)
 {
-    $delay = 83;  // !!! FIXME
-    $sql = "select id from tweets where (userid=${user['id']}) and" .
-           " (postdate between between DATE_SUB(NOW(), INTERVAL $delay HOUR) and NOW())" .
+    $delay = 24;  // !!! FIXME
+    $sql = "select t.id from tweets as t" .
+           " inner join quotes as q on (t.quoteid=q.id)" .
+           " where (t.userid=$userid) and (q.domain=${domain['id']}) and" .
+           " (t.postdate between DATE_SUB(NOW(), INTERVAL $delay HOUR) and NOW())" .
            " limit 1";
     $query = do_dbquery($sql);
 
@@ -26,11 +28,11 @@ function tweet($domain, $twitter, $username, $userid)
         return;
     } // if
 
-    $sql = "select q.id, q.text from quotes as q" .
-           " inner join tweets as t on (q.id<>t.queueid)" .
-           " where (t.userid<>$userid) and" .
+    $sql = "select q.id, q.text from quotes as q where" .
+           " (q.id <> ALL (select quoteid from tweets where userid=$userid)) and" .
            " (q.domain=${domain['id']}) and (q.approved=1) and (q.deleted=0)" .
-           " and (LENGTH(q.text)<140) order by RAND() limit 1";
+           " and (LENGTH(q.text)<=140) order by RAND() limit 1";
+
     $query = do_dbquery($sql);
     if ($query == false)
     {
@@ -57,14 +59,11 @@ function tweet($domain, $twitter, $username, $userid)
     $txt = $row['text'];
     db_free_result($query);
 
-    try
-    {
-/*
+    try {
         if ($userid == 0)
             $twitter->updateStatus($txt);
         else
             $twitter->sendDirectMessage($userid, $txt);
-*/
     } // try
     catch (TwitterException $e)
     {
@@ -73,8 +72,8 @@ function tweet($domain, $twitter, $username, $userid)
     } // catch
 
     $sql = "insert into tweets (quoteid, userid, postdate) values" .
-           " $quoteid, $userid, NOW())";
-//    $inserted = (do_dbinsert($sql) == 1);
+           " ($quoteid, $userid, NOW())";
+    $inserted = (do_dbinsert($sql) == 1);
     echo "Tweeted '$txt' to user $userid.\n";
 } // tweet
 
@@ -91,9 +90,14 @@ function do_tweeting($domain)
     $twitter->setUserAgent('tweet-nothings/1.0');
 
     tweet($domain, $twitter, '', 0);
-	$followers = $twitter->getFollowers();
+
+// !!! FIXME: maybe later
+/*
+    $followers = $twitter->getFollowers();
     foreach ($followers as $user)
-		tweet($domain, $twitter, $user['screen_name'], $user['id']);
+        tweet($domain, $twitter, $user['screen_name'], $user['id']);
+*/
+
 } // do_tweeting
 
 
