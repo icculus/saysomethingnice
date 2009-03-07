@@ -24,7 +24,7 @@ function tweet($domain, $twitter, $username, $userid)
     db_free_result($query);
     if ($count > 0)
     {
-        echo "Still too soon to tweet to user $userid.\n";
+//        echo "Still too soon to tweet to user $userid.\n";
         return;
     } // if
 
@@ -74,7 +74,7 @@ function tweet($domain, $twitter, $username, $userid)
     $sql = "insert into tweets (quoteid, userid, postdate) values" .
            " ($quoteid, $userid, NOW())";
     $inserted = (do_dbinsert($sql) == 1);
-    echo "Tweeted '$txt' to user $userid.\n";
+//    echo "Tweeted '$txt' to user $userid.\n";
 } // tweet
 
 
@@ -85,7 +85,7 @@ function do_tweeting($domain)
     else if (!isset($domain['twitterpass']))
         return;
 
-    echo "Tweeting for domain ${domain['domainname']} ...\n";
+//    echo "Tweeting for domain ${domain['domainname']} ...\n";
     $twitter = new Twitter($domain['twitteruser'], $domain['twitterpass']);
     $twitter->setUserAgent('tweet-nothings/1.0');
 
