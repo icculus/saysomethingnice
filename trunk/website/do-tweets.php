@@ -44,7 +44,7 @@ function tweet($domain, $twitter, $username, $userid)
     if ($count <= 0)
     {
         db_free_result($query);
-        echo "No quotes available for random tweet to user $userid.\n";
+//        echo "No quotes available for random tweet to user $userid.\n";
         return;
     } // if
 
