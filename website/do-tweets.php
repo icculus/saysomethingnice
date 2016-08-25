@@ -1,8 +1,27 @@
 <?php
 
+require_once('twitteroauth/twitteroauth.php');
 require_once('twitter.php');
 require_once('saysomethingnice.php');
 
+function isTwitterError($response, $what)
+{
+    global $hitRateLimit;
+
+    if (!isset($response->errors))
+        return false;
+
+    print("$what failed:\n");
+
+    foreach ($response->errors as $err)
+    {
+        print("  - {$err->message}\n");
+        if ($err->code == 88)
+            $hitRateLimit = true;
+    }
+
+    return true;
+}
 
 function tweet($domain, $twitter, $username, $userid)
 {
@@ -59,17 +78,20 @@ function tweet($domain, $twitter, $username, $userid)
     $txt = $row['text'];
     db_free_result($query);
 
-    try {
-        if ($userid == 0)
-            $twitter->updateStatus($txt);
-        else
-            $twitter->sendDirectMessage($userid, $txt);
-    } // try
-    catch (TwitterException $e)
+    $tweet = NULL;
+    if ($userid == 0)
+        $tweet = $twitter->post('statuses/update', array('status' => $txt));
+    else
     {
-        echo 'TwitterException posting to user $userid: ' . $e->getMessage() . "\n";
+        echo "!!! FIXME: write me (direct message support)\n";
         return;
-    } // catch
+    }
+
+    if (isTwitterError($tweet, "tweeting '$txt'"))
+    {
+        echo "Failed to post tweet.\n";
+        return;
+    } // if
 
     $sql = "insert into tweets (quoteid, userid, postdate) values" .
            " ($quoteid, $userid, NOW())";
@@ -86,8 +108,10 @@ function do_tweeting($domain)
         return;
 
 //    echo "Tweeting for domain ${domain['domainname']} ...\n";
-    $twitter = new Twitter($domain['twitteruser'], $domain['twitterpass']);
-    $twitter->setUserAgent('tweet-nothings/1.0');
+//    $twitter = new Twitter($domain['twitteruser'], $domain['twitterpass']);
+//    $twitter->setUserAgent('tweet-nothings/1.0');
+    $twitter = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, OAUTH_TOKEN, OAUTH_SECRET);
+    $twitter->get('account/verify_credentials');
 
     tweet($domain, $twitter, '', 0);
 
